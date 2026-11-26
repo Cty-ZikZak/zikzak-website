@@ -48,7 +48,7 @@ function App() {
 	return (
 		<TooltipProvider>
 			<EcommerceCartProvider>
-				<Router>
+				<Router basename={(import.meta.env.BASE_URL || '/').replace(/\/$/, '')}>
 					<ScrollToTop />
 					<CustomSiteCode />
 					<CookieConsent />

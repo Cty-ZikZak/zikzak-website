@@ -1,7 +1,7 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "cd apps/web && node tools/generate-llms.js && npx vite build --outDir ../../dist/apps/web",
   "outputDirectory": "dist/apps/web",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "npm install --legacy-peer-deps --no-package-lock",
   "rewrites": [
     {
       "source": "/(.*)",
@@ -9,3 +9,4 @@
     }
   ]
 }
+
