@@ -1,0 +1,11 @@
+{
+  "installCommand": "bun install",
+  "buildCommand": "node tools/generate-llms.js && vite build --outDir dist",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
