@@ -1,7 +1,7 @@
 {
-  "buildCommand": "cd apps/web && node tools/generate-llms.js && npx vite build --outDir ../../dist/apps/web",
+  "installCommand": "bun install",
+  "buildCommand": "bun run build",
   "outputDirectory": "dist/apps/web",
-  "installCommand": "npm install --legacy-peer-deps --no-package-lock",
   "rewrites": [
     {
       "source": "/(.*)",
@@ -9,4 +9,5 @@
     }
   ]
 }
+
 
