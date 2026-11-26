@@ -1,0 +1,352 @@
+[
+	{
+		"path": "/luyen-thi-online",
+		"componentName": "LuyenThiOnlinePage_system_z1Bwg",
+		"importPath": "@/pages/builder/luyen-thi-online/LuyenThiOnlinePage",
+		"exportName": "LuyenThiOnlinePage",
+		"locale": "system",
+		"pageId": "z1Bwg-",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/hinh-hoa-chi",
+		"componentName": "HinhHoaChiPage_system_z2CYaF",
+		"importPath": "@/pages/builder/hinh-hoa-chi/HinhHoaChiPage",
+		"exportName": "HinhHoaChiPage",
+		"locale": "system",
+		"pageId": "z2CYaF",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-after-effects",
+		"componentName": "KhoaAfterEffectsPage_system_z3BfB7",
+		"importPath": "@/pages/builder/khoa-after-effects/KhoaAfterEffectsPage",
+		"exportName": "KhoaAfterEffectsPage",
+		"locale": "system",
+		"pageId": "z3BfB7",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/trang-tri-mau",
+		"componentName": "TrangTriMauPage_system_z6lode",
+		"importPath": "@/pages/builder/trang-tri-mau/TrangTriMauPage",
+		"exportName": "TrangTriMauPage",
+		"locale": "system",
+		"pageId": "z6lode",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-premier",
+		"componentName": "KhoaPremierPage_system_z7Ferm",
+		"importPath": "@/pages/builder/khoa-premier/KhoaPremierPage",
+		"exportName": "KhoaPremierPage",
+		"locale": "system",
+		"pageId": "z7Ferm",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/my-thuat-thieu-nhi-online",
+		"componentName": "MyThuatThieuNhiOnlinePage_system_zAH9RN",
+		"importPath": "@/pages/builder/my-thuat-thieu-nhi-online/MyThuatThieuNhiOnlinePage",
+		"exportName": "MyThuatThieuNhiOnlinePage",
+		"locale": "system",
+		"pageId": "zAH9RN",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/gd-khoa-chuyen-sau",
+		"componentName": "GdKhoaChuyenSauPage_system_zASZ_x",
+		"importPath": "@/pages/builder/gd-khoa-chuyen-sau/GdKhoaChuyenSauPage",
+		"exportName": "GdKhoaChuyenSauPage",
+		"locale": "system",
+		"pageId": "zASZ_x",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/my-thuat-thieu-nhi-offline",
+		"componentName": "MyThuatThieuNhiOfflinePage_system_zH7rL1",
+		"importPath": "@/pages/builder/my-thuat-thieu-nhi-offline/MyThuatThieuNhiOfflinePage",
+		"exportName": "MyThuatThieuNhiOfflinePage",
+		"locale": "system",
+		"pageId": "zH7rL1",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khm-ph-th-gii-gio-dc-m-thut-ti-zikzak",
+		"componentName": "KhmPhThGiiGioDcMThutTiZikzakPage_system_zKf4dd",
+		"importPath": "@/pages/builder/khm-ph-th-gii-gio-dc-m-thut-ti-zikzak/KhmPhThGiiGioDcMThutTiZikzakPage",
+		"exportName": "KhmPhThGiiGioDcMThutTiZikzakPage",
+		"locale": "system",
+		"pageId": "zKf4dd",
+		"isHome": false,
+		"pageType": "blog"
+	},
+	{
+		"path": "/khoa-canva",
+		"componentName": "KhoaCanvaPage_system_zNqyRH",
+		"importPath": "@/pages/builder/khoa-canva/KhoaCanvaPage",
+		"exportName": "KhoaCanvaPage",
+		"locale": "system",
+		"pageId": "zNqyRH",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-ve-procreate",
+		"componentName": "KhoaVeProcreatePage_system_zO87Pm",
+		"importPath": "@/pages/builder/khoa-ve-procreate/KhoaVeProcreatePage",
+		"exportName": "KhoaVeProcreatePage",
+		"locale": "system",
+		"pageId": "zO87Pm",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-indesign",
+		"componentName": "KhoaIndesignPage_system_zOPD35",
+		"importPath": "@/pages/builder/khoa-indesign/KhoaIndesignPage",
+		"exportName": "KhoaIndesignPage",
+		"locale": "system",
+		"pageId": "zOPD35",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-illustration",
+		"componentName": "KhoaIllustrationPage_system_zQyil6",
+		"importPath": "@/pages/builder/khoa-illustration/KhoaIllustrationPage",
+		"exportName": "KhoaIllustrationPage",
+		"locale": "system",
+		"pageId": "zQyil6",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-ve-digital-toan-dien",
+		"componentName": "KhoaVeDigitalToanDienPage_system_zXKUGJ",
+		"importPath": "@/pages/builder/khoa-ve-digital-toan-dien/KhoaVeDigitalToanDienPage",
+		"exportName": "KhoaVeDigitalToanDienPage",
+		"locale": "system",
+		"pageId": "zXKUGJ",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-ve-photoshop",
+		"componentName": "KhoaVePhotoshopPage_system_zemG_W",
+		"importPath": "@/pages/builder/khoa-ve-photoshop/KhoaVePhotoshopPage",
+		"exportName": "KhoaVePhotoshopPage",
+		"locale": "system",
+		"pageId": "zemG-W",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/gd-khoa-ux-ui-toan-dien",
+		"componentName": "GdKhoaUxUiToanDienPage_system_zgCrnZ",
+		"importPath": "@/pages/builder/gd-khoa-ux-ui-toan-dien/GdKhoaUxUiToanDienPage",
+		"exportName": "GdKhoaUxUiToanDienPage",
+		"locale": "system",
+		"pageId": "zgCrnZ",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/luyen-thi-offline",
+		"componentName": "LuyenThiOfflinePage_system_zltu4T",
+		"importPath": "@/pages/builder/luyen-thi-offline/LuyenThiOfflinePage",
+		"exportName": "LuyenThiOfflinePage",
+		"locale": "system",
+		"pageId": "zltu4T",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-photoshop",
+		"componentName": "KhoaPhotoshopPage_system_zncVMJ",
+		"importPath": "@/pages/builder/khoa-photoshop/KhoaPhotoshopPage",
+		"exportName": "KhoaPhotoshopPage",
+		"locale": "system",
+		"pageId": "zncVMJ",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-capcut",
+		"componentName": "KhoaCapcutPage_system_zoqgck",
+		"importPath": "@/pages/builder/khoa-capcut/KhoaCapcutPage",
+		"exportName": "KhoaCapcutPage",
+		"locale": "system",
+		"pageId": "zoqgck",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khoa-thiet-ke-ui",
+		"componentName": "KhoaThietKeUiPage_system_zr6Jni",
+		"importPath": "@/pages/builder/khoa-thiet-ke-ui/KhoaThietKeUiPage",
+		"exportName": "KhoaThietKeUiPage",
+		"locale": "system",
+		"pageId": "zr6Jni",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/trien-lam-or-tranh-cua-hoc-vien",
+		"componentName": "TrienLamOrTranhCuaHocVienPage_system_zrw6Jf",
+		"importPath": "@/pages/builder/trien-lam-or-tranh-cua-hoc-vien/TrienLamOrTranhCuaHocVienPage",
+		"exportName": "TrienLamOrTranhCuaHocVienPage",
+		"locale": "system",
+		"pageId": "zrw6Jf",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/djang-ky-ngay",
+		"componentName": "DjangKyNgayPage_system_zwvX_6",
+		"importPath": "@/pages/builder/djang-ky-ngay/DjangKyNgayPage",
+		"exportName": "DjangKyNgayPage",
+		"locale": "system",
+		"pageId": "zwvX_6",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/khm-ph-th-gii-ngh-thut-cng-zikzak",
+		"componentName": "KhmPhThGiiNghThutCngZikzakPage_system_zytf_T",
+		"importPath": "@/pages/builder/khm-ph-th-gii-ngh-thut-cng-zikzak/KhmPhThGiiNghThutCngZikzakPage",
+		"exportName": "KhmPhThGiiNghThutCngZikzakPage",
+		"locale": "system",
+		"pageId": "zytf-T",
+		"isHome": false,
+		"pageType": "blog"
+	},
+	{
+		"path": "/hop-dong-lien-ket-giang-day",
+		"componentName": "HopDongLienKetGiangDayPage_system_ai_5se3X",
+		"importPath": "@/pages/builder/hop-dong-lien-ket-giang-day/HopDongLienKetGiangDayPage",
+		"exportName": "HopDongLienKetGiangDayPage",
+		"locale": "system",
+		"pageId": "ai-5se3X",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/in-an",
+		"componentName": "InAnPage_system_ai_6gArF",
+		"importPath": "@/pages/builder/in-an/InAnPage",
+		"exportName": "InAnPage",
+		"locale": "system",
+		"pageId": "ai-6gArF",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/graphic-design-or-thiet-ke-djo-hoa",
+		"componentName": "GraphicDesignOrThietKeDjoHoaPage_system_ai_GvQeQ",
+		"importPath": "@/pages/builder/graphic-design-or-thiet-ke-djo-hoa/GraphicDesignOrThietKeDjoHoaPage",
+		"exportName": "GraphicDesignOrThietKeDjoHoaPage",
+		"locale": "system",
+		"pageId": "ai-GvQeQ",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/zikzak-art-luyen-thi-dai-hoc",
+		"componentName": "ZikzakArtLuyenThiDaiHocPage_system_ai_KVQ7G",
+		"importPath": "@/pages/builder/zikzak-art-luyen-thi-dai-hoc/ZikzakArtLuyenThiDaiHocPage",
+		"exportName": "ZikzakArtLuyenThiDaiHocPage",
+		"locale": "system",
+		"pageId": "ai-KVQ7G",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/digital-painting-or-ve-ky-thuat-so",
+		"componentName": "DigitalPaintingOrVeKyThuatSoPage_system_ai_OYBPk",
+		"importPath": "@/pages/builder/digital-painting-or-ve-ky-thuat-so/DigitalPaintingOrVeKyThuatSoPage",
+		"exportName": "DigitalPaintingOrVeKyThuatSoPage",
+		"locale": "system",
+		"pageId": "ai-OYBPk",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/zikzak-art-workshop",
+		"componentName": "ZikzakArtWorkshopPage_system_ai__WN_9",
+		"importPath": "@/pages/builder/zikzak-art-workshop/ZikzakArtWorkshopPage",
+		"exportName": "ZikzakArtWorkshopPage",
+		"locale": "system",
+		"pageId": "ai-_WN_9",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/zikzak-shop",
+		"componentName": "ZikzakShopPage_system_ai_okg1w",
+		"importPath": "@/pages/builder/zikzak-shop/ZikzakShopPage",
+		"exportName": "ZikzakShopPage",
+		"locale": "system",
+		"pageId": "ai-okg1w",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/zikzak-art-kid-or-my-thuat-thieu-nhi",
+		"componentName": "ZikzakArtKidOrMyThuatThieuNhiPage_system_ai_v8L99",
+		"importPath": "@/pages/builder/zikzak-art-kid-or-my-thuat-thieu-nhi/ZikzakArtKidOrMyThuatThieuNhiPage",
+		"exportName": "ZikzakArtKidOrMyThuatThieuNhiPage",
+		"locale": "system",
+		"pageId": "ai-v8L99",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/zikzak-art-pro-or-my-thuat-chuyen-sau",
+		"componentName": "ZikzakArtProOrMyThuatChuyenSauPage_system_ai_zA3F7",
+		"importPath": "@/pages/builder/zikzak-art-pro-or-my-thuat-chuyen-sau/ZikzakArtProOrMyThuatChuyenSauPage",
+		"exportName": "ZikzakArtProOrMyThuatChuyenSauPage",
+		"locale": "system",
+		"pageId": "ai-zA3F7",
+		"isHome": false,
+		"pageType": "default"
+	},
+	{
+		"path": "/",
+		"componentName": "HomePage_system_ai_zVxJ6",
+		"importPath": "@/pages/builder/home/HomePage",
+		"exportName": "HomePage",
+		"locale": "system",
+		"pageId": "ai-zVxJ6",
+		"isHome": true,
+		"pageType": "default"
+	},
+	{
+		"path": "/:slug",
+		"componentName": "DynamicProductPage_system",
+		"importPath": "@/pages/builder/dynamic-product/DynamicProductPage",
+		"exportName": "DynamicProductPage",
+		"locale": "system",
+		"pageId": "zXbilp",
+		"isHome": false,
+		"pageType": "ecommerce-dynamic-product"
+	},
+	{
+		"path": "/product/:slug",
+		"componentName": "DynamicProductPage_system",
+		"importPath": "@/pages/builder/dynamic-product/DynamicProductPage",
+		"exportName": "DynamicProductPage",
+		"locale": "system",
+		"pageId": "zXbilp",
+		"isHome": false,
+		"pageType": "ecommerce-dynamic-product"
+	}
+]

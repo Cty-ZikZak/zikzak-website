@@ -1,0 +1,484 @@
+﻿{
+    "backed_up_at":  "2026-11-26T08:56:23.1315386+07:00",
+    "collections":  {
+                        "collections":  [
+
+                                        ],
+                        "count":  0
+                    },
+    "products":  {
+                     "products":  [
+                                      {
+                                          "id":  "prod_01JR70RFQC5098MWAC4G3FPC9Z",
+                                          "title":  "Sản phẩm giáo dục mỹ thuật",
+                                          "subtitle":  null,
+                                          "ribbon_text":  null,
+                                          "site_product_selection":  null,
+                                          "description":  "Zikzak cung cấp đa dạng sản phẩm giáo dục mỹ thuật, thiết kế đồ họa và hoạ phẩm chất lượng cao. Chúng tôi cam kết mang đến cho bạn những công cụ và tài liệu tốt nhất để phát triển kỹ năng sáng tạo. Khám phá bộ sưu tập của chúng tôi và tìm kiếm những sản phẩm phù hợp với nhu cầu học tập và sáng tạo của bạn.",
+                                          "thumbnail":  "https://images.unsplash.com/photo-1564512003332-4ae597b321d1",
+                                          "slug":  "sn-phm-gio-dc-m-thut",
+                                          "url_handle":  "sn-phm-gio-dc-m-thut",
+                                          "product_collections":  [
+
+                                                                  ],
+                                          "order":  1,
+                                          "variants":  [
+                                                           {
+                                                               "id":  "variant_01JR70RFV4NV0PYTA9FM3FA5P7",
+                                                               "title":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "image_url":  null,
+                                                               "sku":  null,
+                                                               "manage_inventory":  false,
+                                                               "is_available":  true,
+                                                               "prices":  [
+                                                                              {
+                                                                                  "sale_amount":  null,
+                                                                                  "currency_code":  "usd",
+                                                                                  "currency":  {
+                                                                                                   "code":  "usd",
+                                                                                                   "symbol":  "$",
+                                                                                                   "symbol_native":  "$",
+                                                                                                   "name":  "US Dollar",
+                                                                                                   "name_plural":  "US dollars",
+                                                                                                   "decimal_digits":  2,
+                                                                                                   "rounding":  0,
+                                                                                                   "template":  "$$1",
+                                                                                                   "min_amount":  100
+                                                                                               },
+                                                                                  "amount":  50000
+                                                                              }
+                                                                          ],
+                                                               "options":  [
+
+                                                                           ],
+                                                               "donation":  null
+                                                           }
+                                                       ],
+                                          "options":  [
+
+                                                      ],
+                                          "images":  [
+                                                         {
+                                                             "url":  "https://images.unsplash.com/photo-1564512003332-4ae597b321d1",
+                                                             "order":  0,
+                                                             "type":  "image"
+                                                         }
+                                                     ],
+                                          "additional_info":  [
+
+                                                              ],
+                                          "type":  {
+                                                       "value":  "physical"
+                                                   },
+                                          "purchasable":  true,
+                                          "is_available":  true,
+                                          "seo_settings":  {
+                                                               "slug":  "sn-phm-gio-dc-m-thut",
+                                                               "title":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "ogImageAlt":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "description":  "Zikzak cung cấp đa dạng sản phẩm giáo dục mỹ thuật, thiết kế đồ họa và hoạ phẩm chất lượng cao. Chúng tôi cam kết mang đến cho bạn những công cụ và tài liệu tốt nhất để phát triển kỹ năng sáng tạo. Khám phá bộ sưu tập của chúng tôi và tìm kiếm những sản phẩm phù hợp với nhu cầu học tập và sáng tạo của bạn.",
+                                                               "ogImagePath":  "https://images.unsplash.com/photo-1564512003332-4ae597b321d1",
+                                                               "ogImageOrigin":  "other"
+                                                           },
+                                          "page_settings":  null,
+                                          "custom_fields":  [
+
+                                                            ],
+                                          "updated_at":  "2025-04-07T02:20:05.696Z"
+                                      },
+                                      {
+                                          "id":  "prod_01JR70RFQPGKYHF6P56XZENRJ3",
+                                          "title":  "Sản phẩm giáo dục mỹ thuật",
+                                          "subtitle":  null,
+                                          "ribbon_text":  null,
+                                          "site_product_selection":  null,
+                                          "description":  "Zikzak cung cấp đa dạng sản phẩm giáo dục mỹ thuật, thiết kế đồ họa và hoạ phẩm chất lượng cao. Chúng tôi cam kết mang đến cho bạn những công cụ và tài liệu tốt nhất để phát triển kỹ năng sáng tạo. Khám phá bộ sưu tập của chúng tôi và tìm kiếm những sản phẩm phù hợp với nhu cầu học tập và sáng tạo của bạn.",
+                                          "thumbnail":  "https://images.unsplash.com/photo-1585007600338-ec568e187cc1",
+                                          "slug":  "sn-phm-gio-dc-m-thut-1",
+                                          "url_handle":  "sn-phm-gio-dc-m-thut-1",
+                                          "product_collections":  [
+
+                                                                  ],
+                                          "order":  2,
+                                          "variants":  [
+                                                           {
+                                                               "id":  "variant_01JR70RFV8D6NX22GS956J3WTW",
+                                                               "title":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "image_url":  null,
+                                                               "sku":  null,
+                                                               "manage_inventory":  false,
+                                                               "is_available":  true,
+                                                               "prices":  [
+                                                                              {
+                                                                                  "sale_amount":  null,
+                                                                                  "currency_code":  "usd",
+                                                                                  "currency":  {
+                                                                                                   "code":  "usd",
+                                                                                                   "symbol":  "$",
+                                                                                                   "symbol_native":  "$",
+                                                                                                   "name":  "US Dollar",
+                                                                                                   "name_plural":  "US dollars",
+                                                                                                   "decimal_digits":  2,
+                                                                                                   "rounding":  0,
+                                                                                                   "template":  "$$1",
+                                                                                                   "min_amount":  100
+                                                                                               },
+                                                                                  "amount":  50000
+                                                                              }
+                                                                          ],
+                                                               "options":  [
+
+                                                                           ],
+                                                               "donation":  null
+                                                           }
+                                                       ],
+                                          "options":  [
+
+                                                      ],
+                                          "images":  [
+                                                         {
+                                                             "url":  "https://images.unsplash.com/photo-1585007600338-ec568e187cc1",
+                                                             "order":  0,
+                                                             "type":  "image"
+                                                         }
+                                                     ],
+                                          "additional_info":  [
+
+                                                              ],
+                                          "type":  {
+                                                       "value":  "physical"
+                                                   },
+                                          "purchasable":  true,
+                                          "is_available":  true,
+                                          "seo_settings":  {
+                                                               "slug":  "sn-phm-gio-dc-m-thut-1",
+                                                               "title":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "ogImageAlt":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "description":  "Zikzak cung cấp đa dạng sản phẩm giáo dục mỹ thuật, thiết kế đồ họa và hoạ phẩm chất lượng cao. Chúng tôi cam kết mang đến cho bạn những công cụ và tài liệu tốt nhất để phát triển kỹ năng sáng tạo. Khám phá bộ sưu tập của chúng tôi và tìm kiếm những sản phẩm phù hợp với nhu cầu học tập và sáng tạo của bạn.",
+                                                               "ogImagePath":  "https://images.unsplash.com/photo-1585007600338-ec568e187cc1",
+                                                               "ogImageOrigin":  "other"
+                                                           },
+                                          "page_settings":  null,
+                                          "custom_fields":  [
+
+                                                            ],
+                                          "updated_at":  "2025-04-07T02:20:05.696Z"
+                                      },
+                                      {
+                                          "id":  "prod_01JR70RFQZHXTFB2KYFR3FHYAZ",
+                                          "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                          "subtitle":  null,
+                                          "ribbon_text":  null,
+                                          "site_product_selection":  null,
+                                          "description":  "Zikzak cung cấp bộ dụng cụ vẽ chuyên nghiệp, bao gồm màu nước, bút chì, và giấy vẽ chất lượng cao. Sản phẩm được thiết kế dành riêng cho những ai đam mê nghệ thuật và muốn phát triển kỹ năng thiết kế đồ họa. Với chất liệu an toàn và thân thiện, bộ dụng cụ này sẽ là người bạn đồng hành lý tưởng cho các nghệ sĩ trẻ và những người yêu thích sáng tạo.",
+                                          "thumbnail":  "https://images.unsplash.com/photo-1610459946348-d256a697227a",
+                                          "slug":  "b-dng-c-v-chuyn-nghip",
+                                          "url_handle":  "b-dng-c-v-chuyn-nghip",
+                                          "product_collections":  [
+
+                                                                  ],
+                                          "order":  3,
+                                          "variants":  [
+                                                           {
+                                                               "id":  "variant_01JR70RFVCRCPJEZS9CVTJZ3MR",
+                                                               "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "image_url":  null,
+                                                               "sku":  null,
+                                                               "manage_inventory":  false,
+                                                               "is_available":  true,
+                                                               "prices":  [
+                                                                              {
+                                                                                  "sale_amount":  null,
+                                                                                  "currency_code":  "usd",
+                                                                                  "currency":  {
+                                                                                                   "code":  "usd",
+                                                                                                   "symbol":  "$",
+                                                                                                   "symbol_native":  "$",
+                                                                                                   "name":  "US Dollar",
+                                                                                                   "name_plural":  "US dollars",
+                                                                                                   "decimal_digits":  2,
+                                                                                                   "rounding":  0,
+                                                                                                   "template":  "$$1",
+                                                                                                   "min_amount":  100
+                                                                                               },
+                                                                                  "amount":  50000
+                                                                              }
+                                                                          ],
+                                                               "options":  [
+
+                                                                           ],
+                                                               "donation":  null
+                                                           }
+                                                       ],
+                                          "options":  [
+
+                                                      ],
+                                          "images":  [
+                                                         {
+                                                             "url":  "https://images.unsplash.com/photo-1610459946348-d256a697227a",
+                                                             "order":  0,
+                                                             "type":  "image"
+                                                         }
+                                                     ],
+                                          "additional_info":  [
+
+                                                              ],
+                                          "type":  {
+                                                       "value":  "physical"
+                                                   },
+                                          "purchasable":  true,
+                                          "is_available":  true,
+                                          "seo_settings":  {
+                                                               "slug":  "b-dng-c-v-chuyn-nghip",
+                                                               "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "ogImageAlt":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "description":  "Zikzak cung cấp bộ dụng cụ vẽ chuyên nghiệp, bao gồm màu nước, bút chì, và giấy vẽ chất lượng cao. Sản phẩm được thiết kế dành riêng cho những ai đam mê nghệ thuật và muốn phát triển kỹ năng thiết kế đồ họa. Với chất liệu an toàn và thân thiện, bộ dụng cụ này sẽ là người bạn đồng hành lý tưởng cho các nghệ sĩ trẻ và những người yêu thích sáng tạo.",
+                                                               "ogImagePath":  "https://images.unsplash.com/photo-1610459946348-d256a697227a",
+                                                               "ogImageOrigin":  "other"
+                                                           },
+                                          "page_settings":  null,
+                                          "custom_fields":  [
+
+                                                            ],
+                                          "updated_at":  "2025-04-07T02:20:05.696Z"
+                                      },
+                                      {
+                                          "id":  "prod_01JR70RFR7HR0TNQD989481SY3",
+                                          "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                          "subtitle":  null,
+                                          "ribbon_text":  null,
+                                          "site_product_selection":  null,
+                                          "description":  "Zikzak cung cấp bộ dụng cụ vẽ chuyên nghiệp, bao gồm màu nước, bút vẽ, và giấy vẽ chất lượng cao. Sản phẩm được thiết kế dành riêng cho những ai yêu thích nghệ thuật và muốn phát triển kỹ năng mỹ thuật. Với chất liệu an toàn và dễ sử dụng, bộ dụng cụ này sẽ là người bạn đồng hành lý tưởng cho các nghệ sĩ từ cơ bản đến nâng cao.",
+                                          "thumbnail":  "https://images.unsplash.com/photo-1692291051778-014c9b193830",
+                                          "slug":  "b-dng-c-v-chuyn-nghip-1",
+                                          "url_handle":  "b-dng-c-v-chuyn-nghip-1",
+                                          "product_collections":  [
+
+                                                                  ],
+                                          "order":  4,
+                                          "variants":  [
+                                                           {
+                                                               "id":  "variant_01JR70RFVF2TH9NMTQWJWNQ0T9",
+                                                               "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "image_url":  null,
+                                                               "sku":  null,
+                                                               "manage_inventory":  false,
+                                                               "is_available":  true,
+                                                               "prices":  [
+                                                                              {
+                                                                                  "sale_amount":  null,
+                                                                                  "currency_code":  "usd",
+                                                                                  "currency":  {
+                                                                                                   "code":  "usd",
+                                                                                                   "symbol":  "$",
+                                                                                                   "symbol_native":  "$",
+                                                                                                   "name":  "US Dollar",
+                                                                                                   "name_plural":  "US dollars",
+                                                                                                   "decimal_digits":  2,
+                                                                                                   "rounding":  0,
+                                                                                                   "template":  "$$1",
+                                                                                                   "min_amount":  100
+                                                                                               },
+                                                                                  "amount":  50000
+                                                                              }
+                                                                          ],
+                                                               "options":  [
+
+                                                                           ],
+                                                               "donation":  null
+                                                           }
+                                                       ],
+                                          "options":  [
+
+                                                      ],
+                                          "images":  [
+                                                         {
+                                                             "url":  "https://images.unsplash.com/photo-1692291051778-014c9b193830",
+                                                             "order":  0,
+                                                             "type":  "image"
+                                                         }
+                                                     ],
+                                          "additional_info":  [
+
+                                                              ],
+                                          "type":  {
+                                                       "value":  "physical"
+                                                   },
+                                          "purchasable":  true,
+                                          "is_available":  true,
+                                          "seo_settings":  {
+                                                               "slug":  "b-dng-c-v-chuyn-nghip-1",
+                                                               "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "ogImageAlt":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "description":  "Zikzak cung cấp bộ dụng cụ vẽ chuyên nghiệp, bao gồm màu nước, bút vẽ, và giấy vẽ chất lượng cao. Sản phẩm được thiết kế dành riêng cho những ai yêu thích nghệ thuật và muốn phát triển kỹ năng mỹ thuật. Với chất liệu an toàn và dễ sử dụng, bộ dụng cụ này sẽ là người bạn đồng hành lý tưởng cho các nghệ sĩ từ cơ bản đến nâng cao.",
+                                                               "ogImagePath":  "https://images.unsplash.com/photo-1692291051778-014c9b193830",
+                                                               "ogImageOrigin":  "other"
+                                                           },
+                                          "page_settings":  null,
+                                          "custom_fields":  [
+
+                                                            ],
+                                          "updated_at":  "2025-04-07T02:20:05.696Z"
+                                      },
+                                      {
+                                          "id":  "prod_01JR70RFRESYTQR0DM3YS9WRH0",
+                                          "title":  "Sản phẩm giáo dục mỹ thuật",
+                                          "subtitle":  null,
+                                          "ribbon_text":  null,
+                                          "site_product_selection":  null,
+                                          "description":  "Zikzak cung cấp các sản phẩm giáo dục mỹ thuật và thiết kế đồ họa chất lượng cao. Chúng tôi chuyên cung cấp hoạ phẩm, dụng cụ vẽ và tài liệu học tập giúp phát triển kỹ năng sáng tạo cho học sinh và sinh viên. Khám phá bộ sưu tập đa dạng của chúng tôi để tìm thấy những sản phẩm phù hợp nhất cho nhu cầu học tập và sáng tạo của bạn.",
+                                          "thumbnail":  "https://images.unsplash.com/photo-1562940009-fdfd33e00f66",
+                                          "slug":  "sn-phm-gio-dc-m-thut-2",
+                                          "url_handle":  "sn-phm-gio-dc-m-thut-2",
+                                          "product_collections":  [
+
+                                                                  ],
+                                          "order":  5,
+                                          "variants":  [
+                                                           {
+                                                               "id":  "variant_01JR70RFVKR6PHZN2BKHV0W45J",
+                                                               "title":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "image_url":  null,
+                                                               "sku":  null,
+                                                               "manage_inventory":  false,
+                                                               "is_available":  true,
+                                                               "prices":  [
+                                                                              {
+                                                                                  "sale_amount":  null,
+                                                                                  "currency_code":  "usd",
+                                                                                  "currency":  {
+                                                                                                   "code":  "usd",
+                                                                                                   "symbol":  "$",
+                                                                                                   "symbol_native":  "$",
+                                                                                                   "name":  "US Dollar",
+                                                                                                   "name_plural":  "US dollars",
+                                                                                                   "decimal_digits":  2,
+                                                                                                   "rounding":  0,
+                                                                                                   "template":  "$$1",
+                                                                                                   "min_amount":  100
+                                                                                               },
+                                                                                  "amount":  50000
+                                                                              }
+                                                                          ],
+                                                               "options":  [
+
+                                                                           ],
+                                                               "donation":  null
+                                                           }
+                                                       ],
+                                          "options":  [
+
+                                                      ],
+                                          "images":  [
+                                                         {
+                                                             "url":  "https://images.unsplash.com/photo-1562940009-fdfd33e00f66",
+                                                             "order":  0,
+                                                             "type":  "image"
+                                                         }
+                                                     ],
+                                          "additional_info":  [
+
+                                                              ],
+                                          "type":  {
+                                                       "value":  "physical"
+                                                   },
+                                          "purchasable":  true,
+                                          "is_available":  true,
+                                          "seo_settings":  {
+                                                               "slug":  "sn-phm-gio-dc-m-thut-2",
+                                                               "title":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "ogImageAlt":  "Sản phẩm giáo dục mỹ thuật",
+                                                               "description":  "Zikzak cung cấp các sản phẩm giáo dục mỹ thuật và thiết kế đồ họa chất lượng cao. Chúng tôi chuyên cung cấp hoạ phẩm, dụng cụ vẽ và tài liệu học tập giúp phát triển kỹ năng sáng tạo cho học sinh và sinh viên. Khám phá bộ sưu tập đa dạng của chúng tôi để tìm thấy những sản phẩm phù hợp nhất cho nhu cầu học tập và sáng tạo của bạn.",
+                                                               "ogImagePath":  "https://images.unsplash.com/photo-1562940009-fdfd33e00f66",
+                                                               "ogImageOrigin":  "other"
+                                                           },
+                                          "page_settings":  null,
+                                          "custom_fields":  [
+
+                                                            ],
+                                          "updated_at":  "2025-04-07T02:20:05.696Z"
+                                      },
+                                      {
+                                          "id":  "prod_01JR70RFWYK5A3W6W2XS7S4XY8",
+                                          "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                          "subtitle":  null,
+                                          "ribbon_text":  null,
+                                          "site_product_selection":  null,
+                                          "description":  "Khám phá bộ dụng cụ vẽ chuyên nghiệp của Zikzak, hoàn hảo cho những ai đam mê mỹ thuật và thiết kế đồ họa. Sản phẩm bao gồm màu nước, bút vẽ, và giấy vẽ chất lượng cao, giúp bạn thể hiện tài năng sáng tạo. Được thiết kế đặc biệt cho học sinh và nghệ sĩ, bộ dụng cụ này sẽ là người bạn đồng hành lý tưởng trong hành trình nghệ thuật của bạn.",
+                                          "thumbnail":  "https://images.unsplash.com/photo-1663236752820-128b80a30152",
+                                          "slug":  "b-dng-c-v-chuyn-nghip-2",
+                                          "url_handle":  "b-dng-c-v-chuyn-nghip-2",
+                                          "product_collections":  [
+
+                                                                  ],
+                                          "order":  6,
+                                          "variants":  [
+                                                           {
+                                                               "id":  "variant_01JR70RFXM605M1RRE4GKA23J9",
+                                                               "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "image_url":  null,
+                                                               "sku":  null,
+                                                               "manage_inventory":  false,
+                                                               "is_available":  true,
+                                                               "prices":  [
+                                                                              {
+                                                                                  "sale_amount":  null,
+                                                                                  "currency_code":  "usd",
+                                                                                  "currency":  {
+                                                                                                   "code":  "usd",
+                                                                                                   "symbol":  "$",
+                                                                                                   "symbol_native":  "$",
+                                                                                                   "name":  "US Dollar",
+                                                                                                   "name_plural":  "US dollars",
+                                                                                                   "decimal_digits":  2,
+                                                                                                   "rounding":  0,
+                                                                                                   "template":  "$$1",
+                                                                                                   "min_amount":  100
+                                                                                               },
+                                                                                  "amount":  50000
+                                                                              }
+                                                                          ],
+                                                               "options":  [
+
+                                                                           ],
+                                                               "donation":  null
+                                                           }
+                                                       ],
+                                          "options":  [
+
+                                                      ],
+                                          "images":  [
+                                                         {
+                                                             "url":  "https://images.unsplash.com/photo-1663236752820-128b80a30152",
+                                                             "order":  0,
+                                                             "type":  "image"
+                                                         }
+                                                     ],
+                                          "additional_info":  [
+
+                                                              ],
+                                          "type":  {
+                                                       "value":  "physical"
+                                                   },
+                                          "purchasable":  true,
+                                          "is_available":  true,
+                                          "seo_settings":  {
+                                                               "slug":  "b-dng-c-v-chuyn-nghip-2",
+                                                               "title":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "ogImageAlt":  "Bộ dụng cụ vẽ chuyên nghiệp",
+                                                               "description":  "Khám phá bộ dụng cụ vẽ chuyên nghiệp của Zikzak, hoàn hảo cho những ai đam mê mỹ thuật và thiết kế đồ họa. Sản phẩm bao gồm màu nước, bút vẽ, và giấy vẽ chất lượng cao, giúp bạn thể hiện tài năng sáng tạo. Được thiết kế đặc biệt cho học sinh và nghệ sĩ, bộ dụng cụ này sẽ là người bạn đồng hành lý tưởng trong hành trình nghệ thuật của bạn.",
+                                                               "ogImagePath":  "https://images.unsplash.com/photo-1663236752820-128b80a30152",
+                                                               "ogImageOrigin":  "other"
+                                                           },
+                                          "page_settings":  null,
+                                          "custom_fields":  [
+
+                                                            ],
+                                          "updated_at":  "2025-04-07T02:20:05.696Z"
+                                      }
+                                  ],
+                     "count":  6,
+                     "offset":  0,
+                     "limit":  200
+                 }
+}
