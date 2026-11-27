@@ -1,0 +1,394 @@
+/*
+  LIQUID GLASS THEME
+  ------------------
+  Giao diện kính lỏng mờ trong suốt cho toàn bộ website.
+  - Nền: lưới màu thương hiệu (xanh dương, xanh ngọc, vàng, tím) chuyển động chậm.
+  - Các khối nền màu trở thành lớp kính nhuộm màu, nhìn xuyên thấy nền phía sau.
+  - Header, menu, form, thẻ, nút, hình khối đều được phủ kính mờ có viền sáng.
+  Tắt toàn bộ hiệu ứng: xoá dòng @import './liquid-glass.css' trong global.css.
+*/
+
+:root {
+	--lg-blur: 22px;
+	--lg-saturate: 180%;
+	--lg-tint-opacity: 0.58;
+	--lg-light-tint-opacity: 0.32;
+	--lg-fill: linear-gradient(135deg, rgb(255 255 255 / 34%) 0%, rgb(255 255 255 / 12%) 100%);
+	--lg-fill-strong: linear-gradient(135deg, rgb(255 255 255 / 55%) 0%, rgb(255 255 255 / 26%) 100%);
+	--lg-border: 1px solid rgb(255 255 255 / 55%);
+	--lg-highlight: inset 0 1px 0 rgb(255 255 255 / 75%), inset 0 -1px 0 rgb(255 255 255 / 18%);
+	--lg-shadow: 0 10px 36px rgb(20 30 110 / 18%), 0 2px 8px rgb(20 30 110 / 8%);
+	--lg-radius: 24px;
+}
+
+/* ---------- Nền lưới màu chuyển động ---------- */
+
+html {
+	background: #dfe9ff;
+}
+
+body {
+	position: relative;
+	background: transparent !important;
+}
+
+body::before,
+body::after {
+	content: "";
+	position: fixed;
+	inset: -20vmax;
+	z-index: -1;
+	pointer-events: none;
+}
+
+body::before {
+	background:
+		radial-gradient(38vmax 38vmax at 12% 18%, rgb(23 107 224 / 95%), transparent 70%),
+		radial-gradient(34vmax 34vmax at 88% 12%, rgb(82 226 255 / 95%), transparent 70%),
+		radial-gradient(36vmax 36vmax at 78% 82%, rgb(143 17 168 / 65%), transparent 70%),
+		radial-gradient(30vmax 30vmax at 22% 86%, rgb(255 230 40 / 90%), transparent 70%),
+		radial-gradient(28vmax 28vmax at 52% 48%, rgb(0 230 170 / 45%), transparent 70%),
+		linear-gradient(160deg, #a9c6ff 0%, #d9cbff 50%, #b8eeff 100%);
+	filter: saturate(120%);
+	animation: lg-drift 38s ease-in-out infinite alternate;
+}
+
+/* Hạt nhiễu rất nhẹ để kính trông "thật" hơn */
+body::after {
+	inset: 0;
+	opacity: 0.06;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes lg-drift {
+	0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+	50% { transform: translate3d(-4vmax, 3vmax, 0) rotate(8deg) scale(1.06); }
+	100% { transform: translate3d(3vmax, -3vmax, 0) rotate(-6deg) scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body::before {
+		animation: none;
+	}
+}
+
+.page,
+.page__blocks,
+#root {
+	background: transparent;
+}
+
+/* ---------- Khối (section) nền màu => kính nhuộm màu ---------- */
+
+.block-background--solid {
+	opacity: var(--lg-tint-opacity);
+}
+
+/* Khối nền trắng / rất sáng: kính trong hơn để thấy màu nền phía sau */
+.block-background--light {
+	opacity: var(--lg-light-tint-opacity);
+}
+
+/* Đường viền sáng mảnh giữa các khối, như mép tấm kính */
+.page .block {
+	isolation: isolate;
+}
+
+.page .block::after {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto;
+	z-index: 14;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, rgb(255 255 255 / 70%), transparent);
+	pointer-events: none;
+}
+
+/* Khối có ảnh / video nền: phủ lớp kính phản chiếu rất nhẹ */
+.block-background--media::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	background: linear-gradient(160deg, rgb(255 255 255 / 16%) 0%, transparent 40%, rgb(255 255 255 / 6%) 100%);
+	pointer-events: none;
+}
+
+/* ---------- Header / thanh điều hướng ---------- */
+
+.top-blocks,
+.top-blocks.top-blocks--opaque {
+	background: color-mix(in srgb, var(--nav-bg, #176be0) 52%, transparent) !important;
+	-webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	border-bottom: 1px solid rgb(255 255 255 / 35%);
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / 45%), 0 8px 30px rgb(20 30 110 / 14%);
+}
+
+.top-blocks .block-navigation,
+.top-blocks .block-navigation__inner {
+	background: transparent !important;
+}
+
+.block-navigation__sublinks {
+	background: color-mix(in srgb, var(--nav-bg, #176be0) 58%, rgb(255 255 255 / 10%)) !important;
+	-webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	border: var(--lg-border);
+	border-radius: 18px !important;
+	box-shadow: var(--lg-highlight), var(--lg-shadow) !important;
+}
+
+@media screen and (max-width: 920px) {
+	.block-navigation__end {
+		background: color-mix(in srgb, var(--nav-bg, #176be0) 62%, transparent) !important;
+		-webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+		backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	}
+
+	.block-navigation__sublinks {
+		background: rgb(255 255 255 / 12%) !important;
+		box-shadow: none !important;
+	}
+}
+
+.block-navigation__item--active .block-navigation__link,
+.block-navigation__link:hover {
+	text-shadow: 0 0 14px rgb(255 255 255 / 45%);
+}
+
+/* ---------- Nút ---------- */
+
+.grid-button,
+.grid-form__submit,
+.block-product__button,
+.ecommerce-cart__checkout,
+.sticky-trigger {
+	position: relative;
+	-webkit-backdrop-filter: blur(12px) saturate(var(--lg-saturate));
+	backdrop-filter: blur(12px) saturate(var(--lg-saturate));
+	border-radius: 999px !important;
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 70%),
+		inset 0 -2px 6px rgb(255 255 255 / 18%),
+		0 6px 20px rgb(20 30 110 / 20%) !important;
+	transition: transform 0.25s cubic-bezier(.2, .8, .2, 1.2), box-shadow 0.25s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.grid-button::before,
+.grid-form__submit::before {
+	content: "";
+	position: absolute;
+	inset: 1px 10% 52% 10%;
+	border-radius: 999px;
+	background: linear-gradient(180deg, rgb(255 255 255 / 45%), rgb(255 255 255 / 0%));
+	pointer-events: none;
+}
+
+.grid-button:hover,
+.grid-form__submit:hover,
+.block-product__button:hover {
+	transform: translateY(-2px) scale(1.02);
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 80%),
+		inset 0 -2px 8px rgb(255 255 255 / 24%),
+		0 12px 30px rgb(20 30 110 / 26%) !important;
+}
+
+.grid-button:active,
+.grid-form__submit:active {
+	transform: translateY(0) scale(0.98);
+}
+
+/* ---------- Form ---------- */
+
+.grid-form:not(.grid-form--success) {
+	padding: max(var(--form-padding, 0px), 24px) !important;
+	background: var(--lg-fill-strong) !important;
+	-webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	border: var(--lg-border) !important;
+	border-radius: var(--lg-radius) !important;
+	box-shadow: var(--lg-highlight), var(--lg-shadow);
+}
+
+.grid-form__input,
+.block-product__input-field,
+.product-list-sorting__select {
+	background: rgb(255 255 255 / 45%) !important;
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	border: 1px solid rgb(255 255 255 / 70%) !important;
+	border-radius: 14px !important;
+	box-shadow: inset 0 1px 3px rgb(20 30 110 / 10%);
+	transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.grid-form__input:focus,
+.block-product__input-field:focus {
+	outline: none;
+	background: rgb(255 255 255 / 70%) !important;
+	box-shadow: inset 0 1px 3px rgb(20 30 110 / 10%), 0 0 0 4px rgb(82 226 255 / 35%);
+}
+
+.grid-form input[type="checkbox"],
+.grid-form input[type="radio"] {
+	accent-color: #176be0;
+}
+
+/* ---------- Thẻ, hình khối ---------- */
+
+.grid-card {
+	background: var(--lg-fill) !important;
+	-webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	border: var(--lg-border) !important;
+	border-radius: var(--lg-radius) !important;
+	box-shadow: var(--lg-highlight), var(--lg-shadow) !important;
+}
+
+/* Hình chữ nhật (khung, thẻ đánh giá...) => tấm kính nhuộm màu */
+.grid-shape[data-shape="rectangle"] {
+	border-radius: var(--lg-radius);
+	background: color-mix(in srgb, var(--shape-color) 30%, rgb(255 255 255 / 18%)) !important;
+	-webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	border: 1.5px solid color-mix(in srgb, var(--shape-color) 45%, rgb(255 255 255 / 70%));
+	box-shadow: var(--lg-highlight), var(--lg-shadow);
+}
+
+.grid-shape[data-shape="rectangle"] svg {
+	opacity: 0;
+}
+
+/* Hình tròn / elip => bong bóng kính lỏng */
+.grid-shape[data-shape="ellipse"] {
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 30% 25%, rgb(255 255 255 / 85%) 0%, rgb(255 255 255 / 0%) 32%),
+		radial-gradient(circle at 70% 80%, rgb(255 255 255 / 35%) 0%, rgb(255 255 255 / 0%) 40%),
+		color-mix(in srgb, var(--shape-color) 55%, transparent) !important;
+	-webkit-backdrop-filter: blur(14px) saturate(var(--lg-saturate));
+	backdrop-filter: blur(14px) saturate(var(--lg-saturate));
+	box-shadow:
+		inset 0 0 0 1.5px rgb(255 255 255 / 55%),
+		inset -10px -14px 30px color-mix(in srgb, var(--shape-color) 60%, transparent),
+		inset 8px 10px 24px rgb(255 255 255 / 35%),
+		0 18px 40px color-mix(in srgb, var(--shape-color) 35%, transparent);
+	animation: lg-float 9s ease-in-out infinite;
+}
+
+.grid-shape[data-shape="ellipse"] svg {
+	opacity: 0;
+}
+
+@keyframes lg-float {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.grid-shape[data-shape="ellipse"] {
+		animation: none;
+	}
+}
+
+/* Các hình trang trí khác (sao, tam giác, mặt nạ...) => bán trong suốt, có ánh sáng */
+.grid-shape:not([data-shape="rectangle"]):not([data-shape="ellipse"]) svg {
+	opacity: 0.72;
+	filter: drop-shadow(0 8px 18px rgb(20 30 110 / 18%));
+}
+
+/* Ảnh: bo góc mềm và viền kính */
+.layout-element__component--GridImage img,
+.grid-image img {
+	border-radius: inherit;
+}
+
+/* Bản đồ, video nhúng */
+.layout-element__component--GridMap,
+.layout-element__component--GridVideo {
+	border-radius: var(--lg-radius);
+	overflow: hidden;
+	border: var(--lg-border);
+	box-shadow: var(--lg-highlight), var(--lg-shadow);
+}
+
+/* ---------- Cửa hàng ---------- */
+
+.block-product-list__card {
+	padding: 12px;
+	background: var(--lg-fill);
+	-webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	border: var(--lg-border);
+	border-radius: var(--lg-radius);
+	box-shadow: var(--lg-highlight), var(--lg-shadow);
+	transition: transform 0.3s cubic-bezier(.2, .8, .2, 1.2), box-shadow 0.3s ease;
+}
+
+.block-product-list__card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--lg-highlight), 0 18px 44px rgb(20 30 110 / 24%);
+}
+
+.block-product-list__image-wrap,
+.block-product-list__image-placeholder {
+	overflow: hidden;
+	border-radius: 16px;
+}
+
+.block-product-list__image-placeholder {
+	background: rgb(255 255 255 / 35%) !important;
+}
+
+.pagination__button,
+.category-list__link,
+.quantity-picker,
+.product-carousel__thumbnail {
+	border-radius: 14px;
+}
+
+/* ---------- Giỏ hàng, popup, toast (shadcn / sonner) ---------- */
+
+.ecommerce-cart,
+[role="dialog"],
+[data-radix-popper-content-wrapper] > *,
+[data-sonner-toast] {
+	-webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+	backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+}
+
+[role="dialog"],
+[data-sonner-toast] {
+	background: rgb(255 255 255 / 62%) !important;
+	border: var(--lg-border) !important;
+	border-radius: var(--lg-radius) !important;
+	box-shadow: var(--lg-highlight), var(--lg-shadow) !important;
+}
+
+/* ---------- Thanh ghim, nút WhatsApp, cookie ---------- */
+
+.whats-app-bubble {
+	box-shadow: var(--lg-highlight), var(--lg-shadow);
+}
+
+/* ---------- Thanh cuộn ---------- */
+
+html {
+	scrollbar-color: rgb(23 107 224 / 45%) transparent;
+}
+
+::selection {
+	background: rgb(82 226 255 / 45%);
+}
+
+/* Trình duyệt không hỗ trợ backdrop-filter: tăng độ đục để chữ vẫn dễ đọc */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	:root {
+		--lg-fill: rgb(255 255 255 / 82%);
+		--lg-fill-strong: rgb(255 255 255 / 90%);
+		--lg-tint-opacity: 0.85;
+		--lg-light-tint-opacity: 0.8;
+	}
+}

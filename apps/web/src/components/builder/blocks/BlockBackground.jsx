@@ -29,6 +29,36 @@ const getGradientCss = (gradient) => {
 	return `linear-gradient(${angle}deg, ${stops})`;
 };
 
+const parseColor = (value) => {
+	if (typeof value !== 'string') {
+		return null;
+	}
+
+	const color = value.trim().toLowerCase();
+	const hex = color.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/);
+
+	if (hex) {
+		const digits = hex[1].length === 3 ? hex[1].split('').map((d) => d + d).join('') : hex[1];
+
+		return [0, 2, 4].map((i) => parseInt(digits.slice(i, i + 2), 16));
+	}
+
+	const rgb = color.match(/^rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)/);
+
+	return rgb ? rgb.slice(1, 4).map(Number) : null;
+};
+
+// Near-white backgrounds get a thinner glass tint so the liquid-glass backdrop shows through.
+const isLightColor = (value) => {
+	const rgb = parseColor(value);
+
+	if (!rgb) {
+		return false;
+	}
+
+	return Math.min(...rgb) >= 225;
+};
+
 export default function BlockBackground({
 	background,
 	isFixed = false,
@@ -62,6 +92,8 @@ export default function BlockBackground({
 	const className = [
 		'block-background',
 		isFixed ? 'block-background--fixed' : '',
+		isImage || isVideo ? 'block-background--media' : 'block-background--solid',
+		type === 'color' && isLightColor(background.color) ? 'block-background--light' : '',
 	].filter(Boolean).join(' ');
 
 	return (
