@@ -71,41 +71,55 @@ for i, k in enumerate(names):
 _, (iy, ix) = ndi.distance_transform_edt(seedlab == 0, return_indices=True)
 part = np.where(word, seedlab[iy, ix], 0)
 
-INDIGO = (0x19, 0x00, 0xC8)
 meta = {'width': im.shape[1], 'height': im.shape[0], 'scale': SCALE, 'pieces': {}}
 
-def save(name, mask, rgba=None, pad=4):
+def save(name, mask, pad=4):
     ys, xs = np.nonzero(mask)
     y0, y1 = max(ys.min() - pad, 0), min(ys.max() + pad + 1, im.shape[0])
     x0, x1 = max(xs.min() - pad, 0), min(xs.max() + pad + 1, im.shape[1])
-    src = im if rgba is None else rgba
-    crop = src[y0:y1, x0:x1].copy()
+    crop = im[y0:y1, x0:x1].copy()
     m = mask[y0:y1, x0:x1]
     crop[..., 3] = np.where(m, crop[..., 3], 0)
     img = Image.fromarray(crop, 'RGBA')
     w, h = round((x1 - x0) * SCALE), round((y1 - y0) * SCALE)
     img = img.resize((w, h), Image.LANCZOS)
-    img.save(f'{OUT}/{name}.webp', 'WEBP', quality=92, method=6, exact=False)
+    img.save(f'{OUT}/{name}.webp', 'WEBP', quality=92, method=6)
     meta['pieces'][name] = {'x': int(x0), 'y': int(y0), 'w': int(x1 - x0), 'h': int(y1 - y0)}
 
-# Nền: bóng chữ màu xanh tím
-base_rgba = np.zeros_like(im)
-base_rgba[..., 0], base_rgba[..., 1], base_rgba[..., 2] = INDIGO
-base_rgba[..., 3] = 255
-# làm mềm mép theo alpha gốc
-save('base', word, base_rgba)
-
+# Viền xanh tím là đường viền riêng của từng chữ / mắt / miệng:
+# mỗi phần = vùng gần nó nhất + toàn bộ viền xanh tím trong bán kính OUTLINE quanh phần ruột của nó.
+# Các phần chồng lên nhau ở viền (cùng màu), nên khi chuyển động không lộ khe hở.
+OUTLINE = 48
+# Mắt là phần "nổi" phía trên chữ: giữ trọn vùng của mắt, viền chữ không lấn sang vùng mắt
+# (tránh lộ những sợi viền lạc khi mắt chớp / liếc).
+eye_zone = np.isin(part, [names.index('eye1') + 1, names.index('eye2') + 1])
 for i, k in enumerate(names):
     region = part == i + 1
-    if k.startswith('eye') or k == 'mouth':
-        # chỉ phần trắng + viền xanh; bóng xanh tím để lại trên nền
-        inner = ndi.binary_fill_holes(seeds[k] | (region & blue_rim))
-        inner = ndi.binary_opening(inner, iterations=2) & region
-        # mép mềm: nới 1px vào vùng chuyển màu
-        inner = ndi.binary_dilation(inner, iterations=1) & region & ~indigo_m | (inner)
-        save(k, inner)
-    else:
+    if k.startswith('eye'):
         save(k, region)
+        continue
+    inner = region & ~indigo_m & opaque
+    near = ndi.distance_transform_edt(~inner) <= OUTLINE
+    ext = ndi.binary_opening(near & indigo_m & word, iterations=3)
+    # chỉ giữ phần viền dính liền với chính phần đó (bỏ sợi viền lạc của phần bên cạnh)
+    lab_ext, _ = ndi.label(ext | region)
+    keep = np.unique(lab_ext[region])
+    own = np.isin(lab_ext, keep[keep > 0]) & ext
+    # lấn vào vùng mắt tối đa 28px: đủ lấp khe khi chữ và mắt lệch nhịp, không tạo "sừng"
+    near_eye = ndi.distance_transform_edt(~inner) <= 28
+    # bỏ những nét mảnh nhọn (hiện thành "gai" khi mắt nhắm), chỉ giữ phần đặc để lấp khe
+    into_eye = ndi.binary_opening(own & eye_zone & near_eye, iterations=7)
+    mask = region | (own & ~eye_zone) | into_eye
+    save(k, mask)
+
+# Lớp lấp khe: viền xanh tím nằm sâu bên trong khối chữ (cách mép ngoài > 18px),
+# không phủ vùng mắt. Bị các chữ che kín khi đứng yên, chỉ lộ ra ở khe giữa hai chữ khi chúng nhún lệch nhịp.
+inside = ndi.distance_transform_edt(word) > 18
+eyes_inner = eye_zone & ~indigo_m & opaque
+clear_of_eyes = ndi.distance_transform_edt(~eyes_inner) > 34
+filler = word & indigo_m & inside & clear_of_eyes
+filler = ndi.binary_opening(filler, iterations=3)
+save('filler', filler)
 
 save('tagline', tag)
 json.dump(meta, open(f'{OUT}/meta.json', 'w'), indent=1)
