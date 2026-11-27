@@ -18,7 +18,7 @@ const validate = (values) => {
 	return errors;
 };
 
-export default function LeadForm({ defaultInterest = '', title = 'Đăng ký tư vấn khoá học', hint }) {
+export default function LeadForm({ defaultInterest = '', title = 'Đăng ký học thử miễn phí 1 buổi', hint }) {
 	const [values, setValues] = useState({ ...empty, interest: defaultInterest });
 	const [errors, setErrors] = useState({});
 	const [status, setStatus] = useState('idle');

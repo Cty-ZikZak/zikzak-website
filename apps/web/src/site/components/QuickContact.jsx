@@ -23,7 +23,7 @@ export default function QuickContact() {
 			<div className="zz-mobilebar zz-glass">
 				<a href={`tel:${contact.hotline}`}><Phone /> Gọi</a>
 				<a href={contact.zalo} target="_blank" rel="noreferrer"><ZaloIcon /> Zalo</a>
-				<Link to="/dang-ky" className="zz-btn zz-btn--primary">Đăng ký</Link>
+				<Link to="/dang-ky" className="zz-btn zz-btn--primary">Học thử</Link>
 			</div>
 		</>
 	);

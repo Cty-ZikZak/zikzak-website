@@ -52,7 +52,7 @@ function Hero() {
 					</p>
 					<div className="zz-actions">
 						<Link to="/dang-ky" className="zz-btn zz-btn--primary">
-							Đăng ký tư vấn <ArrowRight />
+							Học thử miễn phí 1 buổi <ArrowRight />
 						</Link>
 						<Link to="/trien-lam" className="zz-btn">
 							<Images /> Xem tranh học viên

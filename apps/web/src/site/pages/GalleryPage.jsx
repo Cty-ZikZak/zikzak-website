@@ -57,7 +57,7 @@ export default function GalleryPage() {
 					)}
 
 					<div className="zz-center zz-mt">
-						<Link to="/dang-ky" className="zz-btn zz-btn--sun">Đăng ký tư vấn cho con</Link>
+						<Link to="/dang-ky" className="zz-btn zz-btn--sun">Cho con học thử miễn phí 1 buổi</Link>
 					</div>
 				</div>
 			</section>

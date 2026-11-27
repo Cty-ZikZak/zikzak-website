@@ -200,6 +200,10 @@ export const testimonials = [
 // Câu hỏi thường gặp — chỉ ghi những thông tin ZikZak đã công bố.
 export const faqs = [
 	{
+		q: 'Có được học thử trước khi đăng ký không?',
+		a: 'Có. Học viên được học thử miễn phí 1 buổi để làm quen lớp, giáo viên và cách học trước khi đăng ký.',
+	},
+	{
 		q: 'Bé mấy tuổi thì học được?',
 		a: 'Chương trình Mỹ thuật thiếu nhi dành cho bé từ 3 đến 15 tuổi, lớp chia theo nhóm tuổi để nội dung phù hợp với khả năng của từng bé. Học viên lớn hơn có các chương trình Chuyên sâu, Luyện thi, Thiết kế đồ hoạ và Vẽ kỹ thuật số.',
 	},

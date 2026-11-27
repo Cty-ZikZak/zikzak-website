@@ -52,7 +52,7 @@ export default function CoursePage() {
 							<p className="zz-lead">{course.lead}</p>
 							<div className="zz-actions zz-mt">
 								<Link to={`/dang-ky?khoa=${encodeURIComponent(INTEREST_BY_PROGRAM[course.program] || '')}`} className="zz-btn zz-btn--primary">
-									Đăng ký ngay <ArrowRight />
+									Học thử miễn phí 1 buổi <ArrowRight />
 								</Link>
 								{related ? (
 									<Link to={`/khoa-hoc/${related.slug}`} className="zz-btn">Xem {related.badge.toLowerCase()}</Link>
