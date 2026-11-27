@@ -17,8 +17,9 @@ Hoặc chạy riêng từng phần:
 
 ### Các đường dẫn truy cập trên máy Local:
 1. **Trang chủ Website**: `http://localhost:3000`
-2. **Trang cửa hàng ZikZak Shop**: `http://localhost:3000/zikzak-shop`
-3. **Trang Đăng ký tư vấn**: `http://localhost:3000/djang-ky-ngay`
+2. **Tranh học viên (triển lãm)**: `http://localhost:3000/trien-lam`
+3. **Trang Đăng ký học thử**: `http://localhost:3000/dang-ky`
+   *(ZikZak Shop tạm ẩn: đường dẫn `/zikzak-shop` tự chuyển về trang chủ.)*
 4. **Trang Quản trị Backend (PocketBase Admin UI)**: `http://127.0.0.1:8090/_/`
    - **Email đăng nhập mặc định ở Local**: `admin@zikzak.local`
    - **Mật khẩu mặc định ở Local**: `zikzak123456`
@@ -58,3 +59,39 @@ Dự án đã được khởi tạo sẵn Git và cấu hình `.gitignore` chu�
    - **Type `A`** | Name: `@` | Points to: `76.76.21.21`
    - **Type `CNAME`** | Name: `www` | Points to: `cname.vercel-dns.com`
 3. Thêm 2 bản ghi này vào bảng DNS trên Hostinger (nhớ xóa bản ghi `A` hoặc `CNAME` cũ đang trỏ vào Hostinger Builder). Đợi khoảng 5-15 phút là tên miền của bạn sẽ hoạt động mượt mà với chứng chỉ bảo mật HTTPS tự động.
+
+---
+
+## 4. Giao diện mới (Liquid Glass + chuỗi bong bóng zikzak)
+
+Code giao diện mới nằm trong `apps/web/src/site/`:
+
+| Thư mục / file | Nội dung |
+| --- | --- |
+| `data/site.js` | Hotline, Zalo, email, địa chỉ, menu, 6 chương trình học và màu của từng chương trình |
+| `data/courses.js` | Nội dung các khoá học. Mỗi mục tự có trang tại `/khoa-hoc/<slug>` |
+| `data/artworks.js` | Tranh dự phòng, chỉ dùng khi chưa kết nối PocketBase |
+| `styles/site.css` | Bộ thiết kế: màu, font, kính, bong bóng, đường zikzak |
+| `components/`, `pages/` | Các thành phần và trang |
+
+Đã chuyển sang giao diện mới: Trang chủ, Tranh học viên, Đăng ký học thử, Mỹ thuật thiếu nhi (online và offline).
+Các trang còn lại vẫn là nội dung cũ, nhưng đã dùng chung header và footer mới.
+
+### Cập nhật tranh học viên (không cần sửa code)
+
+1. Mở trang quản trị PocketBase (`/_/`), vào bảng **artworks**, bấm **New record**.
+2. Ô **images**: chọn hoặc kéo thả **nhiều ảnh cùng lúc** (ví dụ cả lớp sau một buổi học, tối đa 99 ảnh, 15 MB/ảnh).
+3. Chọn **program** (chương trình học). Các ô sau không bắt buộc:
+   - **student_name**, **student_age**, **title**: chỉ điền khi tải ảnh của một học viên.
+   - Tích **featured** để đưa tranh lên trang chủ.
+   - Tích **hidden** để tạm ẩn tranh.
+4. Bấm **Create**. Tranh hiện ngay trên website, PocketBase tự tạo ảnh thu nhỏ.
+
+Trang quản trị dùng được trên điện thoại, nên giáo viên có thể chụp và tải tranh ngay tại lớp.
+
+> Lưu ý: kho tranh và form đăng ký cần PocketBase chạy trên một máy chủ thật, rồi khai báo `VITE_POCKETBASE_URL` trên Vercel.
+> Nếu chưa có máy chủ, website vẫn chạy: tranh lấy từ `data/artworks.js`, còn form gửi qua `VITE_FORM_WEBHOOK_URL` nếu đã khai báo.
+
+### Thêm khoá học mới
+
+Sao chép một mục trong `data/courses.js`, đổi `slug` và nội dung. Trang `/khoa-hoc/<slug>` tự được tạo.
