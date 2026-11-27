@@ -29,6 +29,8 @@
 	position: absolute;
 	display: block;
 	will-change: transform;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 }
 
 .zzl-layer > img {

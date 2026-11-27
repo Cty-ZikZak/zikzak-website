@@ -13,7 +13,7 @@ from scipy import ndimage as ndi
 
 SRC = sys.argv[1]
 OUT = sys.argv[2]
-SCALE = 0.6  # 2000px -> 1200px, đủ nét cho hiển thị tới ~600px @2x
+SCALE = 1.0  # giữ nguyên độ phân giải gốc 2000px cho nét sắc trên màn hình lớn / retina
 
 im = np.array(Image.open(SRC).convert('RGBA'))
 R, G, B, A = [im[..., i].astype(int) for i in range(4)]
@@ -85,7 +85,7 @@ def write(file, rgba, mask, box):
     crop[..., 3] = np.where(mask[y0:y1, x0:x1], crop[..., 3], 0)
     img = Image.fromarray(crop.astype(np.uint8), 'RGBA')
     img = img.resize((round((x1 - x0) * SCALE), round((y1 - y0) * SCALE)), Image.LANCZOS)
-    img.save(f'{OUT}/{file}.webp', 'WEBP', quality=92, method=6)
+    img.save(f'{OUT}/{file}.webp', 'WEBP', quality=95, alpha_quality=100, method=6)
 
 def record(name, box):
     y0, y1, x0, x1 = box
@@ -94,6 +94,10 @@ def record(name, box):
 # 1) Nền xanh tím cố định: toàn bộ khối chữ (giữ mép mềm của logo gốc).
 backdrop = im.copy()
 backdrop[..., 0], backdrop[..., 1], backdrop[..., 2] = 0x19, 0x00, 0xC8
+# Lớp nền: mép mềm, lùi vào ~3px để mép ngoài do chính viền chữ tạo ra (mịn như logo gốc)
+_inside = ndi.distance_transform_edt(word)
+backdrop_soft = backdrop.copy()
+backdrop_soft[..., 3] = (np.clip((_inside - 1.5) / 3.0, 0, 1) * 255).astype(np.uint8)
 # Khoét vùng mắt khỏi nền (trừ phần sát chữ), để khi mắt nhắm không lộ mảng xanh tím phía trên
 eye_parts = np.isin(part, [names.index('eye1') + 1, names.index('eye2') + 1])
 letter_fill = word & ~indigo_m & opaque & ~eye_parts & (part != names.index('mouth') + 1)
@@ -101,7 +105,7 @@ near_letter = ndi.distance_transform_edt(~letter_fill) <= 30
 back_mask = word & ~(eye_parts & ~near_letter)
 back_mask = ndi.binary_opening(back_mask, iterations=2) | (word & ~eye_parts)
 box = bbox(word)
-write('backdrop', backdrop, word, box)  # nền đầy đủ (mắt không còn co lại nên không cần khoét)
+write('backdrop', backdrop_soft, word, box)  # nền đầy đủ (mắt không còn co lại nên không cần khoét)
 record('backdrop', box)
 
 # 2) Mỗi phần tách thành 2 lớp cùng khung:

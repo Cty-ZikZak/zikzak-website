@@ -84,7 +84,7 @@ const TIMELINE = [
 	[2.9, 'face', 'grin'],
 	[2.95, 'giggle'],
 	[4.3, 'face', 'smile'],
-	[4.9, 'winkR'],
+	[4.9, 'squeeze'],
 	[4.9, 'face', 'smirkR'],
 	[5.9, 'face', 'smile'],
 	[6.6, 'blink'],
@@ -92,7 +92,7 @@ const TIMELINE = [
 	[7.45, 'flutter'],
 	[8.5, 'face', 'grin'],
 	[8.55, 'giggle'],
-	[9.8, 'winkL'],
+	[9.8, 'squeeze'],
 	[9.8, 'face', 'smirkL'],
 	[10.8, 'face', 'smile'],
 	[11.4, 'blink2'],
@@ -181,8 +181,8 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			if (type === 'blink') blinkAll(0);
 			if (type === 'blink2') { blinkAll(0); blinkAll(190); }
 			if (type === 'flutter') { blinkAll(0); blinkAll(150); blinkAll(300); }
-			if (type === 'winkR') close(eyes[1], 0.38);
-			if (type === 'winkL') close(eyes[0], 0.38);
+			// nhắm cả 2 mắt cùng lúc lâu hơn một chút (cười híp mắt) — 2 mắt luôn đồng bộ
+			if (type === 'squeeze') eyes.forEach((e) => close(e, 0.34));
 			if (type === 'giggle') giggle();
 		};
 
