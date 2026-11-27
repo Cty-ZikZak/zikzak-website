@@ -41,14 +41,7 @@ const LETTERS = ['z1', 'i', 'k1', 'z2', 'a', 'k2'];
 const EYE_OF = { i: 'eye1', a: 'eye2' };
 const PARTS = [...LETTERS, 'eye1', 'eye2', 'mouth'];
 
-// Khoảng cách từ chân chữ tới tâm mắt (theo % khung của mắt)
-const EYE_PIVOT = Object.fromEntries(Object.entries(EYE_OF).map(([letter, eye]) => {
-	const fx = P[letter].x + P[letter].w / 2;
-	const fy = P[letter].y + P[letter].h * 0.92;
-	const cx = P[eye].x + P[eye].w / 2;
-	const cy = P[eye].y + P[eye].h * 0.88; // mắt khép về phía chân
-	return [eye, [((cx - fx) / P[eye].w) * 100, ((cy - fy) / P[eye].h) * 100]];
-}));
+
 
 const box = (r) => ({
 	left: `${(r.x / W) * 100}%`,
@@ -72,12 +65,12 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
 // Biểu cảm (biên độ nhỏ để viền luôn liền mạch)
 const FACES = {
-	neutral: { eye: { sx: 1, sy: 1, r: 0 }, mouth: { sx: 1, sy: 1, r: 0 } },
-	lookRight: { eye: { sx: 1, sy: 1, r: 7 }, mouth: { sx: 1.02, sy: 1.04, r: -3 } },
-	lookLeft: { eye: { sx: 1, sy: 1, r: -7 }, mouth: { sx: 1.02, sy: 1.04, r: 3 } },
-	happy: { eye: { sx: 1.04, sy: 0.55, r: 0 }, mouth: { sx: 1.08, sy: 1.16, r: 0 } },
-	wink: { eye: { sx: 1, sy: 1, r: 4 }, mouth: { sx: 0.98, sy: 1.06, r: -5 } },
-	surprised: { eye: { sx: 1.06, sy: 1.1, r: 0 }, mouth: { sx: 0.82, sy: 0.86, r: 0 } },
+	neutral: { lid: 0, mouth: { sx: 1, sy: 1, r: 0 } },
+	lookRight: { lid: 0.18, mouth: { sx: 1.02, sy: 1.04, r: -3 } },
+	lookLeft: { lid: 0.18, mouth: { sx: 1.02, sy: 1.04, r: 3 } },
+	happy: { lid: 0.58, mouth: { sx: 1.08, sy: 1.16, r: 0 } },
+	wink: { lid: 0, mouth: { sx: 0.98, sy: 1.06, r: -5 } },
+	surprised: { lid: 0, mouth: { sx: 0.82, sy: 0.86, r: 0 } },
 };
 
 const LOOP = 13;
@@ -138,7 +131,8 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 		const letters = Object.fromEntries(LETTERS.map((id) => [id, {
 			y: spring(0, 170, 13), r: spring(0, 170, 12), sq: spring(0, 360, 18), wasUp: false,
 		}]));
-		const eyes = [0, 1].map(() => ({ sx: spring(1, 700, 34), sy: spring(1, 700, 34), r: spring(0, 200, 18), blinkUntil: 0 }));
+		// Mí mắt: 0 = mở, 1 = nhắm. Tiến dần về đích theo hàm mũ → chớp nhanh, gọn, không nảy
+		const eyes = [0, 1].map(() => ({ lid: { x: 0, t: 0 }, blinkUntil: 0 }));
 		const mouth = { sx: spring(1, 300, 16), sy: spring(1, 300, 15), r: spring(0, 220, 16) };
 		const circles = CIRCLES.map(() => spring(1, 70, 5.5));
 		let face = 'neutral';
@@ -150,9 +144,7 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			face = name;
 			const f = FACES[name];
 			eyes.forEach((e) => {
-				e.sx.t = f.eye.sx;
-				e.r.t = f.eye.r;
-				if (clock >= e.blinkUntil) e.sy.t = f.eye.sy;
+				if (clock >= e.blinkUntil) e.lid.t = f.lid;
 			});
 			mouth.sx.t = f.mouth.sx;
 			mouth.sy.t = f.mouth.sy;
@@ -161,7 +153,7 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 
 		const close = (e, duration) => {
 			e.blinkUntil = clock + duration;
-			e.sy.t = 0.2;
+			e.lid.t = 1;
 		};
 
 		const hop = (id, power = 1, dir = 1) => {
@@ -184,7 +176,7 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 
 		const run = ([, type, arg]) => {
 			if (type === 'face') setFace(arg);
-			if (type === 'blink') eyes.forEach((e) => close(e, 0.12));
+			if (type === 'blink') eyes.forEach((e) => close(e, 0.07));
 			if (type === 'wink') close(eyes[1], 0.45);
 			if (type === 'giggle') giggle();
 		};
@@ -226,9 +218,11 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 				if (eyeName) {
 					const e = eyes[eyeName === 'eye1' ? 0 : 1];
 					const dy = (L.y.x / P[eyeName].h) * 100;
-					// đi theo chữ (quanh chân chữ), rồi chớp / nghiêng quanh tâm mắt
-					const [ex, ey] = EYE_PIVOT[eyeName];
-					setT(eyeName, `translateY(${dy}%) rotate(${L.r.x}deg) scale(${sx}, ${sy}) translate(${ex}%, ${ey}%) rotate(${e.r.x}deg) scale(${e.sx.x}, ${clamp(e.sy.x, 0.18, 1.2)}) translate(${-ex}%, ${-ey}%)`);
+					// mắt đi liền khối với chữ; chớp mắt bằng mí trượt xuống, không bóp méo con mắt
+					setT(eyeName, `translateY(${dy}%) rotate(${L.r.x}deg) scale(${sx}, ${sy})`);
+					const lidEl = els.current[`${eyeName}-lid`];
+					const lid = clamp(e.lid.x, 0, 1);
+					lidEl?.forEach((el) => { el.style.height = `${lid * 86}%`; el.style.opacity = lid > 0.01 ? 1 : 0; });
 				}
 			});
 
@@ -253,11 +247,9 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			eyes.forEach((e) => {
 				if (e.blinkUntil && clock >= e.blinkUntil) {
 					e.blinkUntil = 0;
-					e.sy.t = FACES[face].eye.sy;
+					e.lid.t = FACES[face].lid;
 				}
-				step(e.sx, dt);
-				step(e.sy, dt);
-				step(e.r, dt);
+				e.lid.x += (e.lid.t - e.lid.x) * (1 - Math.exp(-dt * (e.lid.t > e.lid.x ? 55 : 30)));
 			});
 			step(mouth.sx, dt);
 			step(mouth.sy, dt);
@@ -346,6 +338,22 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			</span>
 			{PARTS.map((name) => layer(name, '-o', originOf(name)))}
 			{PARTS.map((name) => layer(name, '-f', originOf(name)))}
+			{['eye1', 'eye2'].map((name) => (
+				// Mí mắt: khối xanh tím cắt đúng theo hình phần trắng của mắt, trượt từ trên xuống
+				<span
+					key={`${name}-lid`}
+					className="zzl-layer zzl-lidbox"
+					ref={reg(name)}
+					style={{
+						...box(P[name]),
+						transformOrigin: originOf(name),
+						WebkitMaskImage: `url(${BASE}/${name}-f.webp)`,
+						maskImage: `url(${BASE}/${name}-f.webp)`,
+					}}
+				>
+					<span className="zzl-lid" ref={reg(`${name}-lid`)} />
+				</span>
+			))}
 			<span className="zzl-layer" ref={reg('tagline')} style={box(P.tagline)}>
 				<img src={`${BASE}/tagline.webp`} alt="" draggable="false" />
 			</span>

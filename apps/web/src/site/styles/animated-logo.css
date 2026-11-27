@@ -38,3 +38,26 @@
 	max-width: none;
 	pointer-events: none;
 }
+
+/* Mí mắt: khối xanh tím trượt từ trên xuống, bị cắt theo hình phần trắng của mắt */
+.zzl-lidbox {
+	-webkit-mask-size: 100% 100%;
+	mask-size: 100% 100%;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	pointer-events: none;
+}
+
+.zzl-lid {
+	position: absolute;
+	left: -10%;
+	right: -10%;
+	top: 0;
+	display: block;
+	height: 0;
+	opacity: 0;
+	background: #1900c8;
+	border-bottom: 3px solid #0067ff;
+	border-radius: 0 0 50% 50% / 0 0 22% 22%;
+	will-change: height;
+}

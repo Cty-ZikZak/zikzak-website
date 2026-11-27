@@ -101,7 +101,7 @@ near_letter = ndi.distance_transform_edt(~letter_fill) <= 30
 back_mask = word & ~(eye_parts & ~near_letter)
 back_mask = ndi.binary_opening(back_mask, iterations=2) | (word & ~eye_parts)
 box = bbox(word)
-write('backdrop', backdrop, back_mask, box)
+write('backdrop', backdrop, word, box)  # nền đầy đủ (mắt không còn co lại nên không cần khoét)
 record('backdrop', box)
 
 # 2) Mỗi phần tách thành 2 lớp cùng khung:
