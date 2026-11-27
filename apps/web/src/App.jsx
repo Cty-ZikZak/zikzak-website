@@ -38,6 +38,7 @@ import CoursePage from '@/site/pages/CoursePage';
 import GalleryPage from '@/site/pages/GalleryPage';
 import RegisterPage from '@/site/pages/RegisterPage';
 import NotFoundPage from '@/site/pages/NotFoundPage';
+import LogoPage from '@/site/pages/LogoPage';
 import '@/components/builder/styles/global.css';
 
 // Đường dẫn cũ chuyển sang trang mới (giữ link đã chia sẻ trên mạng xã hội).
@@ -63,6 +64,7 @@ function App() {
 					<Route path="/khoa-hoc/:slug" element={<CoursePage />} />
 					<Route path="/trien-lam" element={<GalleryPage />} />
 					<Route path="/dang-ky" element={<RegisterPage />} />
+					<Route path="/logo-dong" element={<LogoPage />} />
 					{Object.entries(redirects).map(([from, to]) => (
 						<Route key={from} path={from} element={<Navigate to={to} replace />} />
 					))}
