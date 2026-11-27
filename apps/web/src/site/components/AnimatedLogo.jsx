@@ -101,14 +101,15 @@ const TIMELINE = [
 ];
 
 // Nhịp nhún: sóng trái → phải rồi phải → trái (lặp 5,2 giây)
-const HOP_LOOP = 5.2;
+// Mọi chu kỳ là ước số của 13 giây → cả logo lặp lại liền mạch mỗi 13 giây
+const HOP_LOOP = 6.5;
 const HOPS = [
 	...LETTERS.map((id, j) => [0.3 + j * 0.11, id, 1, 1]),
 	...LETTERS.map((id, j) => [2.9 + (LETTERS.length - 1 - j) * 0.09, id, 0.6, -1]),
 ];
 
 // Hình tròn: lần lượt phóng to rồi thu nhỏ (lặp 4,8 giây)
-const PULSE_LOOP = 4.8;
+const PULSE_LOOP = 6.5;
 const PULSES = [
 	[0.2, 0, 1.07], [1.2, 0, 0.95],
 	[1.0, 1, 1.05], [2.4, 1, 0.96],
@@ -237,7 +238,7 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 
 			circles.forEach((c, i) => setT(`c${i}`, `scale(${c.x})`));
 
-			setT('tagline', `translateY(${Math.sin(clock * 2.2) * 3}%)`);
+			setT('tagline', `translateY(${Math.sin((clock * Math.PI * 2 * 5) / LOOP) * 3}%)`);
 		};
 
 		const simulate = (dt) => {
