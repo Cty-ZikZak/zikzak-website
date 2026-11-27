@@ -2,13 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import '../styles/animated-logo.css';
 
 /*
-  Logo ZikZak chuyển động — mô phỏng lò xo vật lý (có quán tính, nảy, co giãn).
-  - 2 dấu sắc trên chữ i và a là đôi mắt: liếc, chớp, nháy mắt, cười híp, ngạc nhiên.
-  - Nét nối giữa "Zik" và "Zak" là khuôn miệng: cười, cười nắc nẻ, nhếch mép, chữ "o".
-  - Mỗi chữ cái mang theo đường viền xanh tím của chính nó, nhún nảy theo làn sóng.
-  - 3 hình tròn chạy theo quỹ đạo, bị kéo dãn theo hướng chạy và phồng xẹp có nảy.
-  Rê chuột / chạm vào logo: cả logo cười vang.
-  Ảnh từng lớp: public/brand/logo-anim (tạo bằng tools/logo-anim/build.py từ logo gốc 2000 × 1523).
+  Logo ZikZak chuyển động — mô phỏng lò xo (có quán tính, nảy nhẹ).
+  Cấu trúc lớp (từ dưới lên):
+    1. 3 hình tròn (vector) — chỉ phóng to / thu nhỏ có nảy.
+    2. Nền xanh tím cố định của toàn khối chữ.
+    3. Viền xanh tím của từng chữ, mắt, miệng  (…-o.webp)
+    4. Phần màu của từng chữ, mắt, miệng       (…-f.webp)
+  Viền luôn nằm dưới mọi phần màu, nên khi chuyển động không bao giờ bị "xé mảng".
+  Ảnh lớp: public/brand/logo-anim (tạo bằng tools/logo-anim/build.py từ logo gốc 2000 × 1523).
 */
 
 const W = 2000;
@@ -17,17 +18,17 @@ const BASE = `${(import.meta.env.BASE_URL || '/').replace(/\/$/, '')}/brand/logo
 
 // Vị trí từng lớp trên logo gốc (px) — lấy từ public/brand/logo-anim/meta.json
 const P = {
-	z1: { x: 388, y: 329, w: 411, h: 563 },
-	i: { x: 620, y: 457, w: 177, h: 335 },
-	k1: { x: 716, y: 381, w: 350, h: 498 },
-	z2: { x: 980, y: 376, w: 393, h: 506 },
-	a: { x: 1173, y: 477, w: 269, h: 332 },
-	k2: { x: 1366, y: 375, w: 308, h: 478 },
+	backdrop: { x: 388, y: 329, w: 1286, h: 563 },
+	z1: { x: 388, y: 329, w: 382, h: 563 },
+	i: { x: 620, y: 495, w: 147, h: 267 },
+	k1: { x: 740, y: 381, w: 292, h: 498 },
+	z2: { x: 1004, y: 376, w: 344, h: 506 },
+	a: { x: 1192, y: 498, w: 220, h: 304 },
+	k2: { x: 1388, y: 375, w: 286, h: 478 },
 	eye1: { x: 695, y: 338, w: 150, h: 189 },
 	eye2: { x: 1296, y: 335, w: 154, h: 183 },
-	mouth: { x: 883, y: 463, w: 274, h: 277 },
+	mouth: { x: 906, y: 490, w: 224, h: 231 },
 	tagline: { x: 525, y: 899, w: 1010, h: 97 },
-	filler: { x: 415, y: 444, w: 1231, h: 430 },
 };
 
 const CIRCLES = [
@@ -36,60 +37,55 @@ const CIRCLES = [
 	{ id: 'blue', cx: 1646.4, cy: 282.8, r: 173.3, fill: '#0067FF' },
 ];
 
-const union = (a, b) => {
-	const x = Math.min(a.x, b.x);
-	const y = Math.min(a.y, b.y);
+const LETTERS = ['z1', 'i', 'k1', 'z2', 'a', 'k2'];
+const EYE_OF = { i: 'eye1', a: 'eye2' };
+const PARTS = [...LETTERS, 'eye1', 'eye2', 'mouth'];
 
-	return { x, y, w: Math.max(a.x + a.w, b.x + b.w) - x, h: Math.max(a.y + a.h, b.y + b.h) - y };
-};
+// Khoảng cách từ chân chữ tới tâm mắt (theo % khung của mắt)
+const EYE_PIVOT = Object.fromEntries(Object.entries(EYE_OF).map(([letter, eye]) => {
+	const fx = P[letter].x + P[letter].w / 2;
+	const fy = P[letter].y + P[letter].h * 0.92;
+	const cx = P[eye].x + P[eye].w / 2;
+	const cy = P[eye].y + P[eye].h * 0.88; // mắt khép về phía chân
+	return [eye, [((cx - fx) / P[eye].w) * 100, ((cy - fy) / P[eye].h) * 100]];
+}));
 
-const G_I = union(P.i, P.eye1);
-const G_A = union(P.a, P.eye2);
-
-const box = (r, parent = { x: 0, y: 0, w: W, h: H }) => ({
-	left: `${((r.x - parent.x) / parent.w) * 100}%`,
-	top: `${((r.y - parent.y) / parent.h) * 100}%`,
-	width: `${(r.w / parent.w) * 100}%`,
-	height: `${(r.h / parent.h) * 100}%`,
+const box = (r) => ({
+	left: `${(r.x / W) * 100}%`,
+	top: `${(r.y / H) * 100}%`,
+	width: `${(r.w / W) * 100}%`,
+	height: `${(r.h / H) * 100}%`,
 });
 
-// Điểm tựa khi nhún: đáy giữa của chữ (tính theo khung chứa)
-const footOrigin = (letter, g = letter) => (
-	`${((letter.x + letter.w / 2 - g.x) / g.w) * 100}% ${((letter.y + letter.h * 0.9 - g.y) / g.h) * 100}%`
-);
+// Gốc biến đổi tính theo khung của từng lớp (để mắt xoay/nhún quanh chân chữ chứa nó)
+const originIn = (name, px, py) => `${((px - P[name].x) / P[name].w) * 100}% ${((py - P[name].y) / P[name].h) * 100}%`;
+const footOf = (letter) => [P[letter].x + P[letter].w / 2, P[letter].y + P[letter].h * 0.92];
 
-/* ---------- Vật lý lò xo ---------- */
+/* ---------- Lò xo ---------- */
 
 const spring = (value, k, c) => ({ x: value, v: 0, t: value, k, c });
-
-const stepSpring = (s, dt) => {
-	const a = s.k * (s.t - s.x) - s.c * s.v;
-	s.v += a * dt;
+const step = (s, dt) => {
+	s.v += (s.k * (s.t - s.x) - s.c * s.v) * dt;
 	s.x += s.v * dt;
 };
-
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
-const LETTERS = ['z1', 'gi', 'k1', 'z2', 'ga', 'k2'];
-const LETTER_BOX = { z1: P.z1, gi: P.i, k1: P.k1, z2: P.z2, ga: P.a, k2: P.k2 };
-
-// Biểu cảm của mắt và miệng
+// Biểu cảm (biên độ nhỏ để viền luôn liền mạch)
 const FACES = {
-	neutral: { eye: { sx: 1, sy: 1, x: 0, y: 0, r: 0 }, mouth: { sx: 1, sy: 1, x: 0, y: 0, r: 0 } },
-	lookRight: { eye: { sx: 1, sy: 1, x: 7, y: -2, r: 4 }, mouth: { sx: 1.03, sy: 1.04, x: 4, y: 0, r: -3 } },
-	lookLeft: { eye: { sx: 1, sy: 1, x: -7, y: -1, r: -4 }, mouth: { sx: 1.03, sy: 1.04, x: -4, y: 0, r: 3 } },
-	happy: { eye: { sx: 1.1, sy: 0.42, x: 0, y: 2, r: 0 }, mouth: { sx: 1.14, sy: 1.3, x: 0, y: 4, r: 0 } },
-	wink: { eye: { sx: 1, sy: 0.9, x: 4, y: 0, r: 0 }, mouth: { sx: 0.94, sy: 1.08, x: 10, y: 0, r: -9 } },
-	surprised: { eye: { sx: 1.14, sy: 1.24, x: 0, y: 0, r: 0 }, mouth: { sx: 0.66, sy: 0.8, x: 0, y: 6, r: 0 } },
+	neutral: { eye: { sx: 1, sy: 1, r: 0 }, mouth: { sx: 1, sy: 1, r: 0 } },
+	lookRight: { eye: { sx: 1, sy: 1, r: 7 }, mouth: { sx: 1.02, sy: 1.04, r: -3 } },
+	lookLeft: { eye: { sx: 1, sy: 1, r: -7 }, mouth: { sx: 1.02, sy: 1.04, r: 3 } },
+	happy: { eye: { sx: 1.04, sy: 0.55, r: 0 }, mouth: { sx: 1.08, sy: 1.16, r: 0 } },
+	wink: { eye: { sx: 1, sy: 1, r: 4 }, mouth: { sx: 0.98, sy: 1.06, r: -5 } },
+	surprised: { eye: { sx: 1.06, sy: 1.1, r: 0 }, mouth: { sx: 0.82, sy: 0.86, r: 0 } },
 };
 
-// Kịch bản biểu cảm lặp lại mỗi 13 giây
 const LOOP = 13;
 const TIMELINE = [
 	[0.2, 'face', 'neutral'],
 	[1.1, 'face', 'lookRight'],
 	[2.2, 'blink'],
-	[2.7, 'face', 'neutral'],
+	[2.8, 'face', 'neutral'],
 	[3.4, 'face', 'happy'],
 	[3.45, 'giggle'],
 	[5.0, 'face', 'neutral'],
@@ -97,7 +93,6 @@ const TIMELINE = [
 	[6.05, 'wink'],
 	[7.0, 'face', 'neutral'],
 	[8.0, 'face', 'surprised'],
-	[8.0, 'pop'],
 	[9.1, 'face', 'neutral'],
 	[9.5, 'blink'],
 	[9.8, 'blink'],
@@ -106,45 +101,32 @@ const TIMELINE = [
 	[12.3, 'blink'],
 ];
 
-// Nhịp nhún của các chữ (lặp mỗi 5,2 giây, sóng trái → phải rồi phải → trái)
+// Nhịp nhún: sóng trái → phải rồi phải → trái (lặp 5,2 giây)
 const HOP_LOOP = 5.2;
 const HOPS = [
 	...LETTERS.map((id, j) => [0.3 + j * 0.11, id, 1, 1]),
-	...LETTERS.map((id, j) => [2.9 + (LETTERS.length - 1 - j) * 0.09, id, 0.55, -1]),
+	...LETTERS.map((id, j) => [2.9 + (LETTERS.length - 1 - j) * 0.09, id, 0.6, -1]),
 ];
 
-function createState() {
-	const letters = Object.fromEntries(LETTERS.map((id) => [id, {
-		y: spring(0, 150, 9.5),
-		r: spring(0, 130, 8),
-		sq: spring(0, 320, 13),
-		wasUp: false,
-	}]));
-	const eye = () => ({
-		sx: spring(1, 750, 30), sy: spring(1, 750, 30),
-		x: spring(0, 220, 16), y: spring(0, 220, 16), r: spring(0, 200, 16),
-		blinkUntil: 0,
-	});
-	const mouth = {
-		sx: spring(1, 300, 13), sy: spring(1, 300, 12),
-		x: spring(0, 200, 15), y: spring(0, 200, 15), r: spring(0, 220, 14),
-	};
-	const circles = CIRCLES.map((c, i) => ({
-		x: spring(0, 26 + i * 6, 3.6 + i * 0.4),
-		y: spring(0, 26 + i * 6, 3.6 + i * 0.4),
-		s: spring(1, 80 + i * 20, 5 + i),
-		phase: i * 2.1,
-	}));
-
-	return { letters, eyes: [eye(), eye()], mouth, circles, face: 'neutral' };
-}
+// Hình tròn: lần lượt phóng to rồi thu nhỏ (lặp 4,8 giây)
+const PULSE_LOOP = 4.8;
+const PULSES = [
+	[0.2, 0, 1.07], [1.2, 0, 0.95],
+	[1.0, 1, 1.05], [2.4, 1, 0.96],
+	[1.8, 2, 1.12], [2.7, 2, 0.92],
+	[3.6, 0, 1], [3.9, 1, 1], [4.2, 2, 1],
+];
 
 export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine Your Way, Slay Your Mind', interactive = true }) {
 	const rootRef = useRef(null);
-	const refs = useRef({});
-	const kickRef = useRef(null);
+	const els = useRef({});
+	const pokeRef = useRef(null);
 
-	const setRef = (key) => (el) => { refs.current[key] = el; };
+	// Mỗi phần có 2 lớp (-o, -f) dùng chung một biến đổi
+	const reg = (key) => (el) => {
+		if (!els.current[key]) els.current[key] = new Set();
+		if (el) els.current[key].add(el);
+	};
 
 	useEffect(() => {
 		const root = rootRef.current;
@@ -153,72 +135,69 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			return undefined;
 		}
 
-		const st = createState();
-		let raf = 0;
-		let last = 0;
+		const letters = Object.fromEntries(LETTERS.map((id) => [id, {
+			y: spring(0, 170, 13), r: spring(0, 170, 12), sq: spring(0, 360, 18), wasUp: false,
+		}]));
+		const eyes = [0, 1].map(() => ({ sx: spring(1, 700, 34), sy: spring(1, 700, 34), r: spring(0, 200, 18), blinkUntil: 0 }));
+		const mouth = { sx: spring(1, 300, 16), sy: spring(1, 300, 15), r: spring(0, 220, 16) };
+		const circles = CIRCLES.map(() => spring(1, 70, 5.5));
+		let face = 'neutral';
 		let clock = 0;
-		let isVisible = true;
+		let last = 0;
+		let raf = 0;
 
 		const setFace = (name) => {
-			st.face = name;
+			face = name;
 			const f = FACES[name];
-			st.eyes.forEach((e) => {
-				Object.entries(f.eye).forEach(([k, v]) => {
-					if (!(k === 'sy' && clock < e.blinkUntil)) e[k].t = v;
-				});
+			eyes.forEach((e) => {
+				e.sx.t = f.eye.sx;
+				e.r.t = f.eye.r;
+				if (clock >= e.blinkUntil) e.sy.t = f.eye.sy;
 			});
-			Object.entries(f.mouth).forEach(([k, v]) => { st.mouth[k].t = v; });
+			mouth.sx.t = f.mouth.sx;
+			mouth.sy.t = f.mouth.sy;
+			mouth.r.t = f.mouth.r;
 		};
 
-		const closeEye = (e, duration) => {
+		const close = (e, duration) => {
 			e.blinkUntil = clock + duration;
-			e.sy.t = 0.16;
+			e.sy.t = 0.2;
 		};
 
-		// Các chữ lắc cùng chiều theo làn sóng để chữ cạnh nhau không tách khe
 		const hop = (id, power = 1, dir = 1) => {
-			const L = st.letters[id];
-			L.y.v -= 230 * power;
-			L.r.v += 34 * power * dir;
+			letters[id].y.v -= 120 * power;
+			letters[id].r.v += 16 * power * dir;
+		};
+
+		const timers = new Set();
+		const later = (fn, ms) => {
+			const t = setTimeout(() => { timers.delete(t); fn(); }, ms);
+			timers.add(t);
 		};
 
 		const giggle = () => {
-			[0, 0.22, 0.44, 0.66].forEach((d, n) => {
-				setTimeout(() => {
-					st.mouth.sy.v += 4.5 - n * 0.6;
-					st.mouth.sx.v -= 1.2;
-					st.eyes.forEach((e) => { e.sy.v -= 2.5; });
-					LETTERS.forEach((id) => { st.letters[id].y.v -= 70; });
-				}, d * 1000);
-			});
+			[0, 220, 440].forEach((ms, n) => later(() => {
+				mouth.sy.v += 2.2 - n * 0.4;
+				LETTERS.forEach((id) => { letters[id].y.v -= 40; });
+			}, ms));
 		};
 
-		const pop = () => {
-			st.circles.forEach((c, i) => {
-				setTimeout(() => { c.s.v += 1.6; }, i * 120);
-			});
-			st.eyes.forEach((e) => { e.sx.v += 3; e.sy.v += 3; });
-		};
-
-		const run = (event) => {
-			const [, type, arg] = event;
+		const run = ([, type, arg]) => {
 			if (type === 'face') setFace(arg);
-			if (type === 'blink') st.eyes.forEach((e) => closeEye(e, 0.11));
-			if (type === 'wink') closeEye(st.eyes[1], 0.42);
+			if (type === 'blink') eyes.forEach((e) => close(e, 0.12));
+			if (type === 'wink') close(eyes[1], 0.45);
 			if (type === 'giggle') giggle();
-			if (type === 'pop') pop();
 		};
 
-		// Rê chuột / chạm: cả logo cười vang
-		let lastKick = -10;
-		kickRef.current = () => {
-			if (clock - lastKick < 1.2) return;
-			lastKick = clock;
+		let lastPoke = -10;
+		pokeRef.current = () => {
+			if (clock - lastPoke < 1.4) return;
+			lastPoke = clock;
 			setFace('happy');
 			giggle();
-			pop();
-			LETTERS.forEach((id, j) => setTimeout(() => hop(id, 0.9), j * 70));
-			setTimeout(() => setFace('neutral'), 1500);
+			circles.forEach((c, i) => later(() => { c.v += 0.9; }, i * 110));
+			LETTERS.forEach((id, j) => later(() => hop(id, 0.8, 1), j * 70));
+			later(() => setFace('neutral'), 1500);
 		};
 
 		const fire = (list, period, from, to, handler) => {
@@ -226,84 +205,64 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			const b = to % period;
 			list.forEach((ev) => {
 				const t = ev[0];
-				const hit = a <= b ? t > a && t <= b : t > a || t <= b;
-				if (hit) handler(ev);
+				if (a <= b ? t > a && t <= b : t > a || t <= b) handler(ev);
 			});
 		};
 
+		const setT = (key, value) => {
+			els.current[key]?.forEach((el) => { el.style.transform = value; });
+		};
+
 		const apply = () => {
-			const r = refs.current;
-
 			LETTERS.forEach((id) => {
-				const L = st.letters[id];
-				const el = r[id];
-				if (!el) return;
-				const h = LETTER_BOX[id].h;
-				const stretch = clamp(-L.y.v * 0.00035, -0.06, 0.09);
+				const L = letters[id];
+				const stretch = clamp(-L.y.v * 0.0002, -0.025, 0.035);
 				const sy = 1 + stretch - L.sq.x;
-				const sx = 1 - stretch * 0.55 + L.sq.x * 0.75;
-				el.style.transform = `translateY(${(L.y.x / (id === 'gi' ? G_I.h : id === 'ga' ? G_A.h : h)) * 100}%) rotate(${L.r.x}deg) scale(${sx}, ${sy})`;
+				const sx = 1 - stretch * 0.5 + L.sq.x * 0.6;
+				const t = `translateY(${(L.y.x / P[id].h) * 100}%) rotate(${L.r.x}deg) scale(${sx}, ${sy})`;
+				setT(id, t);
+
+				const eyeName = EYE_OF[id];
+				if (eyeName) {
+					const e = eyes[eyeName === 'eye1' ? 0 : 1];
+					const dy = (L.y.x / P[eyeName].h) * 100;
+					// đi theo chữ (quanh chân chữ), rồi chớp / nghiêng quanh tâm mắt
+					const [ex, ey] = EYE_PIVOT[eyeName];
+					setT(eyeName, `translateY(${dy}%) rotate(${L.r.x}deg) scale(${sx}, ${sy}) translate(${ex}%, ${ey}%) rotate(${e.r.x}deg) scale(${e.sx.x}, ${clamp(e.sy.x, 0.18, 1.2)}) translate(${-ex}%, ${-ey}%)`);
+				}
 			});
 
-			st.eyes.forEach((e, i) => {
-				const el = r[`eye${i + 1}`];
-				const p = P[`eye${i + 1}`];
-				if (!el) return;
-				el.style.transform = `translate(${(e.x.x / p.w) * 100}%, ${(e.y.x / p.h) * 100}%) rotate(${e.r.x}deg) scale(${e.sx.x}, ${Math.max(0.12, e.sy.x)})`;
-			});
+			const follow = (letters.k1.y.x + letters.z2.y.x) / 2;
+			setT('mouth', `translateY(${(follow / P.mouth.h) * 100}%) rotate(${mouth.r.x}deg) scale(${mouth.sx.x}, ${mouth.sy.x})`);
 
-			const m = st.mouth;
-			const follow = (st.letters.k1.y.x + st.letters.z2.y.x) / 2;
-			if (r.mouth) {
-				r.mouth.style.transform = `translate(${(m.x.x / P.mouth.w) * 100}%, ${((m.y.x + follow) / P.mouth.h) * 100}%) rotate(${m.r.x}deg) scale(${m.sx.x}, ${m.sy.x})`;
-			}
+			circles.forEach((c, i) => setT(`c${i}`, `scale(${c.x})`));
 
-			st.circles.forEach((c, i) => {
-				const el = r[`c${i}`];
-				if (!el) return;
-				const speed = Math.hypot(c.x.v, c.y.v);
-				const s = clamp(speed * 0.0011, 0, 0.16);
-				const ang = (Math.atan2(c.y.v, c.x.v) * 180) / Math.PI;
-				el.style.transform = `translate(${c.x.x}px, ${c.y.x}px) rotate(${ang}deg) scale(${1 + s}, ${1 - s * 0.8}) rotate(${-ang}deg) scale(${c.s.x})`;
-			});
-
-			if (r.tagline) {
-				const wave = Math.sin(clock * 2.4) * 0.6;
-				r.tagline.style.transform = `translateY(${wave * 6}%) rotate(${wave * 0.6}deg)`;
-			}
+			setT('tagline', `translateY(${Math.sin(clock * 2.2) * 3}%)`);
 		};
 
 		const simulate = (dt) => {
 			LETTERS.forEach((id) => {
-				const L = st.letters[id];
-				stepSpring(L.y, dt);
-				stepSpring(L.r, dt);
-				stepSpring(L.sq, dt);
-				// chạm đất: bẹp xuống theo vận tốc rơi
+				const L = letters[id];
+				step(L.y, dt);
+				step(L.r, dt);
+				step(L.sq, dt);
 				const isUp = L.y.x < -1;
-				if (L.wasUp && !isUp && L.y.v > 0) L.sq.v += L.y.v * 0.006;
+				if (L.wasUp && !isUp && L.y.v > 0) L.sq.v += L.y.v * 0.003;
 				L.wasUp = isUp;
 			});
-
-			st.eyes.forEach((e) => {
+			eyes.forEach((e) => {
 				if (e.blinkUntil && clock >= e.blinkUntil) {
 					e.blinkUntil = 0;
-					e.sy.t = FACES[st.face].eye.sy;
+					e.sy.t = FACES[face].eye.sy;
 				}
-				['sx', 'sy', 'x', 'y', 'r'].forEach((k) => stepSpring(e[k], dt));
+				step(e.sx, dt);
+				step(e.sy, dt);
+				step(e.r, dt);
 			});
-
-			['sx', 'sy', 'x', 'y', 'r'].forEach((k) => stepSpring(st.mouth[k], dt));
-
-			st.circles.forEach((c, i) => {
-				const t = clock * (0.9 + i * 0.25) + c.phase;
-				c.x.t = Math.sin(t * 1.3) * 34 + Math.sin(t * 2.9) * 12;
-				c.y.t = Math.cos(t * 1.1) * 28 + Math.sin(t * 2.3) * 14;
-				c.s.t = 1 + Math.sin(t * 1.7) * 0.045;
-				stepSpring(c.x, dt);
-				stepSpring(c.y, dt);
-				stepSpring(c.s, dt);
-			});
+			step(mouth.sx, dt);
+			step(mouth.sy, dt);
+			step(mouth.r, dt);
+			circles.forEach((c) => step(c, dt));
 		};
 
 		const frame = (now) => {
@@ -315,12 +274,11 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 
 			fire(TIMELINE, LOOP, prev, clock, run);
 			fire(HOPS, HOP_LOOP, prev, clock, ([, id, power, dir]) => hop(id, power, dir));
+			fire(PULSES, PULSE_LOOP, prev, clock, ([, i, scale]) => { circles[i].t = scale; });
 
-			const steps = 3;
-			for (let n = 0; n < steps; n += 1) simulate(dt / steps);
+			for (let n = 0; n < 3; n += 1) simulate(dt / 3);
 			apply();
-
-			raf = isVisible ? requestAnimationFrame(frame) : 0;
+			raf = requestAnimationFrame(frame);
 		};
 
 		const start = () => {
@@ -329,38 +287,44 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 				raf = requestAnimationFrame(frame);
 			}
 		};
-
 		const stop = () => {
 			cancelAnimationFrame(raf);
 			raf = 0;
 		};
 
 		// Chỉ chạy khi logo đang hiện trên màn hình
+		let onScreen = true;
+		const sync = () => (onScreen && !document.hidden ? start() : stop());
 		const io = typeof IntersectionObserver !== 'undefined'
-			? new IntersectionObserver(([entry]) => {
-				isVisible = entry.isIntersecting && !document.hidden;
-				if (isVisible) start(); else stop();
-			})
+			? new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; sync(); })
 			: null;
 		io?.observe(root);
-
-		const onVisibility = () => {
-			isVisible = !document.hidden;
-			if (isVisible) start(); else stop();
-		};
-		document.addEventListener('visibilitychange', onVisibility);
-
+		document.addEventListener('visibilitychange', sync);
 		start();
 
 		return () => {
 			stop();
 			io?.disconnect();
-			document.removeEventListener('visibilitychange', onVisibility);
-			kickRef.current = null;
+			document.removeEventListener('visibilitychange', sync);
+			timers.forEach(clearTimeout);
+			pokeRef.current = null;
 		};
 	}, []);
 
-	const onPoke = () => kickRef.current?.();
+	const poke = () => pokeRef.current?.();
+
+	const layer = (name, suffix, origin) => (
+		<span key={`${name}${suffix}`} className="zzl-layer" ref={reg(name)} style={{ ...box(P[name]), transformOrigin: origin }}>
+			<img src={`${BASE}/${name}${suffix}.webp`} alt="" draggable="false" />
+		</span>
+	);
+
+	const originOf = (name) => {
+		if (LETTERS.includes(name)) return originIn(name, ...footOf(name));
+		if (name === 'eye1') return originIn('eye1', ...footOf('i'));
+		if (name === 'eye2') return originIn('eye2', ...footOf('a'));
+		return '50% 22%'; // miệng: neo ở hai khoé phía trên
+	};
 
 	return (
 		<span
@@ -368,44 +332,23 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			className={`zzl ${className}`}
 			role="img"
 			aria-label={label}
-			onPointerEnter={interactive ? onPoke : undefined}
-			onPointerDown={interactive ? onPoke : undefined}
+			onPointerEnter={interactive ? poke : undefined}
+			onPointerDown={interactive ? poke : undefined}
 		>
 			<svg className="zzl-circles" viewBox={`0 0 ${W} ${H}`} aria-hidden="true" focusable="false">
 				{CIRCLES.map((c, i) => (
-					<circle key={c.id} ref={setRef(`c${i}`)} className="zzl-c" cx={c.cx} cy={c.cy} r={c.r} fill={c.fill} />
+					<circle key={c.id} ref={reg(`c${i}`)} className="zzl-c" cx={c.cx} cy={c.cy} r={c.r} fill={c.fill} />
 				))}
 			</svg>
 
-			<Piece name="filler" />
-			<Piece name="mouth" setRef={setRef} origin="50% 28%" />
-			<Piece name="z1" setRef={setRef} origin={footOrigin(P.z1)} />
-			<Piece name="k1" setRef={setRef} origin={footOrigin(P.k1)} />
-			<Piece name="z2" setRef={setRef} origin={footOrigin(P.z2)} />
-			<Piece name="k2" setRef={setRef} origin={footOrigin(P.k2)} />
-
-			<span className="zzl-layer" ref={setRef('gi')} style={{ ...box(G_I), transformOrigin: footOrigin(P.i, G_I) }}>
-				<Piece name="i" parent={G_I} />
-				<Piece name="eye1" parent={G_I} setRef={setRef} origin="50% 86%" />
+			<span className="zzl-layer" style={box(P.backdrop)}>
+				<img src={`${BASE}/backdrop.webp`} alt="" draggable="false" />
 			</span>
-			<span className="zzl-layer" ref={setRef('ga')} style={{ ...box(G_A), transformOrigin: footOrigin(P.a, G_A) }}>
-				<Piece name="a" parent={G_A} />
-				<Piece name="eye2" parent={G_A} setRef={setRef} origin="50% 86%" />
+			{PARTS.map((name) => layer(name, '-o', originOf(name)))}
+			{PARTS.map((name) => layer(name, '-f', originOf(name)))}
+			<span className="zzl-layer" ref={reg('tagline')} style={box(P.tagline)}>
+				<img src={`${BASE}/tagline.webp`} alt="" draggable="false" />
 			</span>
-
-			<Piece name="tagline" setRef={setRef} origin="50% 50%" />
-		</span>
-	);
-}
-
-function Piece({ name, parent, setRef, origin }) {
-	return (
-		<span
-			className="zzl-layer"
-			ref={setRef ? setRef(name) : undefined}
-			style={{ ...box(P[name], parent), transformOrigin: origin }}
-		>
-			<img src={`${BASE}/${name}.webp`} alt="" draggable="false" />
 		</span>
 	);
 }
