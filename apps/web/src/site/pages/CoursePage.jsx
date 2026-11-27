@@ -13,9 +13,9 @@ import { courseBySlug } from '../data/courses.js';
 import { brandColors, programById } from '../data/site.js';
 
 const FACT_ICONS = [Users, CalendarDays, Clock];
-const FACT_COLORS = [brandColors.orange, brandColors.blue, brandColors.mint];
-const LEVEL_COLORS = [brandColors.orange, brandColors.pink, brandColors.purple];
-const BENEFIT_COLORS = [brandColors.orange, brandColors.cyan, brandColors.pink, brandColors.mint];
+const FACT_COLORS = [brandColors.yellow, brandColors.blue, brandColors.green];
+const LEVEL_COLORS = [brandColors.yellow, brandColors.cyan, brandColors.indigo];
+const BENEFIT_COLORS = [brandColors.yellow, brandColors.cyan, brandColors.cyan, brandColors.green];
 
 const INTEREST_BY_PROGRAM = {
 	'thieu-nhi': 'Mỹ thuật thiếu nhi',
@@ -52,7 +52,7 @@ export default function CoursePage() {
 							<p className="zz-lead">{course.lead}</p>
 							<div className="zz-actions zz-mt">
 								<Link to={`/dang-ky?khoa=${encodeURIComponent(INTEREST_BY_PROGRAM[course.program] || '')}`} className="zz-btn zz-btn--primary">
-									Đăng ký học thử <ArrowRight />
+									Đăng ký ngay <ArrowRight />
 								</Link>
 								{related ? (
 									<Link to={`/khoa-hoc/${related.slug}`} className="zz-btn">Xem {related.badge.toLowerCase()}</Link>

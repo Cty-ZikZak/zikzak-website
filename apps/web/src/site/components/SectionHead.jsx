@@ -1,7 +1,7 @@
 import React from 'react';
 import Reveal from './Reveal.jsx';
 
-const DOTS = ['var(--zz-blue)', 'var(--zz-yellow)', 'var(--zz-pink)'];
+const DOTS = ['var(--zz-blue)', 'var(--zz-yellow)', 'var(--zz-cyan)'];
 
 export function Eyebrow({ children }) {
 	return (

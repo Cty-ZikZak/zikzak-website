@@ -7,14 +7,14 @@ import { cdn } from './site.js';
 */
 
 const files = [
-	['img_0097-oB6wMIKVKiwnK2za.JPG'],
-	['img_1425-E9MCDeks106ha594.JPG'],
-	['img_2585-UXkHqlRSSUypBrfL.JPG'],
-	['img_3435-ACzewxyUlf7CpmCn.JPEG'],
-	['img_5443-hH0AkjcUdOMz9NeX.JPEG'],
-	['img_7239-Rf4DLnWLjToW8Iot.JPG'],
-	['img_9954-Q25Em6qH2kTEg8Qm.JPEG'],
-	['bain-sao-img_2449-Ubj4ZS90Fv0IQgDO.JPG'],
+	['bain-sao-img_2449-Ubj4ZS90Fv0IQgDO.JPG', 'thieu-nhi'],
+	['img_0097-oB6wMIKVKiwnK2za.JPG', 'thieu-nhi'],
+	['img_7239-Rf4DLnWLjToW8Iot.JPG', 'thieu-nhi'],
+	['img_5443-hH0AkjcUdOMz9NeX.JPEG', 'thieu-nhi'],
+	['img_1425-E9MCDeks106ha594.JPG', 'thieu-nhi'],
+	['img_3435-ACzewxyUlf7CpmCn.JPEG', 'thieu-nhi'],
+	['img_9954-Q25Em6qH2kTEg8Qm.JPEG', 'thieu-nhi'],
+	['img_2585-UXkHqlRSSUypBrfL.JPG', 'thieu-nhi'],
 	['img_0973-nIP2VJh9YSoz5MmE.JPG'],
 	['img_4563-RnoA9kBu2wQoDl2W.JPG'],
 	['img_5441-UKD0uZyOlK2QnpSQ.JPEG'],

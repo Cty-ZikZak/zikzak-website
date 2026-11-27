@@ -16,7 +16,7 @@ export default function Logo() {
 	return (
 		<Link to="/" className="zz-logo" aria-label="ZikZak — Trang chủ">
 			{hasImage ? (
-				<img src={contact.logo} alt="ZikZak" width="132" height="44" onError={() => setHasImage(false)} />
+				<img src={contact.logo} alt="ZikZak" width="82" height="52" onError={() => setHasImage(false)} />
 			) : (
 				<Wordmark />
 			)}

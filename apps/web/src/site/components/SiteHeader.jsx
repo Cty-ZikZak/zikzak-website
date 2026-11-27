@@ -43,7 +43,7 @@ export default function SiteHeader() {
 				</nav>
 
 				<Link to="/dang-ky" className="zz-btn zz-btn--primary zz-btn--small zz-header__cta">
-					Đăng ký học thử
+					Đăng ký ngay
 				</Link>
 
 				<button
@@ -73,7 +73,7 @@ export default function SiteHeader() {
 						{item.label}
 					</NavLink>
 				)))}
-				<Link to="/dang-ky" className="zz-btn zz-btn--primary">Đăng ký học thử</Link>
+				<Link to="/dang-ky" className="zz-btn zz-btn--primary">Đăng ký ngay</Link>
 			</nav>
 		</header>
 	);

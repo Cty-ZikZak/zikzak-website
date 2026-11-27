@@ -14,9 +14,9 @@ export function ContactBlock({ defaultInterest = '' }) {
 			<div className="zz-contact__info">
 				<SectionHead
 					align="left"
-					eyebrow="Học thử miễn phí"
+					eyebrow="Liên hệ tư vấn"
 					title="Bắt đầu hành trình sáng tạo cùng ZikZak"
-					lead="Phụ huynh và học viên được tư vấn lộ trình, xếp lớp theo độ tuổi và học thử một buổi trước khi đăng ký."
+					lead="Để lại thông tin hoặc gọi, nhắn Zalo — ZikZak tư vấn lộ trình và xếp lớp phù hợp với độ tuổi, mục tiêu của học viên."
 				/>
 				<div className="zz-contact__list">
 					<a className="zz-contact__row zz-glass" href={`tel:${contact.hotline}`}>
@@ -28,11 +28,11 @@ export function ContactBlock({ defaultInterest = '' }) {
 						<span><small>Zalo</small>Nhắn tin tư vấn nhanh</span>
 					</a>
 					<a className="zz-contact__row zz-glass" href={`mailto:${contact.email}`}>
-						<Orb color="var(--zz-purple)"><Mail /></Orb>
+						<Orb color="var(--zz-indigo)"><Mail /></Orb>
 						<span><small>Email</small>{contact.email}</span>
 					</a>
 					<a className="zz-contact__row zz-glass" href={contact.mapUrl} target="_blank" rel="noreferrer">
-						<Orb color="var(--zz-orange)"><MapPin /></Orb>
+						<Orb color="var(--zz-yellow)"><MapPin /></Orb>
 						<span><small>Cơ sở</small>{contact.address}</span>
 					</a>
 				</div>
@@ -48,7 +48,7 @@ export default function RegisterPage() {
 	const defaultInterest = interestOptions.includes(requested) ? requested : '';
 
 	return (
-		<SiteLayout title="Đăng ký học thử" description="Đăng ký học thử miễn phí tại ZikZak — tư vấn lộ trình mỹ thuật cho bé và học viên mọi lứa tuổi.">
+		<SiteLayout title="Đăng ký tư vấn" description="Đăng ký tư vấn khoá học tại ZikZak — tư vấn lộ trình mỹ thuật cho bé và học viên mọi lứa tuổi.">
 			<section className="zz-section zz-section--tight">
 				<div className="zz-container">
 					<ContactBlock defaultInterest={defaultInterest} />

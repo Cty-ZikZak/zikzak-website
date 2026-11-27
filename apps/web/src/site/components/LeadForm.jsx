@@ -18,7 +18,7 @@ const validate = (values) => {
 	return errors;
 };
 
-export default function LeadForm({ defaultInterest = '', title = 'Đăng ký học thử miễn phí', hint }) {
+export default function LeadForm({ defaultInterest = '', title = 'Đăng ký tư vấn khoá học', hint }) {
 	const [values, setValues] = useState({ ...empty, interest: defaultInterest });
 	const [errors, setErrors] = useState({});
 	const [status, setStatus] = useState('idle');
@@ -54,9 +54,9 @@ export default function LeadForm({ defaultInterest = '', title = 'Đăng ký h�
 	if (status === 'success') {
 		return (
 			<div className="zz-form-success zz-glass" role="status">
-				<Orb size={88} color="var(--zz-mint)" label="✓" />
+				<Orb size={88} color="var(--zz-green)" label="✓" />
 				<h3>Cảm ơn bạn!</h3>
-				<p>ZikZak sẽ gọi lại trong vòng 24 giờ làm việc để tư vấn lớp phù hợp.</p>
+				<p>ZikZak sẽ liên hệ lại để tư vấn lớp phù hợp. Cần gấp? Gọi ngay {contact.hotlineDisplay}.</p>
 				<button type="button" className="zz-btn" onClick={() => setStatus('idle')}>Gửi thêm một đăng ký</button>
 			</div>
 		);

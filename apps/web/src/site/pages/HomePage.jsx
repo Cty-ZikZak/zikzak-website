@@ -5,116 +5,92 @@ import SiteLayout from '../components/SiteLayout.jsx';
 import SectionHead, { Eyebrow } from '../components/SectionHead.jsx';
 import ZigzagChain from '../components/ZigzagChain.jsx';
 import Orb from '../components/Orb.jsx';
+import MascotOrb from '../components/MascotOrb.jsx';
 import Reveal from '../components/Reveal.jsx';
+import Band from '../components/Band.jsx';
 import ProgramChain from '../components/ProgramChain.jsx';
-import ArtworkGrid from '../components/ArtworkGrid.jsx';
+import PhotoChain from '../components/PhotoChain.jsx';
+import AgePicker from '../components/AgePicker.jsx';
+import Testimonials from '../components/Testimonials.jsx';
+import ThemeSong from '../components/ThemeSong.jsx';
+import Faq from '../components/Faq.jsx';
 import { ContactBlock } from './RegisterPage.jsx';
 import { useArtworks } from '../lib/artworks.js';
-import { achievements, brandColors, programs } from '../data/site.js';
+import { achievements, brandColors, contact, faqs, mascots, programs } from '../data/site.js';
 
-const HERO_NODES = [
-	{ x: 16, y: 30, size: 'clamp(96px, 24vw, 176px)', color: brandColors.orange },
-	{ x: 40, y: 72, size: 'clamp(84px, 20vw, 140px)', color: brandColors.cyan },
-	{ x: 62, y: 26, size: 'clamp(104px, 26vw, 190px)', color: brandColors.blue },
-	{ x: 85, y: 66, size: 'clamp(80px, 19vw, 132px)', color: brandColors.pink },
+const HERO_CAST = [
+	{ src: mascots.kidBrush, color: brandColors.yellow, x: 22, y: 36, size: 'clamp(112px, 21vw, 196px)', delay: 0 },
+	{ src: mascots.sketch, color: brandColors.cyan, x: 52, y: 72, size: 'clamp(104px, 19vw, 178px)', delay: 0.8 },
+	{ src: mascots.digital, color: brandColors.green, x: 80, y: 34, size: 'clamp(104px, 19vw, 182px)', delay: 1.6 },
+];
+
+const HERO_DECO = [
+	{ color: brandColors.blue, x: 7, y: 80, size: 'clamp(30px, 5vw, 52px)', delay: 0.4 },
+	{ color: brandColors.indigo, x: 93, y: 76, size: 'clamp(38px, 6vw, 64px)', delay: 1.2 },
+	{ color: brandColors.lime, x: 52, y: 14, size: 'clamp(22px, 3.6vw, 36px)', delay: 2 },
 ];
 
 const REASONS = [
-	{ title: 'Kích thích tưởng tượng', text: 'Bài vẽ theo chủ đề mới mỗi tuần — học viên được tự do kể câu chuyện của riêng mình.', color: brandColors.orange },
-	{ title: 'Lớp nhỏ, kèm sát', text: '6 – 10 học viên mỗi lớp, chia theo độ tuổi. Giáo viên sửa bài cho từng người.', color: brandColors.blue },
-	{ title: 'Nhiều chất liệu', text: 'Sáp màu, màu nước, poster, chì, thủ công, iPad… không bao giờ nhàm chán.', color: brandColors.mint },
-	{ title: 'Thấy rõ tiến bộ', text: 'Lộ trình Starter → Junior → Master và báo cáo tiến độ định kỳ gửi phụ huynh.', color: brandColors.purple },
+	{ title: 'Kích thích tưởng tượng', text: 'Bài vẽ theo chủ đề mới mỗi tuần — học viên được tự do kể câu chuyện của riêng mình.', color: brandColors.yellow },
+	{ title: 'Lớp nhỏ, kèm sát', text: 'Lớp thiếu nhi offline 6 – 10 bé, chia theo độ tuổi. Giáo viên góp ý cho từng bạn.', color: brandColors.blue },
+	{ title: 'Nhiều chất liệu', text: 'Sáp màu, màu nước, màu poster, chì, thủ công, iPad… học không bao giờ nhàm chán.', color: brandColors.green },
+	{ title: 'Thấy rõ tiến bộ', text: 'Lộ trình Starter → Junior → Master; lớp online gửi báo cáo tiến độ cho cha mẹ.', color: brandColors.cyan },
 ];
 
-const parentPrograms = programs.filter((p) => p.audience !== 'students');
-const studentPrograms = programs.filter((p) => p.audience !== 'parents');
-
-function Hero({ artworks }) {
+function Hero() {
 	return (
-		<section className="zz-hero">
-			<div className="zz-container zz-hero__grid">
+		<section className="zz-hero2">
+			<div className="zz-container zz-hero2__grid">
 				<Reveal>
 					<Eyebrow>Shine your way · Slay your mind</Eyebrow>
-					<h1 className="zz-hero__title">
-						Ươm mầm <span className="zz-highlight">sáng tạo</span> cho <span className="zz-zig">mọi</span> lứa tuổi
+					<h1>
+						Ươm mầm <span className="zz-scribble">sáng tạo</span> cho mọi lứa tuổi
 					</h1>
 					<p className="zz-lead">
-						ZikZak là trường mỹ thuật dành cho bé từ 3 tuổi đến người lớn — nơi mọi giới hạn được khai phá
-						và sự sáng tạo luôn được tôn vinh.
+						ZikZak là nơi ươm mầm và phát triển khả năng mỹ thuật cho học viên ở mọi lứa tuổi — nơi mọi
+						giới hạn được khai phá và sự sáng tạo luôn được tôn vinh.
 					</p>
 					<div className="zz-actions">
 						<Link to="/dang-ky" className="zz-btn zz-btn--primary">
-							Đăng ký học thử miễn phí <ArrowRight />
+							Đăng ký tư vấn <ArrowRight />
 						</Link>
 						<Link to="/trien-lam" className="zz-btn">
 							<Images /> Xem tranh học viên
 						</Link>
 					</div>
 					<div className="zz-hero__chips">
-						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.orange }} />Từ 3 tuổi</span>
-						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.blue }} />Online & Offline</span>
-						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.mint }} />Lớp 6 – 10 học viên</span>
+						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.yellow }} />Từ 3 tuổi</span>
+						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.cyan }} />Online & Offline</span>
+						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.green }} />Quận 7, TP.HCM</span>
 					</div>
 				</Reveal>
 
-				<div className="zz-hero__art" aria-hidden="true">
+				<div className="zz-hero2__stage" aria-hidden="true">
 					<ZigzagChain>
-						{HERO_NODES.map((node, i) => (
-							<span key={node.x} className="zz-hero__node" style={{ left: `${node.x}%`, top: `${node.y}%` }}>
-								<Orb size={node.size} color={node.color} image={artworks[i]?.thumb} data-zz-node="" />
+						{HERO_CAST.map((m) => (
+							<span key={m.src} style={{ position: 'absolute', left: `${m.x}%`, top: `${m.y}%` }}>
+								<MascotOrb src={m.src} color={m.color} size={m.size} float delay={m.delay} />
 							</span>
 						))}
 					</ZigzagChain>
-					<Orb className="zz-hero__node" float delay={0.6} size="clamp(34px, 7vw, 54px)" color={brandColors.yellow} style={{ position: 'absolute', left: '36%', top: '14%' }} />
-					<Orb className="zz-hero__node" float delay={1.4} size="clamp(26px, 5vw, 40px)" color={brandColors.mint} style={{ position: 'absolute', left: '90%', top: '22%' }} />
-					<Orb className="zz-hero__node" float delay={2.2} size="clamp(22px, 4vw, 32px)" color={brandColors.purple} style={{ position: 'absolute', left: '10%', top: '78%' }} />
-					<div className="zz-hero__badge zz-glass" style={{ left: '0', bottom: '0' }}>
-						<strong>3 – 99</strong>tuổi đều học được
-					</div>
-					<div className="zz-hero__badge zz-glass" style={{ right: '0', top: '0' }}>
-						<strong>6</strong>chương trình học
-					</div>
+					{HERO_DECO.map((d) => (
+						<Orb
+							key={d.color}
+							className="zz-hero2__deco"
+							float
+							delay={d.delay}
+							size={d.size}
+							color={d.color}
+							style={{ position: 'absolute', left: `${d.x}%`, top: `${d.y}%` }}
+						/>
+					))}
+					<span className="zz-bubble zz-glass" style={{ left: '0%', top: '2%' }}>
+						<i style={{ '--c': brandColors.yellow }} />Hôm nay vẽ gì nhỉ?
+					</span>
+					<span className="zz-bubble zz-glass" style={{ right: '0%', top: '64%' }}>
+						<i style={{ '--c': brandColors.cyan }} />Slay your mind!
+					</span>
 				</div>
-			</div>
-		</section>
-	);
-}
-
-function Paths() {
-	return (
-		<section className="zz-section zz-section--tight">
-			<div className="zz-container zz-paths">
-				<Reveal className="zz-path zz-glass zz-glass--tint" style={{ '--c': brandColors.orange }}>
-					<span className="zz-path__orbs" aria-hidden="true">
-						<Orb size={110} color={brandColors.orange} />
-						<Orb size={70} color={brandColors.yellow} />
-					</span>
-					<Eyebrow>Dành cho phụ huynh</Eyebrow>
-					<h3>Con được vẽ, được kể chuyện, được tự tin</h3>
-					<p>Lớp nhóm nhỏ chia theo tuổi, giáo viên đồng hành sát sao và gửi báo cáo tiến độ cho cha mẹ.</p>
-					<ul>
-						{parentPrograms.map((p) => <li key={p.id} style={{ '--c': p.color }}>{p.name} · {p.age}</li>)}
-					</ul>
-					<div className="zz-actions">
-						<Link to="/khoa-hoc/my-thuat-thieu-nhi-offline" className="zz-btn zz-btn--sun">Lớp mỹ thuật thiếu nhi</Link>
-					</div>
-				</Reveal>
-
-				<Reveal className="zz-path zz-glass zz-glass--tint" delay={120} style={{ '--c': brandColors.blue }}>
-					<span className="zz-path__orbs" aria-hidden="true">
-						<Orb size={110} color={brandColors.blue} />
-						<Orb size={70} color={brandColors.cyan} />
-					</span>
-					<Eyebrow>Dành cho học viên</Eyebrow>
-					<h3>Nâng tay nghề, luyện thi, làm nghề sáng tạo</h3>
-					<p>Từ hình hoạ nền tảng đến thiết kế đồ hoạ và vẽ kỹ thuật số — học bài bản, làm được sản phẩm thật.</p>
-					<ul>
-						{studentPrograms.map((p) => <li key={p.id} style={{ '--c': p.color }}>{p.name} · {p.age}</li>)}
-					</ul>
-					<div className="zz-actions">
-						<Link to="/dang-ky" className="zz-btn zz-btn--primary">Tư vấn lộ trình</Link>
-					</div>
-				</Reveal>
 			</div>
 		</section>
 	);
@@ -123,41 +99,51 @@ function Paths() {
 export default function HomePage() {
 	const { items } = useArtworks();
 	const featured = items.filter((art) => art.featured);
-	const preview = (featured.length >= 8 ? featured : items).slice(0, 8);
+	const photos = (featured.length >= 6 ? featured : items).slice(0, 6);
 
 	return (
 		<SiteLayout description="ZikZak — trường mỹ thuật các lứa tuổi tại Quận 7, TP.HCM: mỹ thuật thiếu nhi, chuyên sâu, luyện thi đại học, thiết kế đồ hoạ, vẽ kỹ thuật số và workshop.">
-			<Hero artworks={preview} />
-			<Paths />
+			<Hero />
+
+			<Band color="var(--zz-yellow)">
+				<div className="zz-container">
+					<SectionHead
+						eyebrow="Chọn lớp theo độ tuổi"
+						title={<>Con bạn <span className="zz-scribble" style={{ '--sc': 'var(--zz-cyan)' }}>bao nhiêu tuổi?</span></>}
+						lead="Chọn độ tuổi để xem chương trình phù hợp — từ bé mầm non đến học sinh ôn thi và người đi làm."
+					/>
+					<AgePicker />
+				</div>
+			</Band>
 
 			<section className="zz-section">
 				<div className="zz-container">
 					<SectionHead
 						eyebrow="Chương trình học"
-						title={<>Sáu con đường, một <span className="zz-highlight">hành trình zikzak</span></>}
-						lead="Mỗi chương trình là một bong bóng màu — chọn điểm bắt đầu phù hợp với độ tuổi và mục tiêu."
+						title={<>Sáu con đường, một hành trình <span className="zz-scribble">zikzak</span></>}
+						lead="Mỗi chương trình có một người bạn đồng hành — chọn điểm bắt đầu phù hợp với độ tuổi và mục tiêu."
 					/>
 					<ProgramChain items={programs} />
 				</div>
 			</section>
 
-			<section className="zz-section">
+			<Band color="var(--zz-cyan)">
 				<div className="zz-container">
 					<SectionHead
 						eyebrow="Triển lãm"
-						title="Tranh của học viên ZikZak"
-						lead="Cập nhật sau mỗi buổi học — phụ huynh có thể theo dõi hành trình sáng tạo của con tại đây."
+						title={<>Tranh của <span className="zz-scribble">học viên</span> ZikZak</>}
+						lead="Cập nhật sau mỗi buổi học — phụ huynh theo dõi hành trình sáng tạo của con ngay tại đây."
 					/>
-					{preview.length ? <ArtworkGrid items={preview} /> : null}
-					<div className="zz-center zz-mt">
+					{photos.length ? <PhotoChain items={photos} /> : null}
+					<div className="zz-center">
 						<Link to="/trien-lam" className="zz-btn zz-btn--primary">Xem toàn bộ triển lãm <ArrowRight /></Link>
 					</div>
 				</div>
-			</section>
+			</Band>
 
 			<section className="zz-section">
 				<div className="zz-container">
-					<SectionHead eyebrow="Vì sao chọn ZikZak" title="Giáo dục sáng tạo, kiến thức thực chất" />
+					<SectionHead eyebrow="Vì sao chọn ZikZak" title={<>Giáo dục sáng tạo, kiến thức <span className="zz-scribble" style={{ '--sc': 'var(--zz-green)' }}>thực chất</span></>} />
 					<div className="zz-features">
 						{REASONS.map((reason, i) => (
 							<Reveal key={reason.title} className="zz-feature zz-glass" delay={i * 80}>
@@ -170,9 +156,25 @@ export default function HomePage() {
 				</div>
 			</section>
 
-			<section className="zz-section zz-section--tight">
+			<Band dark decor>
 				<div className="zz-container">
-					<SectionHead eyebrow="Thành tích" title="Học viên ZikZak toả sáng" />
+					<SectionHead
+						eyebrow="Học viên nói gì"
+						title="Từ lớp vẽ ZikZak đến giảng đường đại học"
+						lead="Những học viên luyện thi tại ZikZak đã đỗ vào các trường mỹ thuật, kiến trúc mơ ước."
+					/>
+					<div className="zz-schools">
+						<span>ĐH Mỹ thuật TP.HCM</span>
+						<span>ĐH Kiến trúc TP.HCM</span>
+						<span>ĐH Văn Lang</span>
+					</div>
+					<Testimonials />
+				</div>
+			</Band>
+
+			<section className="zz-section">
+				<div className="zz-container">
+					<SectionHead eyebrow="Thành tích" title="Học viên nhí ZikZak toả sáng" />
 					<div className="zz-news">
 						{achievements.map((item, i) => (
 							<Reveal key={item.title} className="zz-news__item zz-glass" delay={i * 80}>
@@ -184,21 +186,41 @@ export default function HomePage() {
 				</div>
 			</section>
 
-			<section className="zz-section zz-section--tight">
-				<div className="zz-container">
-					<Reveal className="zz-banner zz-glass zz-glass--tint" style={{ '--c': brandColors.cyan }}>
-						<div>
-							<Eyebrow>Dành cho nhà trường</Eyebrow>
-							<h2>Liên kết giảng dạy Mỹ thuật</h2>
-							<p>ZikZak cung cấp giáo viên và chương trình Mỹ thuật cho các trường Mầm non, Tiểu học, THCS và THPT.</p>
-						</div>
-						<Link to="/hop-dong-lien-ket-giang-day" className="zz-btn zz-btn--primary">Tìm hiểu hợp tác <ArrowRight /></Link>
-						<span className="zz-banner__orbs" aria-hidden="true">
-							<Orb size={180} color={brandColors.cyan} />
-						</span>
+			<Band color="var(--zz-green)">
+				<div className="zz-container zz-song">
+					<SectionHead
+						align="left"
+						eyebrow="Ca khúc chủ đề"
+						title={<>Shine your way <span className="zz-scribble">Slay your mind</span></>}
+						lead="Ca khúc của ZikZak với giai điệu hiện đại, trẻ trung và thông điệp “Toả sáng bản lĩnh – Làm chủ tư duy”: lời cam kết đồng hành trên con đường chinh phục đam mê, khám phá thế giới đầy màu sắc cùng các bạn học viên."
+					/>
+					<Reveal>
+						<ThemeSong videoId={contact.themeSongYoutubeId} />
 					</Reveal>
 				</div>
+			</Band>
+
+			<section className="zz-section">
+				<div className="zz-container zz-faq-wrap">
+					<div>
+						<SectionHead align="left" eyebrow="Phụ huynh hay hỏi" title="Câu hỏi thường gặp" lead="Chưa thấy câu trả lời? Gọi hoặc nhắn Zalo cho ZikZak nhé." />
+						<MascotOrb src={mascots.craft} color={brandColors.yellow} size={180} float />
+					</div>
+					<Faq items={faqs} />
+				</div>
 			</section>
+
+			<Band color="var(--zz-yellow)">
+				<div className="zz-container zz-partner">
+					<MascotOrb src={mascots.teacher} color={brandColors.cyan} size={170} />
+					<div>
+						<Eyebrow>Dành cho nhà trường</Eyebrow>
+						<h2>Liên kết giảng dạy Mỹ thuật</h2>
+						<p>ZikZak hợp tác giảng dạy môn Mỹ thuật tại các trường Mầm non, Tiểu học, THCS và THPT.</p>
+					</div>
+					<Link to="/hop-dong-lien-ket-giang-day" className="zz-btn zz-btn--primary">Tìm hiểu hợp tác <ArrowRight /></Link>
+				</div>
+			</Band>
 
 			<section className="zz-section" id="dang-ky">
 				<div className="zz-container">

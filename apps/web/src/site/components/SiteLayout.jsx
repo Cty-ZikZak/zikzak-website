@@ -6,11 +6,11 @@ import QuickContact from './QuickContact.jsx';
 import '../styles/site.css';
 
 const BLOBS = [
-	{ c: '#176BE0', s: '46vmax', top: '-12%', left: '-10%', d: '34s', x: '6vmax', y: '4vmax' },
-	{ c: '#52E2FF', s: '40vmax', top: '-8%', left: '62%', d: '28s', x: '-5vmax', y: '6vmax' },
-	{ c: '#FFE500', s: '34vmax', top: '58%', left: '-8%', d: '30s', x: '5vmax', y: '-4vmax' },
-	{ c: '#A31FD1', s: '38vmax', top: '62%', left: '70%', d: '36s', x: '-6vmax', y: '-5vmax' },
-	{ c: '#00E6AA', s: '28vmax', top: '30%', left: '38%', d: '40s', x: '4vmax', y: '5vmax' },
+	{ c: '#0A5CF5', s: '46vmax', top: '-12%', left: '-10%', d: '34s', x: '6vmax', y: '4vmax' },
+	{ c: '#00E1FF', s: '40vmax', top: '-8%', left: '62%', d: '28s', x: '-5vmax', y: '6vmax' },
+	{ c: '#FFE600', s: '34vmax', top: '58%', left: '-8%', d: '30s', x: '5vmax', y: '-4vmax' },
+	{ c: '#1A00C8', s: '38vmax', top: '62%', left: '70%', d: '36s', x: '-6vmax', y: '-5vmax' },
+	{ c: '#00E070', s: '28vmax', top: '30%', left: '38%', d: '40s', x: '4vmax', y: '5vmax' },
 ];
 
 const SITE_NAME = 'ZikZak — Mỹ thuật các lứa tuổi';
@@ -26,7 +26,7 @@ export default function SiteLayout({ title, description, children }) {
 				{description ? <meta name="description" content={description} /> : null}
 				<meta property="og:title" content={fullTitle} />
 				{description ? <meta property="og:description" content={description} /> : null}
-				<meta name="theme-color" content="#176BE0" />
+				<meta name="theme-color" content="#1A00C8" />
 			</Helmet>
 
 			<div className="zz-backdrop" aria-hidden="true">

@@ -1,6 +1,6 @@
 import React, { useId, useLayoutEffect, useRef, useState } from 'react';
 
-const COLORS = ['#176BE0', '#52E2FF', '#00E6AA', '#FFE500', '#FF8A1E', '#FF4F8B', '#A31FD1'];
+const COLORS = ['#1A00C8', '#0A5CF5', '#00E1FF', '#00E070', '#FFE600'];
 
 /*
   Nối các bong bóng bên trong bằng một đường zikzak.

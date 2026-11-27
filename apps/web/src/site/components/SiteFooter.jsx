@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Orb from './Orb.jsx';
-import { Wordmark } from './Logo.jsx';
 import { FacebookIcon, TikTokIcon, ZaloIcon } from './icons.jsx';
 import { contact, programs } from '../data/site.js';
 
@@ -11,7 +10,7 @@ export default function SiteFooter() {
 			<div className="zz-container">
 				<div className="zz-footer__panel zz-glass">
 					<div className="zz-footer__brand">
-						<Wordmark />
+						<img src={contact.logo} alt="ZikZak" width="100" height="64" loading="lazy" />
 						<p>
 							Nơi ươm mầm và phát triển khả năng mỹ thuật cho học viên ở mọi lứa tuổi — nơi sự sáng tạo
 							luôn được tôn vinh.
@@ -20,7 +19,7 @@ export default function SiteFooter() {
 							<Orb as="a" href={contact.facebook} target="_blank" rel="noreferrer" color="var(--zz-blue)" aria-label="Facebook ZikZak">
 								<FacebookIcon />
 							</Orb>
-							<Orb as="a" href={contact.tiktok} target="_blank" rel="noreferrer" color="var(--zz-pink)" aria-label="TikTok ZikZak">
+							<Orb as="a" href={contact.tiktok} target="_blank" rel="noreferrer" color="var(--zz-cyan)" aria-label="TikTok ZikZak">
 								<TikTokIcon />
 							</Orb>
 							<Orb as="a" href={contact.zalo} target="_blank" rel="noreferrer" color="var(--zz-cyan)" aria-label="Zalo ZikZak">
@@ -49,6 +48,8 @@ export default function SiteFooter() {
 						</ul>
 					</div>
 				</div>
+
+				<img className="zz-footer__logo" src={contact.logoArt} alt="ZikZak Art" width="560" height="317" loading="lazy" />
 
 				<div className="zz-footer__bottom">
 					<span>© {new Date().getFullYear()} {contact.company}</span>

@@ -18,7 +18,7 @@ const describe = (art) => {
 	return parts.join(' · ');
 };
 
-function Lightbox({ items, index, onClose, onMove }) {
+export function Lightbox({ items, index, onClose, onMove }) {
 	const art = items[index];
 
 	useEffect(() => {
