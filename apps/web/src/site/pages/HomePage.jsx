@@ -37,7 +37,7 @@ function Hero() {
 						<span className="zz-h1__big">Ươm mầm</span>{' '}
 						<span className="zz-h1__hand">
 							<span className="zz-h1__hand-in">
-								<svg className="zz-h1__swash" viewBox="-0.7 0 4.7 1.4" aria-hidden="true" focusable="false">
+								<svg className="zz-h1__swash" viewBox="-0.7 -0.2 4 1.5" aria-hidden="true" focusable="false">
 									<defs>
 										<linearGradient id="zz-swash-g" x1="0" y1="0" x2="0.05" y2="1">
 											<stop offset="0" stopColor="#fff56a" />

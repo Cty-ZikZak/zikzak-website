@@ -10,9 +10,9 @@
 @import '@fontsource/be-vietnam-pro/latin-500.css';
 @import '@fontsource/be-vietnam-pro/latin-700.css';
 @import '@fontsource-variable/bricolage-grotesque/standard.css';
-@import '@fontsource/playball/vietnamese-400.css';
-@import '@fontsource/playball/latin-400.css';
-@import '@fontsource/playball/latin-ext-400.css';
+@import '@fontsource/great-vibes/vietnamese-400.css';
+@import '@fontsource/great-vibes/latin-400.css';
+@import '@fontsource/great-vibes/latin-ext-400.css';
 @import '@fontsource/baloo-2/vietnamese-600.css';
 @import '@fontsource/baloo-2/vietnamese-800.css';
 @import '@fontsource/baloo-2/latin-600.css';
@@ -46,7 +46,7 @@
 	--zz-gutter: clamp(16px, 4vw, 40px);
 	--zz-max: 1200px;
 	--zz-font: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
-	--zz-display: 'Baloo 2', 'Be Vietnam Pro', system-ui, sans-serif;
+	--zz-display: 'Bricolage Grotesque Variable', 'Be Vietnam Pro', system-ui, sans-serif;
 
 	position: relative;
 	min-height: 100vh;
@@ -85,9 +85,10 @@
 .zz :where(h1, h2, h3, h4) {
 	font-family: var(--zz-display);
 	font-weight: 800;
+	font-variation-settings: 'opsz' 72, 'wdth' 100;
 	line-height: 1.1;
-	letter-spacing: -0.01em;
-	color: var(--zz-ink);
+	letter-spacing: -0.03em;
+	color: var(--zz-indigo);
 	margin: 0;
 }
 
@@ -2747,7 +2748,7 @@ select.zz-input {
 
 .zz {
 	--zz-head: 'Bricolage Grotesque Variable', 'Be Vietnam Pro', system-ui, sans-serif;
-	--zz-hand: 'Playball', 'Baloo 2', cursive;
+	--zz-hand: 'Great Vibes', 'Baloo 2', cursive;
 }
 
 /* Quy tắc chống rớt chữ cho mọi đoạn văn và tiêu đề */
@@ -2791,11 +2792,11 @@ select.zz-input {
 /* 2) "sáng tạo": chữ viết tay Playball + nét đầu/cuối kéo dài; mảng vàng phẳng, bóng đổ xanh dương sắc & mảnh, KHÔNG phát sáng */
 .zz-h1__hand {
 	width: max-content;
-	margin: -0.22em 0 0.02em 0.2em;
+	margin: -0.42em 0 -0.1em 0.34em;
 	font-family: var(--zz-hand);
 	font-weight: 400;
 	font-variation-settings: normal;
-	font-size: clamp(54px, 26cqw, 160px);
+	font-size: clamp(60px, 30cqw, 184px);
 	line-height: 1.05;
 	letter-spacing: 0;
 }
@@ -2804,7 +2805,7 @@ select.zz-input {
 	position: relative;
 	z-index: 3;
 	display: block;
-	transform: rotate(-4deg);
+	transform: rotate(-6deg);
 	transform-origin: 6% 85%;
 	filter: drop-shadow(0.02em 0.03em 0 #0a5cf5);
 }
@@ -2815,14 +2816,16 @@ select.zz-input {
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 	color: transparent;
+	/* nét chữ ký rất mảnh: thêm một chút độ dày cùng màu vàng (không phải viền) để không bị hụt khi đổ bóng */
+	-webkit-text-stroke: 0.006em #ffd400;
 }
 
 .zz-h1__swash {
 	position: absolute;
 	left: -0.7em;
-	top: 0;
-	width: 4.7em;
-	height: 1.4em;
+	top: -0.2em;
+	width: 4em;
+	height: 1.5em;
 	overflow: visible;
 	pointer-events: none;
 }
@@ -2830,14 +2833,13 @@ select.zz-input {
 /* 3) "cho mọi lứa tuổi": dòng phụ, nằm dưới chân "sáng tạo" */
 .zz-h1__sub {
 	z-index: 1;
-	margin-top: 0.14em;
-	/* dịch sang phải để đuôi chữ "g" của "sáng" luồn qua khoảng trống giữa "mọi" và "lứa" */
-	margin-left: 0.7em;
-	font-size: clamp(24px, 8.4cqw, 52px);
-	font-weight: 700;
-	letter-spacing: -0.03em;
+	margin-top: 0.1em;
+	margin-left: 0.5em;
+	font-size: clamp(30px, 11.5cqw, 72px);
+	font-weight: 800;
+	letter-spacing: -0.04em;
 	line-height: 1;
-	color: var(--zz-ink);
+	color: inherit;
 }
 
 .zz-hero2__lead {
