@@ -2796,7 +2796,7 @@ select.zz-input {
 	}
 }
 
-/* Chữ "zikzak" nhấn mạnh trong tiêu đề: to hơn, chuyển màu xanh ngọc → vàng như chữ "sáng tạo", bóng xanh dương nhẹ, gạch chân zikzak vàng sáng */
+/* Chữ "ZikZak" nhấn mạnh trong tiêu đề: to hơn, cùng màu xanh với các chữ khác, gạch chân zikzak vàng sáng */
 .zz-title .zz-signature {
 	--sc: #FEF100;
 	display: inline-block;
@@ -2805,18 +2805,10 @@ select.zz-input {
 	font-size: 1.42em;
 	line-height: 1;
 	letter-spacing: -0.04em;
-	background: linear-gradient(90deg, var(--zz-cyan) 8%, var(--zz-green) 50%, var(--zz-yellow) 92%);
-	-webkit-background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
-	color: transparent;
-	filter: drop-shadow(0.02em 0.035em 0.02em rgb(10 30 200 / 70%));
 }
 
 .zz-title .zz-signature::after {
 	bottom: -0.1em;
 	height: 0.26em;
 	z-index: -1;
-	/* nét gạch phải tự có màu: không bị chữ trong suốt làm mất */
-	-webkit-text-fill-color: initial;
 }
