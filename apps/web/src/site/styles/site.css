@@ -587,7 +587,7 @@
 	display: none;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1240px) {
 	.zz-nav,
 	.zz-header__cta {
 		display: none;

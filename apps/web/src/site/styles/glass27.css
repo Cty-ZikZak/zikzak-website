@@ -69,8 +69,11 @@
 
 .zz-header__bar.zz-lg {
 	--lg-r: 999px;
-	min-height: 72px;
-	padding: 8px 10px 8px 22px;
+	/* logo tròn (trái) và nút ba gạch / nút CTA (phải) đều cách mép kính đúng 8px ở mọi phía */
+	--hdr-inset: 8px;
+	--hdr-h: 72px;
+	min-height: var(--hdr-h);
+	padding: var(--hdr-inset);
 	background:
 		linear-gradient(135deg, rgb(255 255 255 / 46%) 0%, rgb(255 255 255 / 16%) 50%, rgb(255 255 255 / 30%) 100%);
 	box-shadow:
@@ -117,10 +120,9 @@
 	--lg-r: 30px;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1240px) {
 	.zz-header__bar.zz-lg {
-		min-height: 64px;
-		padding-left: 18px;
+		--hdr-h: 64px;
 	}
 }
 
@@ -967,7 +969,23 @@ a.zz-tile:hover {
 .zz-slogo {
 	display: block;
 	width: auto;
-	height: 60px;
-	width: 60px;
+	height: calc(var(--hdr-h, 72px) - 2 * var(--hdr-inset, 8px));
+	width: calc(var(--hdr-h, 72px) - 2 * var(--hdr-inset, 8px));
 	overflow: visible;
+}
+
+/* nút ba gạch (điện thoại): hình tròn vừa đúng chiều cao trong khung, cách mép trên/dưới/phải đều 8px */
+.zz-header__bar .zz-burger {
+	width: calc(var(--hdr-h) - 2 * var(--hdr-inset));
+	height: calc(var(--hdr-h) - 2 * var(--hdr-inset));
+	margin-left: auto;
+	margin-right: 0;
+	padding: 0;
+	flex: none;
+}
+
+/* Nút "Học thử miễn phí" trên thanh menu (máy tính): cách mép phải đúng bằng khoảng cách trên/dưới */
+.zz-header__bar .zz-header__cta {
+	min-height: 44px;
+	margin-right: calc((var(--hdr-h) - 44px) / 2 - var(--hdr-inset));
 }
