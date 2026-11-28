@@ -375,3 +375,20 @@ a.zz-tile:hover {
 .zz-hero2 {
 	padding-top: 6px;
 }
+
+/* Điện thoại / máy tính bảng dọc: hero xếp 1 cột, logo động đẩy lên đầu, ngay dưới dải thông tin */
+@media (max-width: 900px) {
+	.zz-hero2__logo {
+		order: -1;
+		max-width: min(430px, 100%);
+		margin: -4px auto 0;
+	}
+
+	.zz-hero2__grid {
+		gap: 8px;
+	}
+
+	.zz-hero2 {
+		padding-top: 0;
+	}
+}
