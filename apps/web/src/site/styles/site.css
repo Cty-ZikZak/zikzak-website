@@ -112,8 +112,9 @@
 	height: var(--s);
 	border-radius: 50%;
 	background: radial-gradient(circle at 35% 35%, var(--c), transparent 68%);
-	filter: blur(30px);
+	/* không dùng filter: blur — gradient đã tự mềm, blur diện tích lớn làm nặng máy yếu */
 	opacity: 0.55;
+	will-change: transform;
 	animation: zz-drift var(--d, 30s) ease-in-out infinite alternate;
 }
 

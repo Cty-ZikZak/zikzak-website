@@ -241,7 +241,7 @@ export const announcements = [
 		title: 'Học thử miễn phí 1 buổi',
 		text: 'Làm quen lớp, giáo viên và cách học trước khi đăng ký.',
 		href: '/dang-ky',
-		icon: 'gift',
+		image: asset('news/hoc-thu.webp'),
 		color: brandColors.yellow,
 	},
 	{
@@ -250,7 +250,7 @@ export const announcements = [
 		title: 'Mầm non 30/4 đạt giải cao hội thi “Bé vẽ sáng tạo cùng Bitex”',
 		text: 'Cấp Thành phố, năm học 2025 – 2026.',
 		href: '/trien-lam',
-		icon: 'trophy',
+		image: asset('news/bitex.webp'),
 		color: brandColors.cyan,
 	},
 	{
@@ -259,7 +259,7 @@ export const announcements = [
 		title: 'Lớp vẽ cho bé 3 – 15 tuổi',
 		text: 'Học offline tại Quận 7 hoặc online tại nhà.',
 		href: '/khoa-hoc/my-thuat-thieu-nhi-offline',
-		icon: 'palette',
+		image: asset('news/thieu-nhi.webp'),
 		color: brandColors.green,
 	},
 	{
@@ -268,7 +268,7 @@ export const announcements = [
 		title: 'Bé họa sĩ nhí Mầm non Nguyễn Thái Bình đạt giải “Nét vẽ xanh”',
 		text: 'Hội thi năm học 2025 – 2026.',
 		href: '/trien-lam',
-		icon: 'trophy',
+		image: asset('news/net-ve-xanh.webp'),
 		color: brandColors.blue,
 	},
 	{
@@ -277,7 +277,7 @@ export const announcements = [
 		title: 'Từ 500.000đ / tháng',
 		text: 'Lớp thiếu nhi 1 buổi/tuần. Nghỉ có phép được học bù.',
 		href: '/khoa-hoc/my-thuat-thieu-nhi-offline',
-		icon: 'sparkles',
+		image: asset('news/hoc-phi.webp'),
 		color: brandColors.lime,
 	},
 	{
@@ -286,7 +286,7 @@ export const announcements = [
 		title: 'Liên kết giảng dạy Mỹ thuật',
 		text: 'Mầm non, Tiểu học, THCS và THPT.',
 		href: '/hop-dong-lien-ket-giang-day',
-		icon: 'school',
+		image: asset('news/truong-hoc.webp'),
 		color: brandColors.indigo,
 	},
 	{
@@ -295,7 +295,7 @@ export const announcements = [
 		title: 'Gọi 0522 552 289',
 		text: 'Hoặc nhắn Zalo để được tư vấn lịch học.',
 		href: 'tel:0522552289',
-		icon: 'phone',
+		image: asset('news/hotline.webp'),
 		color: brandColors.cyan,
 	},
 ];
