@@ -2814,6 +2814,8 @@ select.zz-input {
 	display: block;
 	transform: rotate(-6deg);
 	transform-origin: 50% 70%;
+	/* bóng đổ rất nhẹ, xanh dương đậm, mờ nhẹ */
+	filter: drop-shadow(0.012em 0.02em 0.012em rgb(10 30 200 / 85%));
 }
 
 .zz-h1__hand-text {
