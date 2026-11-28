@@ -1,77 +1,74 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { announcements } from '../data/site.js';
 
 /*
-  Dải thông tin: mỗi thông tin là một ô kính có bong bóng tròn chứa ảnh.
-  Chuyển động mô phỏng vật lý (không dùng CSS animation):
-  - tự chạy sang trái; kéo / lướt / lăn chuột ngang để chạy theo tay, thả ra thì còn đà rồi chậm dần về nhịp tự chạy;
-  - luôn chạy nhẹ nhàng, không có nút dừng; rê chuột thì chậm dần (có đà) để dễ bấm, không khựng đột ngột;
-  - các quả cầu màu phía sau trôi theo hướng lướt với độ trễ riêng, bị kéo dãn và nhoè nhẹ theo tốc độ;
-  - bong bóng ảnh "dẻo": hơi trễ lại và co giãn theo gia tốc.
+  Dải thông tin dạng "bản tin phóng lớn":
+  - các ô thông tin là hình tròn kính, chạy lần lượt sang trái;
+  - ô ở giữa phóng lớn thành một bản tin hình chữ nhật rộng gần hết chiều ngang (ảnh + đoạn tóm tắt),
+    giữ vài giây, rồi chạy sang trái và thu lại thành hình tròn; ô kế bên lại phóng lớn… tuần tự hết các bản tin rồi quay vòng.
+  - bấm vào hình tròn: ô đó chạy ra giữa và phóng lớn; bấm vào bản tin đang mở: chuyển đến trang chi tiết.
+  Chuyển động chạy bằng đồng hồ riêng (requestAnimationFrame), không phụ thuộc CSS animation.
 */
 
-const BASE_SPEED = 46; // px/giây, tốc độ tự chạy (sang trái)
 const COPIES = 3;
+const HOLD = 5.4; // giây giữ bản tin đang mở
+const MOVE = 1.5; // giây chạy sang ô kế tiếp
 
-// f: hệ số theo tốc độ lướt (xa/gần), k: độ nhạy của lò xo (nhỏ = trễ nhiều hơn), l: vị trí ngang ban đầu (0–1)
+// f: hệ số trôi theo vị trí (hiệu ứng chiều sâu); l: vị trí ngang ban đầu (0–1)
 const BACKDROP = [
-	{ c: 'var(--zz-yellow)', s: 'clamp(90px, 9vw, 130px)', t: '-2%', l: 0.1, f: 1.5, k: 3.2 },
-	{ c: 'var(--zz-cyan)', s: 'clamp(120px, 12vw, 170px)', t: '22%', l: 0.5, f: 0.8, k: 2.2 },
-	{ c: 'var(--zz-blue)', s: 'clamp(90px, 9vw, 135px)', t: '28%', l: 0.86, f: 1.1, k: 2.8 },
+	{ c: 'var(--zz-yellow)', s: 'clamp(90px, 9vw, 130px)', t: '-2%', l: 0.1, f: 1.5 },
+	{ c: 'var(--zz-cyan)', s: 'clamp(120px, 12vw, 170px)', t: '22%', l: 0.5, f: 0.8 },
+	{ c: 'var(--zz-blue)', s: 'clamp(90px, 9vw, 135px)', t: '28%', l: 0.86, f: 1.1 },
 ];
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const smooth = (x) => {
+	const v = clamp(x, 0, 1);
+	return v * v * (3 - 2 * v);
+};
+const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - ((-2 * x + 2) ** 3) / 2);
 
-function Tile({ item, hidden }) {
-	const navigate = useNavigate();
-	const [hop, setHop] = useState(false);
-	const timer = useRef(0);
+function Slide({ item, gi, hidden }) {
+	const images = item.images?.length === 3 ? item.images : [item.image, item.image, item.image];
+	const link = item.href?.startsWith('/') ? { as: Link, props: { to: item.href } } : { as: 'a', props: { href: item.href } };
+	const Shell = item.href ? link.as : 'div';
+	const shellProps = item.href ? link.props : {};
 
-	useEffect(() => () => clearTimeout(timer.current), []);
-
-	// bấm chọn: bong bóng nảy lên và phóng to nhẹ trước, rồi mới chuyển trang
-	const onGo = (e) => {
-		if (e.defaultPrevented || e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-		e.preventDefault();
-		setHop(true);
-		clearTimeout(timer.current);
-		timer.current = setTimeout(() => {
-			setHop(false);
-			if (item.href.startsWith('/')) navigate(item.href);
-			else window.location.assign(item.href);
-		}, 380);
-	};
-
-	const content = (
-		<>
-			<span className={`zz-tile__stack${hop ? ' is-hop' : ''}`} style={{ '--c': item.color }} aria-hidden="true">
-				{(item.images?.length === 3 ? item.images : [item.image, item.image, item.image]).map((src, n) => (
-					<span key={n} className={`zz-card zz-card--${['l', 'm', 'r'][n]}`}>
-						<img src={src} alt="" loading="lazy" decoding="async" draggable={false} />
+	return (
+		<li className="zz-slide" data-gi={gi} aria-hidden={hidden ? 'true' : undefined}>
+			<Shell {...shellProps} className="zz-slide__shell zz-lg" tabIndex={hidden ? -1 : undefined} draggable={false}>
+				<span className="zz-tile zz-disc" style={{ '--c': item.color }}>
+					<span className="zz-tile__stack" aria-hidden="true">
+						{images.map((src, n) => (
+							<span key={n} className={`zz-card zz-card--${['l', 'm', 'r'][n]}`}>
+								<img src={src} alt="" loading="lazy" decoding="async" draggable={false} />
+							</span>
+						))}
 					</span>
-				))}
-			</span>
-			<span className="zz-tile__body">
-				<span className="zz-tile__tag">{item.tag}</span>
-				<strong className="zz-tile__title">{item.title}</strong>
-				{item.text ? <span className="zz-tile__text">{item.text}</span> : null}
-			</span>
-			{item.href ? <span className="zz-tile__go" aria-hidden="true"><ArrowRight /></span> : null}
-		</>
+					<span className="zz-tile__body">
+						<span className="zz-tile__tag">{item.tag}</span>
+						<strong className="zz-tile__title">{item.title}</strong>
+					</span>
+					{item.href ? <span className="zz-tile__go" aria-hidden="true"><ArrowRight /></span> : null}
+				</span>
+
+				<span className="zz-news">
+					<span className="zz-news__img">
+						<img src={item.image} alt="" loading="lazy" decoding="async" draggable={false} />
+					</span>
+					<span className="zz-news__body">
+						<span className="zz-news__tag">{item.tag}</span>
+						<strong className="zz-news__title">{item.title}</strong>
+						<span className="zz-news__text">{item.summary || item.text}</span>
+						{item.href ? <span className="zz-news__cta">Xem chi tiết <ArrowRight /></span> : null}
+					</span>
+				</span>
+			</Shell>
+		</li>
 	);
-	const props = { className: 'zz-tile zz-lg', tabIndex: hidden ? -1 : undefined, draggable: false };
-
-	if (!item.href) {
-		return <div {...props}>{content}</div>;
-	}
-
-	if (item.href.startsWith('/')) {
-		return <Link to={item.href} onClick={onGo} {...props}>{content}</Link>;
-	}
-
-	return <a href={item.href} onClick={onGo} {...props}>{content}</a>;
 }
 
 export default function InfoTicker({ items = announcements }) {
@@ -79,192 +76,182 @@ export default function InfoTicker({ items = announcements }) {
 	const viewRef = useRef(null);
 	const trackRef = useRef(null);
 	const bgRef = useRef(null);
+	const goRef = useRef(null);
+	const [current, setCurrent] = useState(0);
+	const [still] = useState(() => Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches));
 
 	useEffect(() => {
 		const root = rootRef.current;
 		const view = viewRef.current;
 		const track = trackRef.current;
 		const bg = bgRef.current;
+		const n = items.length;
 
-		if (!root || !view || !track || !bg || !items.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+		if (still || !root || !view || !track || !bg || n < 2) {
 			return undefined;
 		}
 
-		const st = { x: 0, v: -BASE_SPEED, drag: false, hover: false, focus: false, moved: 0, setW: 0, vw: 0 };
-		const jelly = { x: 0, v: 0 };
-		const orbs = [...bg.children].map((el, i) => ({ el, ...BACKDROP[i], x: 0, vo: 0, q: 0, size: 0 }));
-		let raf = 0;
-		let last = 0;
+		const total = n * COPIES;
+		const parts = [...track.children].map((li) => ({
+			li,
+			shell: li.firstElementChild,
+			disc: li.querySelector('.zz-disc'),
+			news: li.querySelector('.zz-news'),
+			sig: '',
+		}));
+		const orbs = [...bg.children].map((el, i) => ({ el, ...BACKDROP[i], size: 0 }));
+		const e = new Array(n).fill(0); // mức phóng lớn của từng ô (0 = tròn, 1 = bản tin)
+
+		let W = 0;
+		let Wc = 240;
+		let Hc = 240;
+		let Wx = 1000;
+		let Hx = 310;
+		let G = 30;
+		let t = n; // vị trí (số thực) của ô đang ở giữa, tính trên toàn bộ các bản sao
+		let active = 0;
+		let holdT = 0;
+		let mv = null;
+		let pending = null;
+		let paused = false;
 		let onScreen = true;
+		let last = 0;
+		let raf = 0;
+		let started = false;
 
 		const measure = () => {
-			const lis = track.children;
-			st.setW = lis.length > items.length ? lis[items.length].offsetLeft - lis[0].offsetLeft : 0;
-			st.vw = view.clientWidth;
-			orbs.forEach((o) => {
-				o.size = o.el.offsetWidth;
-				if (!o.placed) {
-					o.x = o.l * st.vw;
-					o.placed = true;
-				}
-			});
+			W = view.clientWidth;
+			const disc = parts[0].disc;
+			Wc = disc.offsetWidth || 240;
+			Hc = disc.offsetHeight || Wc;
+			const narrow = W <= 700;
+			Wx = Math.min(1120, W - (narrow ? 32 : 56));
+			Hx = narrow ? 470 : 310;
+			G = W > 640 ? 30 : 22;
+			track.style.height = `${Hx}px`;
+			orbs.forEach((o) => { o.size = o.el.offsetWidth; });
+			started = false; // buộc vẽ lại
 		};
 
-		const wrap = () => {
-			if (st.setW > 0) {
-				st.x %= st.setW;
-				if (st.x > 0) st.x -= st.setW;
-			}
+		const startMove = (g) => {
+			const toKey = ((g % n) + n) % n;
+			const fromKey = ((Math.round(t) % n) + n) % n;
+
+			if (toKey === fromKey && Math.round(g) === Math.round(t)) return;
+
+			mv = {
+				t0: t,
+				g,
+				fromKey: active,
+				toKey,
+				ef0: e[active],
+				et0: e[toKey],
+				p: 0,
+				dur: MOVE + Math.min(1.2, Math.max(0, Math.abs(g - t) - 1) * 0.22),
+			};
 		};
 
-		/* ----- Kéo bằng chuột / ngón tay (có đà khi thả) ----- */
-		let pid = null;
-		let startX = 0;
-		let startY = 0;
-		let lastX = 0;
-		let lastT = 0;
-		let moved = false;
-
-		const onDown = (e) => {
-			if (e.pointerType === 'mouse' && e.button !== 0) return;
-			pid = e.pointerId;
-			startX = e.clientX;
-			startY = e.clientY;
-			lastX = e.clientX;
-			lastT = performance.now();
-			moved = false;
-			st.moved = 0;
-		};
-
-		const onMove = (e) => {
-			if (e.pointerId !== pid) return;
-			const dx = e.clientX - lastX;
-			const now = performance.now();
-
-			if (!moved) {
-				const adx = Math.abs(e.clientX - startX);
-				const ady = Math.abs(e.clientY - startY);
-				if (adx < 6 || ady > adx) return; // chưa đủ coi là kéo ngang (cuộn dọc để trình duyệt xử lý)
-				moved = true;
-				st.drag = true;
-				root.classList.add('is-dragging');
+		const goTo = (g) => {
+			if (mv) {
+				pending = g;
+				return;
 			}
 
-			const dt = Math.max(1, now - lastT) / 1000;
-			st.x += dx;
-			// vận tốc làm mượt (EMA) để thả tay có đà tự nhiên
-			st.v = st.v * 0.6 + (dx / dt) * 0.4;
-			st.moved += Math.abs(dx);
-			lastX = e.clientX;
-			lastT = now;
+			holdT = 0;
+			startMove(g);
 		};
 
-		const onUp = (e) => {
-			if (e.pointerId !== pid) return;
-			pid = null;
-
-			if (moved) {
-				// ngón tay dừng trước khi nhả → không có đà
-				if (performance.now() - lastT > 90) st.v *= 0.2;
-				st.v = clamp(st.v, -4200, 4200);
-				st.drag = false;
-				root.classList.remove('is-dragging');
-			}
-		};
-
-		// Chặn bấm nhầm vào liên kết sau khi vừa kéo
-		const onClickCapture = (e) => {
-			if (st.moved > 6) {
-				e.preventDefault();
-				e.stopPropagation();
-				st.moved = 0;
-			}
-		};
-
-		const onWheel = (e) => {
-			if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
-			e.preventDefault();
-			st.x -= e.deltaX;
-			st.v = clamp(st.v - e.deltaX * 4, -4200, 4200);
-		};
-
-		const onEnter = (e) => { if (e.pointerType === 'mouse') st.hover = true; };
-		const onLeave = () => { st.hover = false; };
-		const onFocusIn = (e) => {
-			st.focus = true;
-			view.scrollLeft = 0;
-			const li = e.target.closest?.('li');
-			if (li && st.setW) {
-				st.v = 0;
-				st.x = -(li.offsetLeft - 48);
-				wrap();
-			}
-		};
-		const onFocusOut = () => { st.focus = false; };
-		const noDrag = (e) => e.preventDefault();
-
-		/* ----- Vòng lặp vật lý ----- */
-		// Bước tính cố định nhỏ: máy chậm (khung hình trễ) vẫn chạy đúng thời gian thật, không bị "quay chậm"
-		const simulate = (dt) => {
-			// luôn chạy; rê chuột → chậm còn 1/4 (dễ bấm); đang focus bằng bàn phím → đứng yên để đọc
-			let target = -BASE_SPEED;
-			if (st.focus) target = 0;
-			else if (st.hover) target = -BASE_SPEED * 0.25;
-
-			if (!st.drag) {
-				// về nhịp tự chạy theo hàm mũ → còn đà, chậm dần mượt, không giật
-				const rate = st.hover || st.focus ? 2.4 : 1.35;
-				st.v += (target - st.v) * (1 - Math.exp(-dt * rate));
-				st.x += st.v * dt;
-			}
-
-			wrap();
-
-			// Bong bóng ảnh "dẻo": trễ lại và co giãn theo vận tốc vượt nhịp tự chạy
-			const extra = st.v - target;
-			const lagT = clamp(-extra * 0.006, -11, 11); // nhỏ hơn khoảng hở giữa bong bóng và chữ → không đè lên chữ
-			jelly.v += (140 * (lagT - jelly.x) - 15 * jelly.v) * dt;
-			jelly.x += jelly.v * dt;
-			jelly.extra = extra;
-
-			// Quả cầu phía sau: trôi theo hướng lướt, mỗi quả một độ trễ riêng
-			orbs.forEach((o) => {
-				o.vo += (st.v * o.f - o.vo) * (1 - Math.exp(-dt * o.k));
-				o.x += o.vo * dt;
-			});
+		goRef.current = (key) => {
+			const cur = Math.round(t);
+			let d = (((key - cur) % n) + n) % n;
+			if (d > n / 2) d -= n;
+			goTo(cur + d);
 		};
 
 		const render = () => {
-			track.style.transform = `translate3d(${st.x.toFixed(2)}px,0,0)`;
-			const stretch = clamp(Math.abs(jelly.extra || 0) / 9000, 0, 0.1);
-			track.style.setProperty('--lag', `${jelly.x.toFixed(2)}px`);
-			track.style.setProperty('--jx', (1 + stretch).toFixed(3));
-			track.style.setProperty('--jy', (1 - stretch * 0.7).toFixed(3));
+			const lefts = new Array(total);
+			const ws = new Array(total);
+			const hs = new Array(total);
+			let x = 0;
 
-			// nhoè + kéo dãn theo tốc độ: nhanh thì nhoè một chút cho dễ nhìn chữ, đứng yên / chạy chậm thì nét
-			orbs.forEach((o) => {
-				const span = st.vw + o.size * 2;
-				const px = (((o.x % span) + span) % span) - o.size;
-				const sp = Math.abs(o.vo);
-				const stretch2 = clamp(sp / 3400, 0, 0.2);
-				const blur = Math.round(clamp((sp - 70) / 90, 0, 8) * 4) / 4;
-				o.el.style.transform = `translate3d(${px.toFixed(1)}px,0,0) scale(${(1 + stretch2).toFixed(3)},${(1 - stretch2 * 0.6).toFixed(3)})`;
-				if (blur !== o.q) {
-					o.el.style.filter = blur ? `blur(${blur}px)` : 'none';
-					o.q = blur;
+			for (let i = 0; i < total; i += 1) {
+				const ek = e[i % n];
+				ws[i] = lerp(Wc, Wx, ek);
+				hs[i] = lerp(Hc, Hx, ek);
+				lefts[i] = x;
+				x += ws[i] + G;
+			}
+
+			const i0 = clamp(Math.floor(t), 0, total - 2);
+			const fr = t - i0;
+			const cx = lerp(lefts[i0] + ws[i0] / 2, lefts[i0 + 1] + ws[i0 + 1] / 2, fr);
+			const X = W / 2 - cx;
+
+			for (let i = 0; i < total; i += 1) {
+				const p = parts[i];
+				const ek = e[i % n];
+				const r = Math.min(lerp(Hc / 2, 34, smooth(ek)), hs[i] / 2);
+				const sig = `${(X + lefts[i]).toFixed(1)}|${ws[i].toFixed(1)}|${hs[i].toFixed(1)}|${r.toFixed(1)}`;
+
+				if (sig !== p.sig || !started) {
+					p.sig = sig;
+					p.li.style.width = `${ws[i].toFixed(1)}px`;
+					p.li.style.height = `${hs[i].toFixed(1)}px`;
+					p.li.style.transform = `translate3d(${(X + lefts[i]).toFixed(1)}px,${((Hx - hs[i]) / 2).toFixed(1)}px,0)`;
+					p.shell.style.setProperty('--r', `${r.toFixed(1)}px`);
+					p.shell.style.setProperty('--e', ek.toFixed(3));
+					p.disc.style.opacity = (1 - smooth(ek / 0.42)).toFixed(3);
+					p.news.style.opacity = smooth((ek - 0.55) / 0.45).toFixed(3);
+					p.news.style.visibility = ek > 0.5 ? 'visible' : 'hidden';
 				}
+			}
+
+			started = true;
+
+			orbs.forEach((o) => {
+				const span = W + o.size * 2;
+				const px = ((((o.l * W - t * 260 * o.f) % span) + span) % span) - o.size;
+				o.el.style.transform = `translate3d(${px.toFixed(1)}px,0,0)`;
 			});
 		};
 
 		const frame = (now) => {
 			if (!last) last = now;
-			let remaining = Math.min(0.3, (now - last) / 1000);
+			const dt = Math.min(0.1, (now - last) / 1000);
 			last = now;
 
-			while (remaining > 0.0001) {
-				const h = Math.min(remaining, 1 / 60);
-				simulate(h);
-				remaining -= h;
+			if (mv) {
+				mv.p = Math.min(1, mv.p + dt / mv.dur);
+				const p = mv.p;
+				t = lerp(mv.t0, mv.g, ease(p));
+				e[mv.fromKey] = mv.ef0 * (1 - smooth(p / 0.55));
+				e[mv.toKey] = lerp(mv.et0, 1, smooth((p - 0.45) / 0.55));
+
+				if (p >= 1) {
+					t = mv.g;
+
+					while (t >= 2 * n) t -= n;
+					while (t < n) t += n;
+
+					active = mv.toKey;
+					mv = null;
+					holdT = 0;
+					setCurrent(active);
+
+					if (pending !== null) {
+						const g = pending;
+						pending = null;
+						startMove(Math.round(t) + (g - Math.round(t)));
+					}
+				}
+			} else {
+				e[active] += (1 - e[active]) * (1 - Math.exp(-dt * 5));
+
+				if (!paused) holdT += dt;
+
+				if (holdT >= HOLD && e[active] > 0.96) {
+					startMove(Math.round(t) + 1);
+				}
 			}
 
 			render();
@@ -286,19 +273,72 @@ export default function InfoTicker({ items = announcements }) {
 			}
 		};
 
+		/* ----- tương tác ----- */
+		let downX = 0;
+		let downY = 0;
+		let swiped = false;
+
+		const onDown = (e2) => {
+			downX = e2.clientX;
+			downY = e2.clientY;
+			swiped = false;
+		};
+
+		const onUp = (e2) => {
+			const dx = e2.clientX - downX;
+			const dy = e2.clientY - downY;
+
+			if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+				swiped = true;
+				goTo(Math.round(t) + (dx < 0 ? 1 : -1));
+			}
+		};
+
+		const onClick = (e2) => {
+			if (swiped) {
+				e2.preventDefault();
+				e2.stopPropagation();
+				swiped = false;
+				return;
+			}
+
+			const li = e2.target.closest?.('li[data-gi]');
+			if (!li) return;
+
+			const gi = Number(li.dataset.gi);
+			const key = gi % n;
+			const target = mv ? mv.toKey : active;
+
+			// bản tin đang mở: bấm để vào trang chi tiết; hình tròn: chạy ra giữa và phóng lớn
+			if (key === target && e[key] > 0.6) return;
+
+			e2.preventDefault();
+			goTo(gi);
+		};
+
+		const onEnter = (e2) => { if (e2.pointerType === 'mouse') paused = true; };
+		const onLeave = () => { paused = false; };
+		const onFocusIn = (e2) => {
+			paused = true;
+			const li = e2.target.closest?.('li[data-gi]');
+
+			if (li) {
+				const gi = Number(li.dataset.gi);
+				if (gi % n !== (mv ? mv.toKey : active)) goTo(gi);
+			}
+		};
+		const onFocusOut = () => { paused = false; };
+		const noDrag = (e2) => e2.preventDefault();
+
 		measure();
 		const ro = new ResizeObserver(measure);
 		ro.observe(view);
-		ro.observe(track);
 		const io = new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; sync(); });
 		io.observe(root);
 
 		view.addEventListener('pointerdown', onDown);
-		window.addEventListener('pointermove', onMove);
-		window.addEventListener('pointerup', onUp);
-		window.addEventListener('pointercancel', onUp);
-		view.addEventListener('click', onClickCapture, true);
-		view.addEventListener('wheel', onWheel, { passive: false });
+		view.addEventListener('pointerup', onUp);
+		view.addEventListener('click', onClick, true);
 		view.addEventListener('pointerenter', onEnter);
 		view.addEventListener('pointerleave', onLeave);
 		view.addEventListener('focusin', onFocusIn);
@@ -312,28 +352,26 @@ export default function InfoTicker({ items = announcements }) {
 			ro.disconnect();
 			io.disconnect();
 			view.removeEventListener('pointerdown', onDown);
-			window.removeEventListener('pointermove', onMove);
-			window.removeEventListener('pointerup', onUp);
-			window.removeEventListener('pointercancel', onUp);
-			view.removeEventListener('click', onClickCapture, true);
-			view.removeEventListener('wheel', onWheel);
+			view.removeEventListener('pointerup', onUp);
+			view.removeEventListener('click', onClick, true);
 			view.removeEventListener('pointerenter', onEnter);
 			view.removeEventListener('pointerleave', onLeave);
 			view.removeEventListener('focusin', onFocusIn);
 			view.removeEventListener('focusout', onFocusOut);
 			view.removeEventListener('dragstart', noDrag);
 			document.removeEventListener('visibilitychange', sync);
+			goRef.current = null;
 		};
-	}, [items]);
+	}, [items, still]);
 
 	if (!items.length) {
 		return null;
 	}
 
-	const sets = Array.from({ length: COPIES }, (_, c) => items.map((item) => ({ item, hidden: c > 0, key: `${item.id}-${c}` }))).flat();
+	const sets = Array.from({ length: still ? 1 : COPIES }, (_, c) => items.map((item, k) => ({ item, hidden: c > 0, gi: c * items.length + k, key: `${item.id}-${c}` }))).flat();
 
 	return (
-		<section ref={rootRef} className="zz-ticker" aria-label="Thông tin nổi bật">
+		<section ref={rootRef} className={`zz-ticker${still ? ' zz-ticker--still' : ''}`} aria-label="Thông tin nổi bật">
 			<div className="zz-ticker__bg" ref={bgRef} aria-hidden="true">
 				{BACKDROP.map((b) => (
 					<i key={b.c} style={{ '--c': b.c, '--s': b.s, '--t': b.t }} />
@@ -342,13 +380,27 @@ export default function InfoTicker({ items = announcements }) {
 
 			<div className="zz-ticker__viewport" ref={viewRef}>
 				<ul className="zz-ticker__track" ref={trackRef}>
-					{sets.map(({ item, hidden, key }) => (
-						<li key={key} aria-hidden={hidden ? 'true' : undefined}>
-							<Tile item={item} hidden={hidden} />
-						</li>
+					{sets.map(({ item, hidden, gi, key }) => (
+						<Slide key={key} item={item} gi={gi} hidden={hidden} />
 					))}
 				</ul>
 			</div>
+
+			{still ? null : (
+				<div className="zz-ticker__dots" role="tablist" aria-label="Chọn bản tin">
+					{items.map((item, k) => (
+						<button
+							key={item.id}
+							type="button"
+							role="tab"
+							aria-selected={k === current}
+							aria-label={item.title}
+							className={k === current ? 'is-on' : ''}
+							onClick={() => goRef.current?.(k)}
+						/>
+					))}
+				</div>
+			)}
 		</section>
 	);
 }

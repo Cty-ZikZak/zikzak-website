@@ -318,16 +318,27 @@ const cardPool = [
 	asset('news/hoc-thu.webp'),
 ];
 
+// Đoạn tóm tắt hiển thị trên bản tin khi ô thông tin phóng lớn (có thể sửa; hoặc thêm `summary` ngay trong mục)
+const summaries = {
+	'hoc-thu': 'Bé được trải nghiệm một buổi học thật tại lớp: làm quen giáo viên, bạn bè và cách học trước khi quyết định đăng ký. Hoàn toàn miễn phí.',
+	bitex: 'Học sinh Mầm non 30/4 đạt giải cao tại hội thi “Bé vẽ sáng tạo cùng Bitex” cấp Thành phố, năm học 2025 – 2026, với những bức tranh giàu màu sắc và trí tưởng tượng.',
+	'thieu-nhi': 'Lớp mỹ thuật cho bé từ 3 đến 15 tuổi, học offline tại Quận 7 hoặc online tại nhà. Bài vẽ theo chủ đề mới mỗi tuần, bé được tự do kể câu chuyện của riêng mình.',
+	'net-ve-xanh': 'Bé họa sĩ nhí Mầm non Nguyễn Thái Bình đạt giải tại hội thi “Nét vẽ xanh”, năm học 2025 – 2026. Chúc mừng các bạn nhỏ và quý thầy cô!',
+	'hoc-phi': 'Lớp thiếu nhi học 1 buổi mỗi tuần, học phí từ 500.000đ/tháng. Học viên nghỉ có phép được học bù.',
+	'truong-hoc': 'ZikZak liên kết giảng dạy môn Mỹ thuật cho các cấp học: Mầm non, Tiểu học, THCS và THPT, với chương trình phù hợp từng độ tuổi.',
+	hotline: 'Gọi 0522 552 289 hoặc nhắn Zalo để được tư vấn lịch học và lớp phù hợp với bé.',
+};
+
 export const announcements = announcementList.map((item, i) => {
 	if (item.images?.length) {
-		return item;
+		return { ...item, summary: item.summary || summaries[item.id] || item.text };
 	}
 
 	const others = cardPool.filter((src) => src !== item.image);
 	const left = others[(i * 2 + 1) % others.length];
 	const right = others.filter((src) => src !== left)[(i * 3 + 4) % (others.length - 1)];
 
-	return { ...item, images: [left, item.image, right] };
+	return { ...item, summary: item.summary || summaries[item.id] || item.text, images: [left, item.image, right] };
 });
 
 export const nav = [
