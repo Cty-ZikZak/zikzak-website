@@ -2820,7 +2820,10 @@ select.zz-input {
 	position: relative;
 	display: inline-block;
 	/* chuyển màu giống chữ "câu chuyện" (--zz-zigzag); nét dày nhẹ bằng in đậm giả của trình duyệt, bo tròn mịn */
-	font-weight: 700;
+	font-weight: 400;
+	/* các nét nối của Ballet rất mảnh: thu sát chữ để các nét chạm và liền mạch */
+	letter-spacing: -0.02em;
+	-webkit-text-stroke: 0.022em transparent;
 	/* chừa chỗ cho nét kéo dài của font (đầu chữ s, đuôi chữ g) để màu không bị cắt */
 	padding: 0.2em 0.3em 0.62em 0.3em;
 	margin: -0.2em -0.3em -0.62em;
@@ -2869,6 +2872,14 @@ select.zz-input {
 	letter-spacing: -0.04em;
 	line-height: 1;
 	color: inherit;
+}
+
+/* điện thoại: dòng phụ nhỏ hơn một chút để luôn nằm gọn trong khung, không bị cắt mép */
+@media (max-width: 640px) {
+	.zz-h1__sub {
+		font-size: 14.2cqw;
+		margin-left: 0;
+	}
 }
 
 .zz-hero2__lead {
