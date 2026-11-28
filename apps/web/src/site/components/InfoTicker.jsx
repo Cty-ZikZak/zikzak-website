@@ -200,9 +200,9 @@ export default function InfoTicker({ items = announcements }) {
 					p.li.style.transform = `translate3d(${(X + lefts[i]).toFixed(1)}px,${((Hx - hs[i]) / 2).toFixed(1)}px,0)`;
 					p.shell.style.setProperty('--r', `${r.toFixed(1)}px`);
 					p.shell.style.setProperty('--e', ek.toFixed(3));
-					p.disc.style.opacity = (1 - smooth(ek / 0.42)).toFixed(3);
-					p.news.style.opacity = smooth((ek - 0.55) / 0.45).toFixed(3);
-					p.news.style.visibility = ek > 0.5 ? 'visible' : 'hidden';
+					p.disc.style.opacity = (1 - smooth(ek / 0.16)).toFixed(3);
+					p.news.style.opacity = smooth((ek - 0.8) / 0.2).toFixed(3);
+					p.news.style.visibility = ek > 0.78 ? 'visible' : 'hidden';
 				}
 			}
 
