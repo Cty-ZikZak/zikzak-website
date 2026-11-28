@@ -160,7 +160,7 @@
 	z-index: 1;
 	overflow: hidden;
 	/* đáy rộng + mặt nạ mờ dần: bóng đổ của các ô tan hẳn trước mép khung, không còn đường cắt ngang */
-	padding: 78px 0 64px;
+	padding: 54px 0 64px;
 	-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0, #000 calc(100% - 44px), transparent 100%);
 	mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0, #000 calc(100% - 44px), transparent 100%);
 	-webkit-mask-composite: source-in;
@@ -624,7 +624,7 @@ a.zz-tile:hover {
 	flex: none;
 	width: 170px;
 	height: 112px;
-	margin: -52px 0 0;
+	margin: -22px 0 0;
 	z-index: 2;
 	/* hơi trễ và co giãn theo đà lướt của dải */
 	transform: translateX(var(--lag, 0px)) scale(var(--jx, 1), var(--jy, 1));
@@ -719,7 +719,7 @@ a.zz-tile:hover {
 	.zz-tile__stack {
 		width: 150px;
 		height: 100px;
-		margin-top: -46px;
+		margin-top: -18px;
 	}
 
 	.zz-card {
