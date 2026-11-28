@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import SiteLayout from '../components/SiteLayout.jsx';
-import SectionHead, { Eyebrow } from '../components/SectionHead.jsx';
+import SectionHead from '../components/SectionHead.jsx';
 import InfoTicker from '../components/InfoTicker.jsx';
 import AnimatedLogo from '../components/AnimatedLogo.jsx';
 import Orb from '../components/Orb.jsx';
@@ -10,13 +10,12 @@ import MascotOrb from '../components/MascotOrb.jsx';
 import Reveal from '../components/Reveal.jsx';
 import Band from '../components/Band.jsx';
 import ProgramChain from '../components/ProgramChain.jsx';
-import PhotoChain from '../components/PhotoChain.jsx';
+import SchoolPartners from '../components/SchoolPartners.jsx';
 import AgePicker from '../components/AgePicker.jsx';
 import Testimonials from '../components/Testimonials.jsx';
 import ThemeSong from '../components/ThemeSong.jsx';
 import Faq from '../components/Faq.jsx';
 import { ContactBlock } from './RegisterPage.jsx';
-import { useArtworks } from '../lib/artworks.js';
 import { nb } from '../lib/text.js';
 import { achievements, brandColors, contact, faqs, mascots, programs } from '../data/site.js';
 
@@ -60,10 +59,6 @@ function Hero() {
 }
 
 export default function HomePage() {
-	const { items } = useArtworks();
-	const featured = items.filter((art) => art.featured);
-	const photos = (featured.length >= 6 ? featured : items).slice(0, 6);
-
 	return (
 		<SiteLayout description="ZikZak — trường mỹ thuật các lứa tuổi tại Quận 7, TP.HCM: mỹ thuật thiếu nhi, chuyên sâu, luyện thi đại học, thiết kế đồ hoạ, vẽ kỹ thuật số và workshop.">
 			<Hero />
@@ -93,14 +88,11 @@ export default function HomePage() {
 			<Band color="var(--zz-cyan)">
 				<div className="zz-container">
 					<SectionHead
-						eyebrow="Triển lãm"
-						title={<>Tranh của <span className="zz-scribble">học viên</span> ZikZak</>}
-						lead="Cập nhật sau mỗi buổi học — phụ huynh theo dõi hành trình sáng tạo của con ngay tại đây."
+						eyebrow="Dành cho nhà trường"
+						title={<>Hợp đồng ngoại khoá <span className="zz-scribble">Mỹ thuật</span></>}
+						lead="ZikZak đồng hành cùng trường xây dựng chương trình, tổ chức lớp ngoại khoá và hoạt động nghệ thuật cho học sinh tại TP.HCM."
 					/>
-					{photos.length ? <PhotoChain items={photos} /> : null}
-					<div className="zz-center">
-						<Link to="/trien-lam" className="zz-btn zz-btn--primary">Xem toàn bộ triển lãm <ArrowRight /></Link>
-					</div>
+					<SchoolPartners />
 				</div>
 			</Band>
 
@@ -172,18 +164,6 @@ export default function HomePage() {
 					<Faq items={faqs} />
 				</div>
 			</section>
-
-			<Band color="var(--zz-yellow)">
-				<div className="zz-container zz-partner">
-					<MascotOrb src={mascots.teacher} color={brandColors.cyan} size={170} />
-					<div>
-						<Eyebrow>Dành cho nhà trường</Eyebrow>
-						<h2>Liên kết giảng dạy Mỹ thuật</h2>
-						<p>{nb('ZikZak hợp tác giảng dạy môn Mỹ thuật tại các trường Mầm non, Tiểu học, THCS và THPT.')}</p>
-					</div>
-					<Link to="/hop-dong-lien-ket-giang-day" className="zz-btn zz-btn--primary">Tìm hiểu hợp tác <ArrowRight /></Link>
-				</div>
-			</Band>
 
 			<section className="zz-section" id="dang-ky">
 				<div className="zz-container">

@@ -124,6 +124,47 @@ export const programs = [
 
 export const programById = Object.fromEntries(programs.map((p) => [p.id, p]));
 
+// Liên kết ngoại khoá với nhà trường (nội dung lấy từ trang "Liên kết giảng dạy cho trường học")
+export const schoolLevels = [
+	{ id: 'mam-non', name: 'Mầm non', color: brandColors.yellow, mascot: mascots.kidBrush },
+	{ id: 'tieu-hoc', name: 'Tiểu học', color: brandColors.green, mascot: mascots.craft },
+	{ id: 'thcs', name: 'THCS', color: brandColors.cyan, mascot: mascots.painter },
+	{ id: 'thpt', name: 'THPT', color: brandColors.blue, mascot: mascots.sketch },
+];
+
+export const schoolPillars = [
+	{
+		title: 'Chương trình bài bản',
+		text: 'Giáo án độc quyền của ZikZak, hoặc theo sách giáo khoa Mỹ thuật chuẩn của Bộ Giáo dục & Đào tạo.',
+	},
+	{
+		title: 'Giáo viên chuyên nghiệp',
+		text: 'Chuyên môn mỹ thuật vững, được đào tạo trực tiếp bởi ZikZak, thân thiện và hợp tâm lý từng lứa tuổi.',
+	},
+	{
+		title: 'Đào tạo đội tuyển',
+		text: 'Hơn 10 năm rèn luyện học sinh tham gia hội thi mỹ thuật từ cấp thành phố đến cấp quốc gia.',
+	},
+	{
+		title: 'Hỗ trợ công tác nghệ thuật',
+		text: 'Tư vấn, thực hiện trang trí, tạo hình và các hoạt động mỹ thuật trong trường.',
+	},
+];
+
+export const partnerSchools = [
+	'Mầm non Cô Giang',
+	'Mầm non Nguyễn Thái Bình',
+	'Mầm non 30/4',
+	'Mầm non Tuổi Hoa',
+	'Mầm non Hướng Dương',
+	'Mầm non Rạng Đông 10',
+	'Mầm non Mặt Trời Bé Con',
+	'Mầm non Happy Stars',
+	'Mầm non Sao Mai',
+	'Mầm non Anh Việt Mỹ',
+	'Tiểu học Anh Việt Mỹ',
+];
+
 // Chương trình theo độ tuổi (phần "Chọn lớp theo độ tuổi" trên trang chủ): mỗi nhóm một ô kính màu.
 export const ageGroups = [
 	{
