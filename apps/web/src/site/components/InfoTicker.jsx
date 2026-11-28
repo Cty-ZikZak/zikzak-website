@@ -118,7 +118,6 @@ export default function InfoTicker({ items = announcements }) {
 		let last = 0;
 		let raf = 0;
 		let started = false;
-		let drag = false;
 
 		const measure = () => {
 			W = view.clientWidth;
@@ -221,9 +220,7 @@ export default function InfoTicker({ items = announcements }) {
 			const dt = Math.min(0.1, (now - last) / 1000);
 			last = now;
 
-			if (drag) {
-				// đang kéo bằng tay: vị trí do con trỏ quyết định
-			} else if (mv) {
+			if (mv) {
 				mv.p = Math.min(1, mv.p + dt / mv.dur);
 				const p = mv.p;
 				t = lerp(mv.t0, mv.g, ease(p));
@@ -276,67 +273,39 @@ export default function InfoTicker({ items = announcements }) {
 			}
 		};
 
-		/* ----- tương tác: kéo / vuốt theo tay (chuột hoặc ngón tay), thả ra thì tự căn về bản tin gần nhất ----- */
+		/* ----- tương tác: vuốt / kéo / lăn ngang = chuyển MỘT bước (cửa sổ lớn thu lại, ô kế bên nhảy ra giữa và phóng lớn) ----- */
 		let pid = null;
 		let downX = 0;
 		let downY = 0;
-		let t0 = 0;
-		let lastX = 0;
-		let lastT = 0;
-		let vx = 0;
 		let swiped = false;
 
-		const pitch = () => Wc + G;
+		const step = (dir) => {
+			swiped = true;
+			goTo(Math.round(t) + dir);
+		};
 
 		const onDown = (e2) => {
 			if (e2.pointerType === 'mouse' && e2.button !== 0) return;
 			pid = e2.pointerId;
 			downX = e2.clientX;
 			downY = e2.clientY;
-			lastX = e2.clientX;
-			lastT = performance.now();
-			vx = 0;
-			t0 = t;
 			swiped = false;
-		};
-
-		const onMove = (e2) => {
-			if (e2.pointerId !== pid) return;
-			const dx = e2.clientX - downX;
-			const dy = e2.clientY - downY;
-
-			if (!drag) {
-				if (mv || Math.abs(dx) < 8 || Math.abs(dy) > Math.abs(dx)) return; // chưa đủ coi là kéo ngang
-				drag = true;
-				swiped = true;
-				t0 = t;
-				view.setPointerCapture?.(e2.pointerId);
-				root.classList.add('is-dragging');
-			}
-
-			const now = performance.now();
-			const dts = Math.max(1, now - lastT) / 1000;
-			vx = vx * 0.6 + ((e2.clientX - lastX) / dts) * 0.4;
-			lastX = e2.clientX;
-			lastT = now;
-			t = clamp(t0 - dx / pitch(), 1, total - 2);
 		};
 
 		const onUp = (e2) => {
 			if (e2.pointerId !== pid) return;
 			pid = null;
+			const dx = e2.clientX - downX;
+			const dy = e2.clientY - downY;
 
-			if (!drag) return;
-
-			drag = false;
-			root.classList.remove('is-dragging');
-			if (performance.now() - lastT > 90) vx *= 0.2;
-			const target = Math.round(clamp(t - (vx * 0.2) / pitch(), 1, total - 2));
-			holdT = 0;
-			startMove(target);
+			if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+				step(dx < 0 ? 1 : -1); // vuốt sang trái → bản tin kế (bên phải) ra giữa
+			}
 		};
 
-		// Magic Mouse / bàn di chuột: vuốt ngang tạo sự kiện lăn (wheel) có deltaX, dải chạy theo ngón tay rồi tự căn lại khi dừng
+		// Magic Mouse / bàn di chuột: một cú vuốt ngang = một bước; phần quán tính của cú vuốt không kích thêm bước nào
+		let wheelAcc = 0;
+		let wheelLock = false;
 		let wheelTimer = 0;
 
 		const onWheel = (e2) => {
@@ -345,28 +314,25 @@ export default function InfoTicker({ items = announcements }) {
 			if (!dx || (!e2.shiftKey && Math.abs(e2.deltaX) <= Math.abs(e2.deltaY))) return; // lăn dọc: để trang cuộn bình thường
 
 			e2.preventDefault();
-
-			if (mv) {
-				// đang chuyển cảnh: ngắt ngay, chốt ô gần nhất rồi cho vuốt tiếp
-				active = mv.p > 0.5 ? mv.toKey : mv.fromKey;
-				e.fill(0);
-				e[active] = 1;
-				mv = null;
-				pending = null;
-			}
-
-
-			drag = true;
-			swiped = false;
-			root.classList.add('is-dragging');
-			t = clamp(t + dx / pitch(), 1, total - 2);
 			clearTimeout(wheelTimer);
-			wheelTimer = setTimeout(() => {
-				drag = false;
-				root.classList.remove('is-dragging');
-				holdT = 0;
-				startMove(Math.round(t));
-			}, 180);
+			wheelTimer = setTimeout(() => { wheelLock = false; wheelAcc = 0; }, 220); // hết cú vuốt (kể cả quán tính) mới nhận cú tiếp theo
+
+			if (wheelLock) return;
+
+			wheelAcc += dx;
+
+			if (Math.abs(wheelAcc) > 30) {
+				wheelLock = true;
+				if (mv) {
+					active = mv.p > 0.5 ? mv.toKey : mv.fromKey;
+					e.fill(0);
+					e[active] = 1;
+					mv = null;
+					pending = null;
+				}
+				step(wheelAcc > 0 ? 1 : -1);
+				wheelAcc = 0;
+			}
 		};
 
 		const onClick = (e2) => {
@@ -412,7 +378,6 @@ export default function InfoTicker({ items = announcements }) {
 		io.observe(root);
 
 		view.addEventListener('pointerdown', onDown);
-		window.addEventListener('pointermove', onMove);
 		window.addEventListener('pointerup', onUp);
 		window.addEventListener('pointercancel', onUp);
 		view.addEventListener('click', onClick, true);
@@ -430,7 +395,6 @@ export default function InfoTicker({ items = announcements }) {
 			ro.disconnect();
 			io.disconnect();
 			view.removeEventListener('pointerdown', onDown);
-			window.removeEventListener('pointermove', onMove);
 			window.removeEventListener('pointerup', onUp);
 			window.removeEventListener('pointercancel', onUp);
 			view.removeEventListener('click', onClick, true);

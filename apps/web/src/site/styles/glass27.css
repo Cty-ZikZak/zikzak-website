@@ -174,9 +174,6 @@
 	-webkit-user-select: none;
 }
 
-.zz-ticker.is-dragging .zz-ticker__viewport {
-	cursor: grabbing;
-}
 
 .zz-ticker__track {
 	display: flex;
@@ -750,7 +747,7 @@ a.zz-tile:hover {
 
 .zz-ticker__viewport {
 	padding: 40px 0 36px;
-	cursor: grab;
+	cursor: default;
 	-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
 	mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
 }
@@ -992,9 +989,6 @@ a.zz-tile:hover {
 	margin-right: calc((var(--hdr-h) - 44px) / 2 - var(--hdr-inset));
 }
 
-.zz-ticker.is-dragging .zz-ticker__viewport {
-	cursor: grabbing;
-}
 
 /* ======================================================================
    CHỌN LỚP THEO ĐỘ TUỔI: ba ô kính màu (xanh lá, xanh ngọc, xanh dương)
