@@ -102,7 +102,8 @@ Sao chép một mục trong `data/courses.js`, đổi `slug` và nội dung. Tra
   `python3 apps/web/tools/logo-anim/extract-eps.py apps/web/tools/logo-anim/ZikZak_Logo.eps apps/web/src/site/components/zikzakLogoPaths.js`
   (cần `ghostscript` và `poppler-utils`).
 - Component: `<AnimatedLogo />` (`src/site/components/AnimatedLogo.jsx`).
-  Rê chuột hoặc lướt ngón tay: mắt nhìn theo, các chữ nghiêng về phía con trỏ. Bấm hoặc chạm: nảy lên, chớp mắt, cười.
+  Mắt luôn nhìn theo con trỏ; rê chuột lên logo thì các chữ nghiêng về phía con trỏ; con trỏ đi vào hình tròn nào thì hình
+  tròn đó nảy lên; bấm hoặc chạm thì logo cười nắc nẻ (~2,7 giây).
 - Xuất video 4K nền trong suốt: `node apps/web/tools/logo-anim/render-video.js <thư-mục-ra> -`.
 - Xem thử: `/logo-dong`.
 

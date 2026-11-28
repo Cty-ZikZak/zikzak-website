@@ -14,9 +14,11 @@ import '../styles/animated-logo.css';
     5. Khẩu hiệu.
 
   Tương tác:
-    - Rê chuột / lướt ngón tay lên logo: mắt nhìn theo con trỏ, các chữ nghiêng về phía con trỏ, miệng hơi hé cười.
-      (Mắt vẫn liếc nhẹ theo con trỏ khi con trỏ ở gần logo.)
-    - Bấm chuột / chạm vào logo: cả logo nảy lên, chớp mắt và cười tươi.
+    - Mắt luôn nhìn theo hướng con trỏ chuột / ngón tay ở bất kỳ đâu trên trang (dịch chuyển + nghiêng).
+    - Rê chuột lên logo: các chữ nghiêng về phía con trỏ, miệng hơi hé cười.
+    - Con trỏ đi vào một hình tròn: hình tròn đó nảy lên (bẹp – bật – dãn – chạm đất đàn hồi).
+    - Bấm chuột / chạm vào logo: nảy lên rồi cười nắc nẻ ~2,7 giây (mắt híp, miệng há khép theo nhịp
+      "ha ha", cả khối chữ rung và ngả ra sau); bấm tiếp khi đang cười thì cười lâu hơn.
   Người dùng bật "giảm chuyển động": logo đứng yên.
   Dữ liệu nét vẽ: zikzakLogoPaths.js (tạo bằng tools/logo-anim/extract-eps.py).
 */
@@ -124,6 +126,10 @@ const CIRCLES = [
 	{ id: 'blue', d: LOGO.circles.blue, fill: C.rim, box: LOGO.circleBox.blue },
 ];
 
+// Tâm và bán kính từng hình tròn (đơn vị SVG) — dùng để phát hiện con trỏ rê vào
+const CIRCLE_GEO = CIRCLES.map(({ box: b }) => ({ cx: (b[0] + b[2]) / 2, cy: (b[1] + b[3]) / 2, r: (b[2] - b[0]) / 2 }));
+const LAUGH_HZ = 5.4; // số tiếng "ha" mỗi giây khi cười nắc nẻ
+
 export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine Your Way, Slay Your Mind', interactive = true }) {
 	const svgRef = useRef(null);
 	const els = useRef({});
@@ -156,6 +162,10 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 		};
 		const circles = CIRCLES.map(() => spring(1, 70, 5.5));
 		const bounce = { y: spring(0, 120, 8.5), sq: spring(0, 260, 13), wasUp: false };
+		// mỗi hình tròn có lò xo nảy riêng (nảy lên khi con trỏ rê vào), đàn hồi nhiều lần
+		const circleBounce = CIRCLES.map(() => ({ y: spring(0, 95, 4.8), sq: spring(0, 220, 11), wasUp: false, inside: false, cool: -10 }));
+		// cười nắc nẻ khi bấm / chạm
+		const laugh = { start: -10, until: -10, beat: -1, was: false, amp: spring(0, 60, 11) };
 		// con trỏ (toạ độ SVG), làm mượt bằng lò xo để mắt không "giật" theo từng sự kiện chuột
 		const ptr = { x: spring(WORD_CX, 70, 14), y: spring(WORD_CY, 70, 14), inside: false, valid: false, hov: spring(0, 40, 9), near: spring(0, 24, 8) };
 		let face = 'neutral';
@@ -201,19 +211,47 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			if (type === 'giggle') giggle();
 		};
 
-		// Bấm / chạm: nảy lên, chớp mắt, cười tươi
+		const bounceCircle = (i, power = 1) => {
+			const cb = circleBounce[i];
+
+			if (clock - cb.cool < 0.45) {
+				return;
+			}
+
+			cb.cool = clock;
+			cb.y.v = -(52 + CIRCLE_GEO[i].r * 0.7) * power; // hình to nảy cao hơn một chút
+			cb.sq.x = 0.05; // bẹp xuống rồi bật lên
+			circles[i].v += 0.5 * power; // đồng thời phồng lên một nhịp
+		};
+
+		// mỗi tiếng "ha": cả logo nảy, các chữ nhún theo làn sóng, miệng phập phồng, hình tròn nhịp theo
+		const onLaughBeat = (beat) => {
+			bounce.y.v -= 16;
+			mouth.sy.v += 2.4;
+			LETTERS.forEach((id, j) => later(() => hop(id, 0.55, (beat + j) % 2 ? 1 : -1), j * 28));
+			circles.forEach((c) => { c.v += 0.16; });
+		};
+
+		// Bấm / chạm: nảy lên rồi cười nắc nẻ (~2,7 giây; bấm tiếp khi đang cười thì cười lâu hơn)
 		let lastPoke = -10;
 		pokeRef.current = () => {
-			if (clock - lastPoke < 0.7) return;
+			if (clock - lastPoke < 0.3) {
+				return;
+			}
+
 			lastPoke = clock;
 			bounce.y.v = -52;
-			bounce.sq.x = 0.05; // bẹp xuống trước khi bật lên, rồi dãn ra khi bay
+			bounce.sq.x = 0.05; // bẹp xuống trước khi bật lên
+			const laughing = laugh.until > clock;
+
+			if (!laughing) {
+				laugh.start = clock;
+				laugh.beat = -1;
+			}
+
+			laugh.until = Math.min(clock + 2.7 + (laughing ? 0.6 : 0), laugh.start + 5);
 			setFace('grin');
-			blinkAll(60);
-			giggle();
 			circles.forEach((c, i) => later(() => { c.v += 0.9; }, i * 110));
-			LETTERS.forEach((id, j) => later(() => hop(id, 1.3, j % 2 ? -1 : 1), 40 + j * 55));
-			later(() => setFace('neutral'), 1700);
 		};
 
 		/* ----- Con trỏ ----- */
@@ -234,14 +272,23 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			ptr.inside = inside;
 			ptr.x.t = p.x;
 			ptr.y.t = p.y;
-			// khoảng cách tới logo (theo bề ngang logo): càng xa, mắt càng bớt nhìn theo
-			const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right);
-			const dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
-			const d = Math.hypot(dx, dy) / Math.max(r.width, 1);
-			ptr.near.t = inside ? 1 : clamp(1 - d / 0.9, 0, 1) ** 2;
+			// mắt nhìn theo con trỏ ở bất kỳ đâu trên trang; thân chữ chỉ nghiêng khi con trỏ ở trên logo
+			ptr.near.t = 1;
 			ptr.hov.t = inside ? 1 : 0;
+
+			// con trỏ đi vào hình tròn nào thì hình tròn đó nảy lên
+			CIRCLE_GEO.forEach((g, i) => {
+				const inCircle = Math.hypot(p.x - g.cx, p.y - g.cy) <= g.r;
+
+				if (inCircle && !circleBounce[i].inside) {
+					bounceCircle(i);
+				}
+
+				circleBounce[i].inside = inCircle;
+			});
 		};
 		const release = () => {
+			circleBounce.forEach((cb) => { cb.inside = false; });
 			ptr.inside = false;
 			ptr.hov.t = 0;
 			ptr.near.t = 0;
@@ -270,6 +317,31 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			step(ptr.near, dt);
 			const hov = clamp(ptr.hov.x, 0, 1);
 			const near = clamp(ptr.near.x, 0, 1);
+
+			// cười nắc nẻ: miệng há ra khép lại theo nhịp, mắt híp lại
+			const laughing = clock < laugh.until;
+			laugh.amp.t = laughing ? 1 : 0;
+			step(laugh.amp, dt);
+
+			if (laughing) {
+				const phase = (clock - laugh.start) * LAUGH_HZ;
+				const beat = Math.floor(phase);
+
+				if (beat !== laugh.beat) {
+					laugh.beat = beat;
+					onLaughBeat(beat);
+				}
+
+				const pulse = 0.5 + 0.5 * Math.sin(phase * Math.PI * 2 - Math.PI / 2);
+				mouth.sy.t = 1.3 + 0.62 * pulse;
+				mouth.sx.t = 1.08 + 0.08 * pulse;
+				mouth.r.t = Math.sin(phase * Math.PI) * 2.5;
+			} else if (laugh.was) {
+				setFace('smile');
+				later(() => setFace('neutral'), 700);
+			}
+
+			laugh.was = laughing;
 			const px = ptr.x.x;
 			const py = ptr.y.x;
 			const nx = clamp((px - WORD_CX) / (VW * 0.5), -1.2, 1.2);
@@ -287,17 +359,27 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 				L.wasUp = isUp;
 			});
 
-			// mắt nhìn theo con trỏ (vẫn liếc nhẹ khi con trỏ ở gần), chớp dứt khoát
-			const look = clamp(0.38 * near + 0.62 * hov, 0, 1);
+			// mắt nhìn theo hướng con trỏ (dịch chuyển + nghiêng), chớp dứt khoát; khi cười thì híp lại
 			eyes.forEach((e, i) => {
 				const id = EYES[i];
-				e.ex.t = clamp(((px - cx(id)) / (VW * 0.22)) * 1.0, -1.2, 1.2) * look;
-				e.ey.t = clamp(((py - cy(id)) / (VH * 0.3)) * 0.8, -0.9, 0.9) * look;
-				e.er.t = clamp(((px - cx(id)) / (VW * 0.4)) * 7, -8, 8) * look;
+				const dx = px - cx(id);
+				const dy = py - cy(id);
+				const dist = Math.hypot(dx, dy) || 1;
+				const k = clamp(dist / (VW * 0.2), 0, 1);
+				const ease = k * k * (3 - 2 * k); // con trỏ càng xa tâm mắt, mắt càng nhìn lệch hẳn về hướng đó
+				e.ex.t = (dx / dist) * ease * 2.1 * near;
+				e.ey.t = (dy / dist) * ease * 1.5 * near;
+				e.er.t = clamp(dx / (VW * 0.3), -1, 1) * 17 * near;
 
 				if (e.blinkUntil && clock >= e.blinkUntil) {
 					e.blinkUntil = 0;
 					e.lid.t = 0;
+				}
+
+				if (laughing) {
+					// mở mắt một thoáng lúc bật lên, híp chặt suốt tràng cười, mở lại ngay trước khi dứt
+					e.blinkUntil = 0;
+					e.lid.t = clock - laugh.start < 0.1 || clock > laugh.until - 0.22 ? 0 : 1;
 				}
 
 				e.lid.x += (e.lid.t - e.lid.x) * (1 - Math.exp(-dt * (e.lid.t > e.lid.x ? 110 : 55)));
@@ -310,6 +392,17 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			['sx', 'sy', 'r', 'mx', 'my'].forEach((k) => step(mouth[k], dt));
 
 			circles.forEach((c) => step(c, dt));
+			circleBounce.forEach((cb) => {
+				step(cb.y, dt);
+				step(cb.sq, dt);
+				const up = cb.y.x < -0.1;
+
+				if (cb.wasUp && !up && cb.y.v > 0) {
+					cb.sq.v += cb.y.v * 0.03; // chạm đất thì bẹp
+				}
+
+				cb.wasUp = up;
+			});
 
 			step(bounce.y, dt);
 			step(bounce.sq, dt);
@@ -325,7 +418,9 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			const stretch = clamp(-bounce.y.v * 0.0016, -0.03, 0.06);
 			const bsy = 1 + stretch - bounce.sq.x;
 			const bsx = 1 - stretch * 0.5 + bounce.sq.x * 0.6;
-			setT('word', tf(PIVOT.word, 0, bounce.y.x, 0, bsx, bsy));
+			// khi cười: ngả người ra sau lắc lư
+			const shake = Math.sin(clock * Math.PI * 2 * 2.7) * 1.6 * laugh.amp.x;
+			setT('word', tf(PIVOT.word, 0, bounce.y.x, shake, bsx, bsy));
 
 			const own = {};
 			LETTERS.forEach((id) => {
@@ -357,11 +452,17 @@ export default function AnimatedLogo({ className = '', label = 'ZikZak — Shine
 			setT('mouth', tf(PIVOT.mouth, mouth.mx.x, follow + mouth.my.x, mouth.r.x, mouth.sx.x * smileHover, mouth.sy.x * (1 + 0.08 * hov)));
 
 			circles.forEach((c, i) => {
-				const b = CIRCLES[i].box;
-				setT(`c${i}`, tf([(b[0] + b[2]) / 2, (b[1] + b[3]) / 2], 0, 0, 0, c.x, c.x));
+				const cb = circleBounce[i];
+				const g = CIRCLE_GEO[i];
+				const st = clamp(-cb.y.v * 0.0016, -0.05, 0.12);
+				const sy = 1 + st - cb.sq.x;
+				const sx = 1 - st * 0.6 + cb.sq.x * 0.6;
+				// nảy lên → bẹp / dãn quanh đáy → phồng xẹp quanh tâm (nhịp tự có của hình tròn)
+				setT(`c${i}`, `translate(0 ${f(cb.y.x)}) ${tf([g.cx, g.cy + g.r], 0, 0, 0, sx, sy)} ${tf([g.cx, g.cy], 0, 0, 0, c.x, c.x)}`);
 			});
 
-			setT('tagline', `translate(0 ${f(Math.sin((clock * Math.PI * 2 * 5) / LOOP) * 0.35)})`);
+			const jiggle = Math.sin(clock * 45) * 0.3 * laugh.amp.x;
+			setT('tagline', `translate(0 ${f(Math.sin((clock * Math.PI * 2 * 5) / LOOP) * 0.35 + jiggle)})`);
 		};
 
 		const frame = (now) => {
