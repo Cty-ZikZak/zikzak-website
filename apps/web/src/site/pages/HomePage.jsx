@@ -69,7 +69,7 @@ export default function HomePage() {
 			<Hero />
 			<InfoTicker />
 
-			<Band color="var(--zz-yellow)">
+			<Band color="#FEF100" className="zz-band--solid">
 				<div className="zz-container">
 					<SectionHead
 						title={<>Chọn lớp theo <span className="zz-scribble" style={{ '--sc': 'var(--zz-cyan)' }}>độ tuổi</span></>}

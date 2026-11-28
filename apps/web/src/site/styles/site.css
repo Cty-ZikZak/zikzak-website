@@ -2199,6 +2199,10 @@ select.zz-input {
 	transform: scaleY(-1);
 }
 
+.zz-band--solid {
+	--band-bg: var(--band); /* màu đặc, không trong suốt */
+}
+
 .zz-band__inner {
 	position: relative;
 	z-index: 1;

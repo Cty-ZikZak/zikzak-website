@@ -1011,7 +1011,7 @@ a.zz-tile:hover {
 	color: var(--zz-ink);
 	background:
 		radial-gradient(120% 80% at 10% 0%, rgb(255 255 255 / 55%) 0%, rgb(255 255 255 / 0%) 60%),
-		linear-gradient(150deg, color-mix(in srgb, var(--c) 82%, rgb(255 255 255 / 8%)) 0%, color-mix(in srgb, var(--c) 55%, rgb(255 255 255 / 25%)) 100%);
+		linear-gradient(150deg, color-mix(in srgb, var(--c) 94%, rgb(255 255 255 / 6%)) 0%, color-mix(in srgb, var(--c) 74%, rgb(255 255 255 / 22%)) 100%);
 	-webkit-backdrop-filter: blur(22px) saturate(190%);
 	backdrop-filter: blur(22px) saturate(190%);
 	box-shadow:
