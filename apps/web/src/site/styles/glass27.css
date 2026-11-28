@@ -748,6 +748,7 @@ a.zz-tile:hover {
 .zz-ticker__viewport {
 	padding: 40px 0 36px;
 	cursor: default;
+	overscroll-behavior-x: none; /* vuốt ngang không kích hoạt "quay lại trang trước" của trình duyệt */
 	-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
 	mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
 }

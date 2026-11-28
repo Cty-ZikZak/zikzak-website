@@ -311,11 +311,17 @@ export default function InfoTicker({ items = announcements }) {
 		const onWheel = (e2) => {
 			const dx = e2.deltaX || (e2.shiftKey ? e2.deltaY : 0);
 
-			if (!dx || (!e2.shiftKey && Math.abs(e2.deltaX) <= Math.abs(e2.deltaY))) return; // lăn dọc: để trang cuộn bình thường
+			const gesture = wheelTimer !== 0 && (wheelLock || wheelAcc !== 0); // đang giữa một cú vuốt ngang
+			const horizontal = Math.abs(e2.deltaX) > Math.abs(e2.deltaY) * 0.6 || e2.shiftKey;
 
+			if (!gesture && (!dx || !horizontal)) return; // lăn dọc: để trang cuộn bình thường
+
+			// chặn cả cử chỉ "vuốt sang phải = quay lại trang trước" của trình duyệt trên Mac
 			e2.preventDefault();
+
+			if (!dx) return;
 			clearTimeout(wheelTimer);
-			wheelTimer = setTimeout(() => { wheelLock = false; wheelAcc = 0; }, 220); // hết cú vuốt (kể cả quán tính) mới nhận cú tiếp theo
+			wheelTimer = setTimeout(() => { wheelLock = false; wheelAcc = 0; wheelTimer = 0; }, 220); // hết cú vuốt (kể cả quán tính) mới nhận cú tiếp theo
 
 			if (wheelLock) return;
 
