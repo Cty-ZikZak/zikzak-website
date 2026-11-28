@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { contact } from '../data/site.js';
+import StaticLogo from './StaticLogo.jsx';
 
 export function Wordmark() {
 	return (
@@ -11,15 +11,9 @@ export function Wordmark() {
 }
 
 export default function Logo() {
-	const [hasImage, setHasImage] = useState(true);
-
 	return (
 		<Link to="/" className="zz-logo" aria-label="ZikZak — Trang chủ">
-			{hasImage ? (
-				<img src={contact.logo} alt="ZikZak" width="82" height="52" onError={() => setHasImage(false)} />
-			) : (
-				<Wordmark />
-			)}
+			<StaticLogo />
 		</Link>
 	);
 }

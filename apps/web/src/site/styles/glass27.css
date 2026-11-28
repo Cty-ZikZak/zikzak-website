@@ -150,9 +150,10 @@
 	width: var(--s);
 	height: var(--s);
 	border-radius: 50%;
-	background: radial-gradient(circle at 32% 28%, rgb(255 255 255 / 55%) 0%, rgb(255 255 255 / 0%) 34%), var(--c);
-	opacity: 0.85;
-	will-change: transform, filter;
+	/* hình tròn trơn, màu đặc theo gam màu logo (không còn điểm sáng 3D) */
+	background: var(--c);
+	opacity: 1;
+	will-change: transform;
 }
 
 .zz-ticker__viewport {
@@ -960,4 +961,12 @@ a.zz-tile:hover {
 
 .zz-ticker--still .zz-news {
 	display: none;
+}
+
+/* Logo vector trên thanh menu (cùng màu với logo động) */
+.zz-slogo {
+	display: block;
+	width: auto;
+	height: 56px;
+	overflow: visible;
 }

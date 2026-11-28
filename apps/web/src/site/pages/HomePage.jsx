@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Images } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import SiteLayout from '../components/SiteLayout.jsx';
 import SectionHead, { Eyebrow } from '../components/SectionHead.jsx';
 import InfoTicker from '../components/InfoTicker.jsx';
@@ -48,14 +48,6 @@ function Hero() {
 						<Link to="/dang-ky" className="zz-btn zz-btn--primary">
 							Học thử miễn phí 1 buổi <ArrowRight />
 						</Link>
-						<Link to="/trien-lam" className="zz-btn">
-							<Images /> Xem tranh học viên
-						</Link>
-					</div>
-					<div className="zz-hero__chips">
-						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.yellow }} />Từ 3 tuổi</span>
-						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.cyan }} />Online & Offline</span>
-						<span className="zz-chip zz-glass"><i style={{ '--c': brandColors.green }} />Quận 7, TP.HCM</span>
 					</div>
 				</Reveal>
 

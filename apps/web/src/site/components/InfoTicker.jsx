@@ -13,14 +13,14 @@ import { announcements } from '../data/site.js';
 */
 
 const COPIES = 3;
-const HOLD = 5.4; // giây giữ bản tin đang mở
-const MOVE = 1.5; // giây chạy sang ô kế tiếp
+const HOLD = 3.8; // giây giữ bản tin đang mở
+const MOVE = 1.15; // giây chạy sang ô kế tiếp
 
 // f: hệ số trôi theo vị trí (hiệu ứng chiều sâu); l: vị trí ngang ban đầu (0–1)
 const BACKDROP = [
-	{ c: 'var(--zz-yellow)', s: 'clamp(90px, 9vw, 130px)', t: '-2%', l: 0.1, f: 1.5 },
-	{ c: 'var(--zz-cyan)', s: 'clamp(120px, 12vw, 170px)', t: '22%', l: 0.5, f: 0.8 },
-	{ c: 'var(--zz-blue)', s: 'clamp(90px, 9vw, 135px)', t: '28%', l: 0.86, f: 1.1 },
+	{ c: '#FEF100', s: 'clamp(90px, 9vw, 130px)', t: '-2%', l: 0.1, f: 1.5 },
+	{ c: '#53E2FF', s: 'clamp(120px, 12vw, 170px)', t: '22%', l: 0.5, f: 0.8 },
+	{ c: '#0067FF', s: 'clamp(90px, 9vw, 135px)', t: '28%', l: 0.86, f: 1.1 },
 ];
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
