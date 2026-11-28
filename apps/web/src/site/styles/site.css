@@ -2803,7 +2803,7 @@ select.zz-input {
 	font-family: var(--zz-hand);
 	font-weight: 400;
 	font-variation-settings: 'opsz' 16;
-	font-size: clamp(66px, 31cqw, 196px);
+	font-size: clamp(74px, 38cqw, 236px);
 	line-height: 1.05;
 	letter-spacing: 0;
 }
@@ -2816,9 +2816,11 @@ select.zz-input {
 	transform-origin: 50% 70%;
 	/* kính lỏng phát sáng: quầng vàng mịn + bóng xanh dương mờ bên dưới */
 	filter:
-		drop-shadow(0 0 0.045em rgb(255 236 80 / 95%))
-		drop-shadow(0 0 0.16em rgb(255 208 0 / 60%))
-		drop-shadow(0.02em 0.04em 0.035em rgb(10 92 245 / 55%));
+		drop-shadow(0 0 0.05em rgb(255 244 120 / 100%))
+		drop-shadow(0 0 0.14em rgb(255 222 0 / 85%))
+		drop-shadow(0 0 0.2em rgb(255 200 0 / 50%))
+		drop-shadow(0.02em 0.04em 0.035em rgb(10 92 245 / 50%));
+	animation: zz-glow-pulse 1.7s ease-in-out infinite alternate;
 }
 
 .zz-h1__hand-text {
@@ -2875,15 +2877,33 @@ select.zz-input {
 	-webkit-background-clip: text;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
-	animation: zz-glass-sheen 5.5s ease-in-out infinite;
+	animation: zz-glass-sheen 2.4s ease-in-out infinite;
+}
+
+@keyframes zz-glow-pulse {
+	from {
+		filter:
+			drop-shadow(0 0 0.04em rgb(255 244 120 / 90%))
+			drop-shadow(0 0 0.1em rgb(255 222 0 / 65%))
+			drop-shadow(0 0 0.14em rgb(255 200 0 / 30%))
+			drop-shadow(0.02em 0.04em 0.035em rgb(10 92 245 / 50%));
+	}
+	to {
+		filter:
+			drop-shadow(0 0 0.06em rgb(255 250 160 / 100%))
+			drop-shadow(0 0 0.18em rgb(255 226 0 / 100%))
+			drop-shadow(0 0 0.26em rgb(255 204 0 / 70%))
+			drop-shadow(0.02em 0.04em 0.035em rgb(10 92 245 / 50%));
+	}
 }
 
 @keyframes zz-glass-sheen {
-	0%, 18% { background-position: 0 0, 130% 0; }
-	62%, 100% { background-position: 0 0, -30% 0; }
+	0%, 10% { background-position: 0 0, 130% 0; }
+	60%, 100% { background-position: 0 0, -30% 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.zz-h1__hand-in { animation: none; }
 	.zz-h1__hand-text::after { animation: none; background-position: 0 0, 130% 0; }
 }
 
