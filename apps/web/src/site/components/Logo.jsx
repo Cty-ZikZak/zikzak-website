@@ -13,7 +13,7 @@ export function Wordmark() {
 export default function Logo() {
 	return (
 		<Link to="/" className="zz-logo" aria-label="ZikZak — Trang chủ">
-			<StaticLogo mono />
+			<StaticLogo />
 		</Link>
 	);
 }
