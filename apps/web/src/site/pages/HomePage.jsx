@@ -5,6 +5,7 @@ import SiteLayout from '../components/SiteLayout.jsx';
 import SectionHead, { Eyebrow } from '../components/SectionHead.jsx';
 import InfoTicker from '../components/InfoTicker.jsx';
 import AnimatedLogo from '../components/AnimatedLogo.jsx';
+import { SWASH_ENTRY, SWASH_EXIT } from '../components/swashPaths.js';
 import Orb from '../components/Orb.jsx';
 import MascotOrb from '../components/MascotOrb.jsx';
 import Reveal from '../components/Reveal.jsx';
@@ -35,7 +36,21 @@ function Hero() {
 					<h1 className="zz-h1">
 						<span className="zz-h1__big">Ươm mầm</span>{' '}
 						<span className="zz-h1__hand">
-							<span className="zz-h1__hand-in" data-text="sáng tạo">sáng tạo</span>
+							<span className="zz-h1__hand-in">
+								<svg className="zz-h1__swash" viewBox="-0.7 0 4.7 1.4" aria-hidden="true" focusable="false">
+									<defs>
+										<linearGradient id="zz-swash-g" x1="0" y1="0" x2="0.05" y2="1">
+											<stop offset="0" stopColor="#fff56a" />
+											<stop offset=".34" stopColor="#ffe41a" />
+											<stop offset=".68" stopColor="#ffc800" />
+											<stop offset="1" stopColor="#ff9f00" />
+										</linearGradient>
+									</defs>
+									<path d={SWASH_ENTRY} fill="url(#zz-swash-g)" />
+									<path d={SWASH_EXIT} fill="url(#zz-swash-g)" />
+								</svg>
+								<span className="zz-h1__hand-text">sáng tạo</span>
+							</span>
 						</span>{' '}
 						<span className="zz-h1__sub">cho mọi lứa tuổi</span>
 					</h1>

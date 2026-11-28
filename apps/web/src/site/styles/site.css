@@ -10,9 +10,9 @@
 @import '@fontsource/be-vietnam-pro/latin-500.css';
 @import '@fontsource/be-vietnam-pro/latin-700.css';
 @import '@fontsource-variable/bricolage-grotesque/standard.css';
-@import '@fontsource/dancing-script/vietnamese-700.css';
-@import '@fontsource/dancing-script/latin-700.css';
-@import '@fontsource/dancing-script/latin-ext-700.css';
+@import '@fontsource/playball/vietnamese-400.css';
+@import '@fontsource/playball/latin-400.css';
+@import '@fontsource/playball/latin-ext-400.css';
 @import '@fontsource/baloo-2/vietnamese-600.css';
 @import '@fontsource/baloo-2/vietnamese-800.css';
 @import '@fontsource/baloo-2/latin-600.css';
@@ -2747,7 +2747,7 @@ select.zz-input {
 
 .zz {
 	--zz-head: 'Bricolage Grotesque Variable', 'Be Vietnam Pro', system-ui, sans-serif;
-	--zz-hand: 'Dancing Script', 'Baloo 2', cursive;
+	--zz-hand: 'Playball', 'Baloo 2', cursive;
 }
 
 /* Quy tắc chống rớt chữ cho mọi đoạn văn và tiêu đề */
@@ -2788,15 +2788,14 @@ select.zz-input {
 	margin-left: -0.03em;
 }
 
-/* 2) "sáng tạo": chữ viết tay bay bổng, vàng sáng chuyển sắc, KHÔNG viền; chồng lên dòng chữ khối */
+/* 2) "sáng tạo": chữ viết tay Playball + nét đầu/cuối kéo dài; mảng vàng phẳng, bóng đổ xanh dương sắc & mảnh, KHÔNG phát sáng */
 .zz-h1__hand {
-	/* lớp ngoài không tạo stacking context → hào quang (::after) nằm được phía sau cả dòng chữ khối */
 	width: max-content;
-	margin: -0.26em 0 -0.04em 0.02em;
+	margin: -0.22em 0 0.02em 0.2em;
 	font-family: var(--zz-hand);
-	font-weight: 700;
+	font-weight: 400;
 	font-variation-settings: normal;
-	font-size: clamp(54px, 27cqw, 168px);
+	font-size: clamp(54px, 26cqw, 160px);
 	line-height: 1.05;
 	letter-spacing: 0;
 }
@@ -2805,41 +2804,27 @@ select.zz-input {
 	position: relative;
 	z-index: 3;
 	display: block;
-	padding: 0.06em 0.1em 0.12em;
-	transform: rotate(-5deg);
+	transform: rotate(-4deg);
 	transform-origin: 6% 85%;
-	/* ruột vàng chuyển sắc (sáng ở trên, ấm ở dưới), KHÔNG có đường viền cứng */
+	filter: drop-shadow(0.02em 0.03em 0 #0a5cf5);
+}
+
+.zz-h1__hand-text {
 	background: linear-gradient(185deg, #fff56a 0%, #ffe41a 34%, #ffc800 68%, #ff9f00 100%);
 	-webkit-background-clip: text;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 	color: transparent;
-	/* nổi khối bằng bóng xanh tím mềm lệch xuống-phải (như phần đổ khối của logo), rồi hào quang vàng bên ngoài */
-	filter:
-		drop-shadow(0.016em 0.026em 0 rgb(25 0 200 / 92%))
-		drop-shadow(0.034em 0.054em 0.008em rgb(25 0 200 / 62%))
-		drop-shadow(0 0.1em 0.12em rgb(25 0 200 / 30%))
-		drop-shadow(0 0 0.1em rgb(255 226 0 / 90%))
-		drop-shadow(0 0 0.3em rgb(255 204 0 / 55%));
 }
 
-@keyframes zz-glow {
-	from { opacity: 0.8; }
-	to { opacity: 1; }
-}
-
-/* Ánh sáng lan rộng ra nền: nằm sau toàn bộ tiêu đề */
-.zz-h1__hand::after {
-	content: "";
+.zz-h1__swash {
 	position: absolute;
-	left: -12%;
-	right: -18%;
-	top: -20%;
-	bottom: -24%;
-	z-index: -1;
-	background: radial-gradient(closest-side, rgb(255 226 40 / 34%), rgb(255 226 40 / 10%) 58%, rgb(255 226 40 / 0%) 100%);
+	left: -0.7em;
+	top: 0;
+	width: 4.7em;
+	height: 1.4em;
+	overflow: visible;
 	pointer-events: none;
-	animation: zz-glow 3.6s ease-in-out infinite alternate;
 }
 
 /* 3) "cho mọi lứa tuổi": dòng phụ, nằm dưới chân "sáng tạo" */
@@ -2860,8 +2845,3 @@ select.zz-input {
 	margin: 26px 0 30px !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.zz-h1__hand::after {
-		animation: none;
-	}
-}
