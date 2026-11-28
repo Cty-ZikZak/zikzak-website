@@ -2740,11 +2740,11 @@ select.zz-input {
 
 
 @font-face {
-	font-family: 'Ballet';
-	src: url('../fonts/Ballet.woff2') format('woff2');
+	font-family: 'Meow Script';
+	src: url('../fonts/MeowScript.woff2') format('woff2');
 	font-weight: 400;
 	font-style: normal;
-	font-display: swap; /* Ballet — SIL Open Font License */
+	font-display: swap; /* Meow Script — SIL Open Font License */
 }
 
 /* ======================================================================
@@ -2753,7 +2753,7 @@ select.zz-input {
 
 .zz {
 	--zz-head: 'Bricolage Grotesque Variable', 'Be Vietnam Pro', system-ui, sans-serif;
-	--zz-hand: 'Ballet', 'Baloo 2', cursive;
+	--zz-hand: 'Meow Script', 'Baloo 2', cursive;
 }
 
 /* Quy tắc chống rớt chữ cho mọi đoạn văn và tiêu đề */
@@ -2821,9 +2821,9 @@ select.zz-input {
 	display: inline-block;
 	/* chuyển màu từ xanh ngọc sang vàng; nét dày nhẹ bằng in đậm giả của trình duyệt, bo tròn mịn */
 	font-weight: 400;
-	/* các nét nối của Ballet rất mảnh: thu sát chữ để các nét chạm và liền mạch */
+	/* nét viền trong suốt làm dày đều các nét mảnh để chữ liền mạch */
 	letter-spacing: -0.02em;
-	-webkit-text-stroke: 0.022em transparent;
+	-webkit-text-stroke: 0.01em transparent;
 	/* chừa chỗ cho nét kéo dài của font (đầu chữ s, đuôi chữ g) để màu không bị cắt */
 	padding: 0.2em 0.3em 0.62em 0.3em;
 	margin: -0.2em -0.3em -0.62em;
