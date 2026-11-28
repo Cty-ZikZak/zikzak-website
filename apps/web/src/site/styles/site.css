@@ -2770,6 +2770,8 @@ select.zz-input {
 }
 
 .zz-hero2 .zz-h1 {
+	width: max-content; /* "sáng tạo" căn giữa theo bề ngang của khối chữ */
+	max-width: 100%;
 	margin: 0;
 	font-family: var(--zz-head);
 	font-weight: 800;
@@ -2797,7 +2799,7 @@ select.zz-input {
 /* 2) "sáng tạo": chữ viết tay Playball + nét đầu/cuối kéo dài; mảng vàng phẳng, bóng đổ xanh dương sắc & mảnh, KHÔNG phát sáng */
 .zz-h1__hand {
 	width: max-content;
-	margin: -0.2em 0 -0.06em 0.12em;
+	margin: -0.2em auto -0.06em;
 	font-family: var(--zz-hand);
 	font-weight: 400;
 	font-variation-settings: 'opsz' 16;
@@ -2811,8 +2813,7 @@ select.zz-input {
 	z-index: 3;
 	display: block;
 	transform: rotate(-6deg);
-	transform-origin: 6% 85%;
-	filter: drop-shadow(0.02em 0.03em 0 #0a5cf5);
+	transform-origin: 50% 70%;
 }
 
 .zz-h1__hand-text {
