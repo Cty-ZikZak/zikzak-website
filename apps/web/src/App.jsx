@@ -39,6 +39,7 @@ import GalleryPage from '@/site/pages/GalleryPage';
 import RegisterPage from '@/site/pages/RegisterPage';
 import NotFoundPage from '@/site/pages/NotFoundPage';
 import LogoPage from '@/site/pages/LogoPage';
+import { useViBinding } from '@/site/lib/useViBinding';
 import '@/components/builder/styles/global.css';
 
 // Đường dẫn cũ chuyển sang trang mới (giữ link đã chia sẻ trên mạng xã hội).
@@ -52,6 +53,8 @@ const redirects = {
 };
 
 function App() {
+	useViBinding();
+
 	return (
 		<TooltipProvider>
 				<Router basename={(import.meta.env.BASE_URL || '/').replace(/\/$/, '')}>

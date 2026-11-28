@@ -16,7 +16,7 @@ const fs = require('fs');
   await pg.clock.install({ time: 0 });
   for (let i = 0; i < 5; i++) { try { await pg.goto('http://127.0.0.1:3000/logo-dong', { waitUntil: 'load', timeout: 60000 }); break; } catch (e) { await new Promise(r => setTimeout(r, 2000)); } }
   // để module JS tải xong
-  for (let i = 0; i < 60; i++) { const ok = await pg.evaluate(() => !!document.querySelector('.zzl img')); if (ok) break; await new Promise(r => setTimeout(r, 500)); await pg.clock.runFor(16); }
+  for (let i = 0; i < 60; i++) { const ok = await pg.evaluate(() => !!document.querySelector('.zzl path')); if (ok) break; await new Promise(r => setTimeout(r, 500)); await pg.clock.runFor(16); }
   await pg.evaluate(({ W, H, LOGO_W }) => {
     const logo = document.querySelector('.zzl');
     document.documentElement.style.background = 'transparent';
@@ -32,7 +32,7 @@ const fs = require('fs');
     document.head.appendChild(st);
   }, { W, H, LOGO_W });
   // chờ ảnh tải đủ
-  for (let i = 0; i < 120; i++) { const ok = await pg.evaluate(() => [...document.querySelectorAll('.zzl img')].every(i => i.complete && i.naturalWidth)); if (ok) break; await new Promise(r => setTimeout(r, 250)); }
+  // logo là SVG vector: không còn ảnh cần chờ tải
   // chạy trước 1 vòng để mọi lò xo vào trạng thái ổn định
   for (let t = 0; t < LOOP * 1000; t += 16) await pg.clock.runFor(16);
   const total = mode === '-' ? LOOP * FPS : +mode;

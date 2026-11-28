@@ -95,3 +95,19 @@ Trang quản trị dùng được trên điện thoại, nên giáo viên có th
 ### Thêm khoá học mới
 
 Sao chép một mục trong `data/courses.js`, đổi `slug` và nội dung. Trang `/khoa-hoc/<slug>` tự được tạo.
+
+### Logo chuyển động (SVG vector từ file Illustrator)
+
+- Nguồn: `apps/web/tools/logo-anim/ZikZak_Logo.eps`. Khi thiết kế logo thay đổi, chạy lại
+  `python3 apps/web/tools/logo-anim/extract-eps.py apps/web/tools/logo-anim/ZikZak_Logo.eps apps/web/src/site/components/zikzakLogoPaths.js`
+  (cần `ghostscript` và `poppler-utils`).
+- Component: `<AnimatedLogo />` (`src/site/components/AnimatedLogo.jsx`).
+  Rê chuột hoặc lướt ngón tay: mắt nhìn theo, các chữ nghiêng về phía con trỏ. Bấm hoặc chạm: nảy lên, chớp mắt, cười.
+- Xuất video 4K nền trong suốt: `node apps/web/tools/logo-anim/render-video.js <thư-mục-ra> -`.
+- Xem thử: `/logo-dong`.
+
+### Chống ngắt dòng giữa từ tiếng Việt ("khai / phá")
+
+Từ điển từ ghép nằm ở `src/site/data/viCompounds.js`, được gắn tự động cho mọi chữ trên website.
+Khi thêm nội dung mới, chạy lại: `pip install pyvi && python3 apps/web/tools/build-vi-compounds.py`.
+Từ chưa có trong từ điển vẫn hiển thị bình thường. Thêm `?vi=0` vào địa chỉ để tắt (dùng khi so sánh).

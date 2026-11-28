@@ -20,8 +20,7 @@
         "@fontsource-variable/bricolage-grotesque": "^5.3.0",
         "@fontsource/baloo-2": "^5.3.0",
         "@fontsource/be-vietnam-pro": "^5.3.0",
-        "@fontsource/merienda": "^5.3.0",
-        "@fontsource/pacifico": "^5.3.0",
+        "@fontsource/dancing-script": "^5.3.0",
         "@hookform/resolvers": "^5.2.2",
         "@radix-ui/react-accordion": "^1.2.12",
         "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -160,9 +159,7 @@
 
     "@fontsource/be-vietnam-pro": ["@fontsource/be-vietnam-pro@5.3.0", "", {}, "sha512-xhAQBGHDxP5BF8IJxedy5MoWUmc1DlPCcZbMLhvnPkf8TaYCbbUVs3LjpuJ4BYdTrdiCLaewNaY8z+owq/FqFw=="],
 
-    "@fontsource/merienda": ["@fontsource/merienda@5.3.0", "", {}, "sha512-0CpBXbcYSFw2zUiGEzAluqlFnKBDsTG6DxPAxyDbRtx4pTJcIDeBzLd7nWst0MGRpwsRs3TURlzVYsxJ/rA7ZQ=="],
-
-    "@fontsource/pacifico": ["@fontsource/pacifico@5.3.0", "", {}, "sha512-bWv0fHR1n36p7scRn+maaEaVeQCOq9yvfVfjyAeUzKrK4Y/3qiRAEj4hJgfxj/sjgZZGkeHyKPrbWdDaZtpCVw=="],
+    "@fontsource/dancing-script": ["@fontsource/dancing-script@5.3.0", "", {}, "sha512-/FFbz4ZCNN+eG2a6phkZB41iKmyCC6rq2blA/kG9OFeI3/tpzLNazND1bBdEnogLhpfg7o4NfauTbEEYSpSUGg=="],
 
     "@hookform/resolvers": ["@hookform/resolvers@5.4.0", "", { "dependencies": { "@standard-schema/utils": "^0.3.0" }, "peerDependencies": { "react-hook-form": "^7.55.0" } }, "sha512-EIsqr/t/qbinPIhGjMdtvutIN1Kk4uwbROE9/UQ93CAVGR7GkA7Y92+fX80OzXi/OB67jVFYwKGO1WzkxmkFZw=="],
 
