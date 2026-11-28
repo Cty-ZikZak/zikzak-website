@@ -103,7 +103,7 @@ Sao chép một mục trong `data/courses.js`, đổi `slug` và nội dung. Tra
   (cần `ghostscript` và `poppler-utils`).
 - Component: `<AnimatedLogo />` (`src/site/components/AnimatedLogo.jsx`).
   Mắt luôn nhìn theo con trỏ; rê chuột lên logo thì các chữ nghiêng về phía con trỏ; con trỏ đi vào hình tròn nào thì hình
-  tròn đó nảy lên; bấm hoặc chạm thì logo cười nắc nẻ (~2,7 giây).
+  tròn đó nảy lên; bấm hoặc chạm thì logo cười ~1,5 giây, mỗi lần một trong 3 kiểu (cười to, khúc khích, cười phá; không lặp lại liên tiếp).
 - Xuất video 4K nền trong suốt: `node apps/web/tools/logo-anim/render-video.js <thư-mục-ra> -`.
 - Xem thử: `/logo-dong`.
 
