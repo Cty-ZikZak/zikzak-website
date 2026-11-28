@@ -967,6 +967,7 @@ a.zz-tile:hover {
 .zz-slogo {
 	display: block;
 	width: auto;
-	height: 56px;
+	height: 60px;
+	width: 60px;
 	overflow: visible;
 }
