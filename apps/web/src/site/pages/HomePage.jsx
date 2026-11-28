@@ -83,7 +83,7 @@ export default function HomePage() {
 				<div className="zz-container">
 					<SectionHead
 						eyebrow="Chương trình học"
-						title={<>Sáu con đường, một hành trình <span className="zz-scribble">zikzak</span></>}
+						title={<>Sáu con đường, một hành trình <span className="zz-scribble zz-signature">zikzak</span></>}
 						lead="Mỗi chương trình có một người bạn đồng hành — chọn điểm bắt đầu phù hợp với độ tuổi và mục tiêu."
 					/>
 					<ProgramChain items={programs} />
