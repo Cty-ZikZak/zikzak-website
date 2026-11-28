@@ -381,11 +381,12 @@ a.zz-tile:hover {
 	.zz-hero2__logo {
 		order: -1;
 		max-width: min(430px, 100%);
-		margin: -4px auto 0;
+		/* kéo lên sát dải thông tin (đáy khung dải chạy là vùng mờ dần, trống) và chừa khoảng hở phía dưới */
+		margin: -46px auto 18px;
 	}
 
 	.zz-hero2__grid {
-		gap: 8px;
+		gap: 14px;
 	}
 
 	.zz-hero2 {
