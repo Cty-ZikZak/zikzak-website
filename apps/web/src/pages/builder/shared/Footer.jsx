@@ -2,6 +2,7 @@ import React from 'react';
 import SiteFooter from '@/site/components/SiteFooter';
 import QuickContact from '@/site/components/QuickContact';
 import '@/site/styles/site.css';
+import '@/site/styles/glass27.css';
 
 // Các trang cũ (chưa chuyển sang giao diện mới) dùng chung footer mới của ZikZak.
 export default function Footer() {

@@ -229,6 +229,77 @@ export const faqs = [
 	},
 ];
 
+/*
+  Dải thông tin chạy ở đầu trang chủ — mỗi mục là một ô kính.
+  Sửa, thêm, bớt tại đây (chỉ ghi thông tin có thật). icon: gift | trophy | palette | phone | sparkles | school
+  href: đường dẫn trong web (/dang-ky…), số điện thoại (tel:…) hoặc để trống nếu chỉ là thông báo.
+*/
+export const announcements = [
+	{
+		id: 'hoc-thu',
+		tag: 'Ưu đãi',
+		title: 'Học thử miễn phí 1 buổi',
+		text: 'Làm quen lớp, giáo viên và cách học trước khi đăng ký.',
+		href: '/dang-ky',
+		icon: 'gift',
+		color: brandColors.yellow,
+	},
+	{
+		id: 'bitex',
+		tag: 'Thành tích',
+		title: 'Mầm non 30/4 đạt giải cao hội thi “Bé vẽ sáng tạo cùng Bitex”',
+		text: 'Cấp Thành phố, năm học 2025 – 2026.',
+		href: '/trien-lam',
+		icon: 'trophy',
+		color: brandColors.cyan,
+	},
+	{
+		id: 'thieu-nhi',
+		tag: 'Mỹ thuật thiếu nhi',
+		title: 'Lớp vẽ cho bé 3 – 15 tuổi',
+		text: 'Học offline tại Quận 7 hoặc online tại nhà.',
+		href: '/khoa-hoc/my-thuat-thieu-nhi-offline',
+		icon: 'palette',
+		color: brandColors.green,
+	},
+	{
+		id: 'net-ve-xanh',
+		tag: 'Chúc mừng',
+		title: 'Bé họa sĩ nhí Mầm non Nguyễn Thái Bình đạt giải “Nét vẽ xanh”',
+		text: 'Hội thi năm học 2025 – 2026.',
+		href: '/trien-lam',
+		icon: 'trophy',
+		color: brandColors.blue,
+	},
+	{
+		id: 'hoc-phi',
+		tag: 'Học phí',
+		title: 'Từ 500.000đ / tháng',
+		text: 'Lớp thiếu nhi 1 buổi/tuần. Nghỉ có phép được học bù.',
+		href: '/khoa-hoc/my-thuat-thieu-nhi-offline',
+		icon: 'sparkles',
+		color: brandColors.lime,
+	},
+	{
+		id: 'truong-hoc',
+		tag: 'Dành cho nhà trường',
+		title: 'Liên kết giảng dạy Mỹ thuật',
+		text: 'Mầm non, Tiểu học, THCS và THPT.',
+		href: '/hop-dong-lien-ket-giang-day',
+		icon: 'school',
+		color: brandColors.indigo,
+	},
+	{
+		id: 'hotline',
+		tag: 'Tư vấn',
+		title: 'Gọi 0522 552 289',
+		text: 'Hoặc nhắn Zalo để được tư vấn lịch học.',
+		href: 'tel:0522552289',
+		icon: 'phone',
+		color: brandColors.cyan,
+	},
+];
+
 export const nav = [
 	{ label: 'Trang chủ', href: '/' },
 	{

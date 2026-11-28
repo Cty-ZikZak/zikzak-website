@@ -14,7 +14,7 @@ export default function SiteHeader() {
 
 	return (
 		<header className="zz-header">
-			<div className="zz-header__bar zz-glass">
+			<div className="zz-header__bar zz-lg">
 				<Logo />
 
 				<nav className="zz-nav" aria-label="Điều hướng chính">
@@ -24,7 +24,7 @@ export default function SiteHeader() {
 								{item.label}
 								<ChevronDown />
 							</button>
-							<div className="zz-nav__menu zz-glass">
+							<div className="zz-nav__menu zz-lg">
 								{item.children.map((child) => (
 									<Link key={child.href} to={child.href} className="zz-nav__sub">
 										<strong>{child.label}</strong>
@@ -58,7 +58,7 @@ export default function SiteHeader() {
 				</button>
 			</div>
 
-			<nav id="zz-mobile-nav" className="zz-mobile-nav zz-glass" hidden={!isOpen} aria-label="Điều hướng">
+			<nav id="zz-mobile-nav" className="zz-mobile-nav zz-lg" hidden={!isOpen} aria-label="Điều hướng">
 				{nav.map((item) => (item.children ? (
 					<React.Fragment key={item.label}>
 						<div className="zz-mobile-nav__group">{item.label}</div>

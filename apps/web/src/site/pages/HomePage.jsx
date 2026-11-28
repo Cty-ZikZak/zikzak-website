@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Images } from 'lucide-react';
 import SiteLayout from '../components/SiteLayout.jsx';
 import SectionHead, { Eyebrow } from '../components/SectionHead.jsx';
-import ZigzagChain from '../components/ZigzagChain.jsx';
+import InfoTicker from '../components/InfoTicker.jsx';
+import AnimatedLogo from '../components/AnimatedLogo.jsx';
 import Orb from '../components/Orb.jsx';
 import MascotOrb from '../components/MascotOrb.jsx';
 import Reveal from '../components/Reveal.jsx';
@@ -18,18 +19,6 @@ import { ContactBlock } from './RegisterPage.jsx';
 import { useArtworks } from '../lib/artworks.js';
 import { achievements, brandColors, contact, faqs, mascots, programs } from '../data/site.js';
 
-const HERO_CAST = [
-	{ src: mascots.kidBrush, color: brandColors.yellow, x: 22, y: 36, size: 'clamp(112px, 21vw, 196px)', delay: 0 },
-	{ src: mascots.sketch, color: brandColors.cyan, x: 52, y: 72, size: 'clamp(104px, 19vw, 178px)', delay: 0.8 },
-	{ src: mascots.digital, color: brandColors.green, x: 80, y: 34, size: 'clamp(104px, 19vw, 182px)', delay: 1.6 },
-];
-
-const HERO_DECO = [
-	{ color: brandColors.blue, x: 7, y: 80, size: 'clamp(30px, 5vw, 52px)', delay: 0.4 },
-	{ color: brandColors.indigo, x: 93, y: 76, size: 'clamp(38px, 6vw, 64px)', delay: 1.2 },
-	{ color: brandColors.lime, x: 52, y: 14, size: 'clamp(22px, 3.6vw, 36px)', delay: 2 },
-];
-
 const REASONS = [
 	{ title: 'Kích thích tưởng tượng', text: 'Bài vẽ theo chủ đề mới mỗi tuần — học viên được tự do kể câu chuyện của riêng mình.', color: brandColors.yellow },
 	{ title: 'Lớp nhỏ, kèm sát', text: 'Lớp thiếu nhi offline 6 – 10 bé, chia theo độ tuổi. Giáo viên góp ý cho từng bạn.', color: brandColors.blue },
@@ -42,7 +31,6 @@ function Hero() {
 		<section className="zz-hero2">
 			<div className="zz-container zz-hero2__grid">
 				<Reveal>
-					<Eyebrow>Shine your way · Slay your mind</Eyebrow>
 					<h1>
 						Ươm mầm <span className="zz-scribble">sáng tạo</span> cho mọi lứa tuổi
 					</h1>
@@ -65,31 +53,8 @@ function Hero() {
 					</div>
 				</Reveal>
 
-				<div className="zz-hero2__stage" aria-hidden="true">
-					<ZigzagChain>
-						{HERO_CAST.map((m) => (
-							<span key={m.src} style={{ position: 'absolute', left: `${m.x}%`, top: `${m.y}%` }}>
-								<MascotOrb src={m.src} color={m.color} size={m.size} float delay={m.delay} />
-							</span>
-						))}
-					</ZigzagChain>
-					{HERO_DECO.map((d) => (
-						<Orb
-							key={d.color}
-							className="zz-hero2__deco"
-							float
-							delay={d.delay}
-							size={d.size}
-							color={d.color}
-							style={{ position: 'absolute', left: `${d.x}%`, top: `${d.y}%` }}
-						/>
-					))}
-					<span className="zz-bubble zz-glass" style={{ left: '0%', top: '2%' }}>
-						<i style={{ '--c': brandColors.yellow }} />Hôm nay vẽ gì nhỉ?
-					</span>
-					<span className="zz-bubble zz-glass" style={{ right: '0%', top: '64%' }}>
-						<i style={{ '--c': brandColors.cyan }} />Slay your mind!
-					</span>
+				<div className="zz-hero2__logo">
+					<AnimatedLogo />
 				</div>
 			</div>
 		</section>
@@ -103,6 +68,7 @@ export default function HomePage() {
 
 	return (
 		<SiteLayout description="ZikZak — trường mỹ thuật các lứa tuổi tại Quận 7, TP.HCM: mỹ thuật thiếu nhi, chuyên sâu, luyện thi đại học, thiết kế đồ hoạ, vẽ kỹ thuật số và workshop.">
+			<InfoTicker />
 			<Hero />
 
 			<Band color="var(--zz-yellow)">

@@ -4,6 +4,7 @@ import SiteHeader from './SiteHeader.jsx';
 import SiteFooter from './SiteFooter.jsx';
 import QuickContact from './QuickContact.jsx';
 import '../styles/site.css';
+import '../styles/glass27.css';
 
 const BLOBS = [
 	{ c: '#0A5CF5', s: '46vmax', top: '-12%', left: '-10%', d: '34s', x: '6vmax', y: '4vmax' },

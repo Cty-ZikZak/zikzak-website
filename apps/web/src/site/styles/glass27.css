@@ -1,0 +1,365 @@
+/*
+  KÍNH LỎNG kiểu macOS — dùng chung cho thanh menu, ô thông tin, menu thả xuống.
+  Lớp .zz-lg: nền kính mờ trong suốt + viền sáng đổi theo góc + điểm phản chiếu + ánh sáng bên trong.
+  Đặt thêm --lg-r (bo góc) trên phần tử nếu cần; 999px = viên thuốc, hai đầu bo nửa hình tròn.
+*/
+
+.zz-lg {
+	--lg-r: 28px;
+	position: relative;
+	isolation: isolate;
+	border-radius: var(--lg-r);
+	background:
+		linear-gradient(135deg, rgb(255 255 255 / 40%) 0%, rgb(255 255 255 / 12%) 48%, rgb(255 255 255 / 26%) 100%);
+	-webkit-backdrop-filter: blur(22px) saturate(210%) brightness(1.06);
+	backdrop-filter: blur(22px) saturate(210%) brightness(1.06);
+	box-shadow:
+		inset 0 1px 1px rgb(255 255 255 / 95%),
+		inset 0 -1px 1px rgb(255 255 255 / 40%),
+		inset 1px 0 1px rgb(255 255 255 / 45%),
+		inset -1px 0 1px rgb(255 255 255 / 30%),
+		inset 0 0 26px rgb(255 255 255 / 26%),
+		0 22px 44px -16px rgb(25 20 110 / 38%),
+		0 3px 8px rgb(25 20 110 / 10%);
+}
+
+/* Điểm phản chiếu: ánh sáng đổ từ góc trên trái */
+.zz-lg::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border-radius: inherit;
+	background:
+		radial-gradient(120% 90% at 8% -10%, rgb(255 255 255 / 62%) 0%, rgb(255 255 255 / 0%) 52%),
+		radial-gradient(90% 70% at 100% 110%, rgb(255 255 255 / 30%) 0%, rgb(255 255 255 / 0%) 55%);
+	pointer-events: none;
+}
+
+/* Viền sáng: đậm ở góc trên trái và dưới phải, như mép kính bắt sáng */
+.zz-lg::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	padding: 1.5px;
+	background: conic-gradient(from 215deg at 50% 50%, rgb(255 255 255 / 95%), rgb(255 255 255 / 10%) 22%, rgb(255 255 255 / 55%) 50%, rgb(255 255 255 / 8%) 72%, rgb(255 255 255 / 90%));
+	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+	pointer-events: none;
+}
+
+.zz-lg > * {
+	position: relative;
+}
+
+/* Trình duyệt không có kính mờ: nền đặc hơn để chữ vẫn rõ */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.zz-lg {
+		background: rgb(255 255 255 / 86%);
+	}
+}
+
+/* ---------- Thanh menu: viên thuốc kính, hai đầu bo nửa hình tròn ---------- */
+
+.zz-header {
+	padding-top: 14px;
+}
+
+.zz-header__bar.zz-lg {
+	--lg-r: 999px;
+	min-height: 72px;
+	padding: 8px 10px 8px 22px;
+	background:
+		linear-gradient(135deg, rgb(255 255 255 / 46%) 0%, rgb(255 255 255 / 16%) 50%, rgb(255 255 255 / 30%) 100%);
+	box-shadow:
+		inset 0 1px 1px rgb(255 255 255 / 95%),
+		inset 0 -1px 1px rgb(255 255 255 / 40%),
+		inset 0 0 30px rgb(255 255 255 / 30%),
+		0 24px 48px -18px rgb(25 20 110 / 42%),
+		0 4px 10px rgb(25 20 110 / 12%);
+}
+
+/* Mục đang chọn / rê chuột: một viên kính nhỏ nổi trong thanh menu */
+.zz-header .zz-nav__link {
+	position: relative;
+	padding: 11px 16px;
+	color: var(--zz-ink);
+	background: transparent;
+	transition: background 0.25s ease, box-shadow 0.25s ease, color 0.2s ease;
+}
+
+.zz-header .zz-nav__link:hover,
+.zz-header .zz-nav__link[aria-current="page"],
+.zz-header .zz-nav__item:focus-within > .zz-nav__link {
+	color: var(--zz-indigo);
+	background: linear-gradient(135deg, rgb(255 255 255 / 78%), rgb(255 255 255 / 38%));
+	box-shadow:
+		inset 0 1px 1px rgb(255 255 255 / 100%),
+		inset 0 -1px 1px rgb(255 255 255 / 45%),
+		0 6px 16px -6px rgb(25 20 110 / 30%);
+}
+
+/* Menu thả xuống cũng là kính */
+.zz-nav__menu.zz-lg {
+	--lg-r: 26px;
+	position: absolute; /* giữ định vị của menu thả xuống (không bị .zz-lg ghi đè thành relative) */
+	padding: 10px;
+}
+
+.zz-nav__menu.zz-lg .zz-nav__sub:hover {
+	background: linear-gradient(135deg, rgb(255 255 255 / 78%), rgb(255 255 255 / 40%));
+	box-shadow: inset 0 1px 1px rgb(255 255 255 / 100%), 0 6px 14px -8px rgb(25 20 110 / 30%);
+}
+
+.zz-mobile-nav.zz-lg {
+	--lg-r: 30px;
+}
+
+@media (max-width: 1080px) {
+	.zz-header__bar.zz-lg {
+		min-height: 64px;
+		padding-left: 18px;
+	}
+}
+
+/* ---------- Dải thông tin chạy: mỗi thông tin là một ô kính ---------- */
+
+.zz-ticker {
+	position: relative;
+	margin: 4px 0 0;
+	padding: 10px 0 24px;
+	/* chỉ cắt hai bên; quả cầu phía sau trôi mềm qua mép trên/dưới, không bị cắt phẳng */
+	overflow-x: clip;
+	overflow-y: visible;
+}
+
+/* Vài quả cầu màu trôi phía sau để kính có thứ khúc xạ */
+.zz-ticker__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+}
+
+.zz-ticker__bg i {
+	position: absolute;
+	top: var(--t);
+	left: var(--l);
+	width: var(--s);
+	height: var(--s);
+	border-radius: 50%;
+	background: radial-gradient(circle at 32% 28%, rgb(255 255 255 / 55%) 0%, rgb(255 255 255 / 0%) 34%), var(--c);
+	opacity: 0.85;
+	animation: zz-ticker-bg var(--d) ease-in-out infinite alternate;
+}
+
+@keyframes zz-ticker-bg {
+	from { transform: translateX(0) scale(1); }
+	to { transform: translateX(var(--x)) scale(1.1); }
+}
+
+.zz-ticker__viewport {
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+	padding: 18px 0 26px;
+	-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+	mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+}
+
+.zz-ticker__track {
+	display: flex;
+	gap: 18px;
+	width: max-content;
+	margin: 0;
+	padding: 0 9px;
+	list-style: none;
+	animation: zz-ticker-run var(--dur, 60s) linear infinite;
+	will-change: transform;
+}
+
+.zz-ticker:hover .zz-ticker__track,
+.zz-ticker:focus-within .zz-ticker__track,
+.zz-ticker.is-paused .zz-ticker__track {
+	animation-play-state: paused;
+}
+
+@keyframes zz-ticker-run {
+	to { transform: translateX(-50%); }
+}
+
+.zz-tile.zz-lg {
+	/* ô thông tin: kính đục hơn một chút để chữ luôn đọc rõ dù quả cầu màu trôi phía sau */
+	background: linear-gradient(135deg, rgb(255 255 255 / 66%) 0%, rgb(255 255 255 / 36%) 55%, rgb(255 255 255 / 52%) 100%);
+	-webkit-backdrop-filter: blur(26px) saturate(220%) brightness(1.08);
+	backdrop-filter: blur(26px) saturate(220%) brightness(1.08);
+}
+
+.zz-tile {
+	--lg-r: 28px;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	width: clamp(270px, 28vw, 360px);
+	min-height: 96px;
+	padding: 14px 20px 14px 14px;
+	color: var(--zz-ink);
+	transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3), box-shadow 0.3s ease;
+}
+
+a.zz-tile:hover {
+	transform: translateY(-5px) scale(1.02);
+}
+
+.zz-tile__icon {
+	--size: 58px;
+	flex: none;
+}
+
+.zz-tile__icon svg {
+	width: 26px;
+	height: 26px;
+	color: #fff;
+	filter: drop-shadow(0 1px 2px rgb(10 20 90 / 35%));
+}
+
+.zz-tile__body {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.zz-tile__tag {
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--zz-blue);
+}
+
+.zz-tile__title {
+	font-family: var(--zz-display);
+	font-weight: 800;
+	font-size: 18px;
+	line-height: 1.15;
+	color: var(--zz-ink);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.zz-tile__text {
+	font-size: 13.5px;
+	line-height: 1.35;
+	color: var(--zz-ink-2);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+/* Nút tạm dừng (người dùng cần dừng được nội dung tự chạy) */
+.zz-ticker__pause {
+	--lg-r: 999px;
+	position: absolute;
+	right: max(var(--zz-gutter), 12px);
+	bottom: 4px;
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 14px 6px 10px;
+	font: 700 13px/1 var(--zz-font);
+	color: var(--zz-ink-2);
+	cursor: pointer;
+	border: 0;
+}
+
+.zz-ticker__pause svg {
+	width: 14px;
+	height: 14px;
+}
+
+/* Tắt chuyển động: dải trở thành thanh cuộn ngang, vẫn xem được đủ */
+@media (prefers-reduced-motion: reduce) {
+	.zz-ticker__viewport {
+		overflow-x: auto;
+		-webkit-mask-image: none;
+		mask-image: none;
+	}
+
+	.zz-ticker__track {
+		animation: none;
+		transform: none;
+	}
+
+	.zz-ticker__track li[aria-hidden="true"] {
+		display: none;
+	}
+
+	.zz-ticker__bg i,
+	.zz-ticker__pause {
+		animation: none;
+		display: none;
+	}
+}
+
+@media (max-width: 640px) {
+	.zz-ticker__bg i {
+		width: calc(var(--s) * 0.62);
+		height: calc(var(--s) * 0.62);
+	}
+
+	.zz-tile {
+		width: 260px;
+		min-height: 88px;
+		gap: 12px;
+	}
+
+	.zz-tile__icon {
+		--size: 50px;
+	}
+
+	.zz-tile__title {
+		font-size: 16.5px;
+	}
+}
+
+/* ---------- Logo động ở đầu trang chủ ---------- */
+
+.zz-hero2__logo {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 100%;
+	max-width: 640px;
+	margin: 0 auto;
+}
+
+.zz-hero2__logo .zzl {
+	filter: drop-shadow(0 24px 30px rgb(26 0 200 / 20%));
+}
+
+/* Menu thả xuống / menu điện thoại nằm đè lên nội dung: kính mờ đặc hơn để chữ luôn rõ */
+.zz-nav__menu.zz-lg,
+.zz-mobile-nav.zz-lg {
+	background: linear-gradient(135deg, rgb(255 255 255 / 86%) 0%, rgb(255 255 255 / 66%) 100%);
+	-webkit-backdrop-filter: blur(34px) saturate(220%) brightness(1.08);
+	backdrop-filter: blur(34px) saturate(220%) brightness(1.08);
+}
+
+.zz-mobile-nav .zz-btn {
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
+/* Menu thả xuống nằm BÊN TRONG thanh kính → trình duyệt không làm mờ được nội dung phía sau nó
+   (kính lồng kính). Vì vậy dùng nền gần đặc, vẫn giữ viền sáng và ánh phản chiếu của kính. */
+.zz-nav__menu.zz-lg {
+	background: linear-gradient(135deg, rgb(255 255 255 / 97%) 0%, rgb(243 248 255 / 94%) 100%);
+}
