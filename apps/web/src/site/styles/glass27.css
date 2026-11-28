@@ -1078,3 +1078,7 @@ a.zz-tile:hover {
 		grid-template-columns: 1fr;
 	}
 }
+
+.zz-tile__go svg {
+	transition: rotate 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}

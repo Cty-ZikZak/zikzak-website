@@ -97,6 +97,8 @@ export default function InfoTicker({ items = announcements }) {
 			shell: li.firstElementChild,
 			disc: li.querySelector('.zz-disc'),
 			news: li.querySelector('.zz-news'),
+			arrow: li.querySelector('.zz-tile__go svg'),
+			side: 0,
 			sig: '',
 		}));
 		const orbs = [...bg.children].map((el, i) => ({ el, ...BACKDROP[i], size: 0 }));
@@ -191,6 +193,14 @@ export default function InfoTicker({ items = announcements }) {
 				const p = parts[i];
 				const ek = e[i % n];
 				const r = Math.min(lerp(Hc / 2, 34, smooth(ek)), hs[i] / 2);
+				// mũi tên trên hình tròn luôn chỉ về phía bản tin ở giữa: hình tròn bên trái → chỉ sang phải, bên phải → chỉ sang trái
+				const side = i > t + 0.02 ? 1 : 0;
+
+				if (p.arrow && (side !== p.side || !started)) {
+					p.side = side;
+					p.arrow.style.rotate = side ? '180deg' : '0deg';
+				}
+
 				const sig = `${(X + lefts[i]).toFixed(1)}|${ws[i].toFixed(1)}|${hs[i].toFixed(1)}|${r.toFixed(1)}`;
 
 				if (sig !== p.sig || !started) {
