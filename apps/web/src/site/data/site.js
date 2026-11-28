@@ -139,7 +139,7 @@ export const schoolPillars = [
 	},
 	{
 		title: 'Giáo viên chuyên nghiệp',
-		text: 'Chuyên môn mỹ thuật vững, được đào tạo trực tiếp bởi ZikZak, thân thiện và hợp tâm lý từng lứa tuổi.',
+		text: 'Thân thiện và am hiểu tâm lý từng lứa tuổi.',
 	},
 	{
 		title: 'Đào tạo đội tuyển',
