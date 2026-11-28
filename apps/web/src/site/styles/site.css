@@ -2825,16 +2825,6 @@ select.zz-input {
 	-webkit-text-stroke: 0.022em #ffd400;
 }
 
-.zz-h1__swash {
-	position: absolute;
-	left: -0.7em;
-	top: -0.2em;
-	width: 4em;
-	height: 1.5em;
-	overflow: visible;
-	pointer-events: none;
-}
-
 /* 3) "cho mọi lứa tuổi": dòng phụ, nằm dưới chân "sáng tạo" */
 .zz-h1__sub {
 	z-index: 1;
