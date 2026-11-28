@@ -354,7 +354,8 @@ a.zz-tile:hover {
 }
 
 .zz-hero2 {
-	padding-top: 6px;
+	/* cụm tiêu đề nằm ngay dưới thanh menu; dải thông tin nằm bên dưới nên đáy hero gọn lại */
+	padding: clamp(34px, 4.5vw, 60px) 0 clamp(8px, 2vw, 24px);
 }
 
 /* Điện thoại / máy tính bảng dọc: hero xếp 1 cột, logo động đẩy lên đầu, ngay dưới dải thông tin */
@@ -362,8 +363,8 @@ a.zz-tile:hover {
 	.zz-hero2__logo {
 		order: -1;
 		max-width: min(430px, 100%);
-		/* kéo lên sát dải thông tin (đáy khung dải chạy là vùng mờ dần, trống) và chừa khoảng hở phía dưới */
-		margin: -46px auto 18px;
+		/* logo nằm đầu trang, ngay dưới thanh menu */
+		margin: 14px auto 18px;
 		/* nhích sang trái một chút để logo (cùng các hình tròn) nhìn cân giữa màn hình */
 		translate: -14px 0;
 	}
@@ -374,6 +375,7 @@ a.zz-tile:hover {
 
 	.zz-hero2 {
 		padding-top: 0;
+		padding-bottom: 6px;
 	}
 }
 

@@ -74,8 +74,8 @@ export default function HomePage() {
 
 	return (
 		<SiteLayout description="ZikZak — trường mỹ thuật các lứa tuổi tại Quận 7, TP.HCM: mỹ thuật thiếu nhi, chuyên sâu, luyện thi đại học, thiết kế đồ hoạ, vẽ kỹ thuật số và workshop.">
-			<InfoTicker />
 			<Hero />
+			<InfoTicker />
 
 			<Band color="var(--zz-yellow)">
 				<div className="zz-container">
