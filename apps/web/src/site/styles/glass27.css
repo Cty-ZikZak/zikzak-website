@@ -649,7 +649,7 @@ a.zz-tile:hover {
 	overflow: hidden;
 	border-radius: 15px;
 	border: 3px solid #fff;
-	background: var(--c, #fff);
+	background: #fff; /* nền đặc: lá bài không bao giờ trong suốt */
 	box-shadow:
 		0 0 0 1.5px color-mix(in srgb, var(--c, #fff) 70%, transparent),
 		0 12px 18px -6px rgb(25 20 110 / 40%);
@@ -795,12 +795,14 @@ a.zz-tile:hover {
 	top: 50%;
 	translate: -50% -50%;
 	pointer-events: none;
+	z-index: 2; /* nằm trên đường viền sáng (::after) của ô kính để lá bài không bị vạch viền cắt ngang */
 }
 
 /* lớp bản tin: ảnh + tóm tắt, hiện dần khi ô đã lớn */
 .zz-news {
 	position: absolute;
 	inset: 0;
+	z-index: 2;
 	display: grid;
 	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
 	align-items: stretch;
