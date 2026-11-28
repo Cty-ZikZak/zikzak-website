@@ -403,6 +403,8 @@ a.zz-tile:hover {
 		max-width: min(430px, 100%);
 		/* kéo lên sát dải thông tin (đáy khung dải chạy là vùng mờ dần, trống) và chừa khoảng hở phía dưới */
 		margin: -46px auto 18px;
+		/* nhích sang trái một chút để logo (cùng các hình tròn) nhìn cân giữa màn hình */
+		translate: -14px 0;
 	}
 
 	.zz-hero2__grid {
