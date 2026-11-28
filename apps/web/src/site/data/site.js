@@ -159,7 +159,6 @@ export const partnerSchools = [
 	'Mầm non Hướng Dương',
 	'Mầm non Rạng Đông 10',
 	'Mầm non Mặt Trời Bé Con',
-	'Mầm non Happy Stars',
 	'Mầm non Sao Mai',
 	'Mầm non Anh Việt Mỹ',
 	'Tiểu học Anh Việt Mỹ',

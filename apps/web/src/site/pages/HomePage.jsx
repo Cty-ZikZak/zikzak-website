@@ -89,7 +89,7 @@ export default function HomePage() {
 				<div className="zz-container">
 					<SectionHead
 						eyebrow="Dành cho nhà trường"
-						title={<>Hợp đồng giảng dạy ngoại khoá <span className="zz-scribble">môn Mỹ thuật</span></>}
+						title={<>Hợp đồng giảng dạy ngoại khoá <span className="zz-scribble">tại các trường</span></>}
 						lead="ZikZak đồng hành cùng trường xây dựng chương trình, tổ chức lớp ngoại khoá và hoạt động nghệ thuật cho học sinh tại TP.HCM."
 					/>
 					<SchoolPartners />
