@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Orb from './Orb.jsx';
@@ -18,19 +18,38 @@ const COPIES = 3;
 
 // f: hệ số theo tốc độ lướt (xa/gần), k: độ nhạy của lò xo (nhỏ = trễ nhiều hơn), l: vị trí ngang ban đầu (0–1)
 const BACKDROP = [
-	{ c: 'var(--zz-yellow)', s: 'clamp(110px, 12vw, 170px)', t: '-4%', l: 0.08, f: 1.5, k: 3.2 },
-	{ c: 'var(--zz-cyan)', s: 'clamp(150px, 16vw, 230px)', t: '16%', l: 0.36, f: 0.8, k: 2.2 },
-	{ c: 'var(--zz-green)', s: 'clamp(90px, 9vw, 130px)', t: '-2%', l: 0.62, f: 1.9, k: 3.8 },
-	{ c: 'var(--zz-blue)', s: 'clamp(120px, 13vw, 190px)', t: '30%', l: 0.86, f: 1.1, k: 2.8 },
-	{ c: 'var(--zz-lime)', s: 'clamp(70px, 7vw, 100px)', t: '36%', l: 0.22, f: 2.2, k: 4.4 },
+	{ c: 'var(--zz-yellow)', s: 'clamp(90px, 9vw, 130px)', t: '-2%', l: 0.1, f: 1.5, k: 3.2 },
+	{ c: 'var(--zz-cyan)', s: 'clamp(120px, 12vw, 170px)', t: '22%', l: 0.5, f: 0.8, k: 2.2 },
+	{ c: 'var(--zz-blue)', s: 'clamp(90px, 9vw, 135px)', t: '28%', l: 0.86, f: 1.1, k: 2.8 },
 ];
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
 function Tile({ item, hidden }) {
+	// bấm vào bong bóng ảnh: nảy lên và phóng to một lúc rồi thu lại (không chuyển trang; bấm phần còn lại của ô để mở)
+	const [pop, setPop] = useState(0);
+	const timer = useRef(0);
+
+	useEffect(() => () => clearTimeout(timer.current), []);
+
+	const onBubble = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		clearTimeout(timer.current);
+		setPop((n) => n + 1);
+		timer.current = setTimeout(() => setPop(0), 2600);
+	};
+
 	const content = (
 		<>
-			<Orb className="zz-tile__bubble" color={item.color} image={item.image} alt="" />
+			<Orb
+				className={`zz-tile__bubble${pop ? ' is-pop' : ''}`}
+				data-pop={pop % 2}
+				onClick={onBubble}
+				color={item.color}
+				image={item.image}
+				alt=""
+			/>
 			<span className="zz-tile__body">
 				<span className="zz-tile__tag">{item.tag}</span>
 				<strong className="zz-tile__title">{item.title}</strong>

@@ -160,7 +160,7 @@
 	z-index: 1;
 	overflow: hidden;
 	/* đáy rộng + mặt nạ mờ dần: bóng đổ của các ô tan hẳn trước mép khung, không còn đường cắt ngang */
-	padding: 30px 0 64px;
+	padding: 46px 0 64px;
 	-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0, #000 calc(100% - 44px), transparent 100%);
 	mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0, #000 calc(100% - 44px), transparent 100%);
 	-webkit-mask-composite: source-in;
@@ -177,7 +177,7 @@
 
 .zz-ticker__track {
 	display: flex;
-	gap: 46px; /* chừa chỗ cho phần bong bóng nhô ra của ô kế tiếp */
+	gap: 56px; /* chừa chỗ cho phần bong bóng nhô ra của ô kế tiếp */
 	width: max-content;
 	margin: 0;
 	padding: 0 9px;
@@ -204,7 +204,7 @@
 	display: flex;
 	align-items: center;
 	gap: 14px;
-	width: clamp(310px, 30vw, 400px);
+	width: clamp(330px, 32vw, 420px);
 	min-height: 96px;
 	padding: 14px 16px 14px 14px;
 	color: var(--zz-ink);
@@ -217,17 +217,46 @@ a.zz-tile:hover {
 
 .zz-tile__bubble {
 	/* bong bóng ảnh nhô ra khỏi ô kính để thu hút bấm; hơi trễ và co giãn theo đà lướt */
-	--size: 112px;
+	--size: 138px;
 	flex: none;
-	margin: -18px 0 -18px -30px;
+	margin: -30px 0 -30px -38px;
+	cursor: pointer;
 	transform: translateX(var(--lag, 0px)) scale(var(--jx, 1), var(--jy, 1));
-	transition: rotate 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.4), filter 0.3s ease;
+	transition: rotate 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.4), scale 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.5), filter 0.3s ease;
 	filter: drop-shadow(0 14px 14px rgb(25 20 110 / 28%));
 	z-index: 2;
 }
 
 .zz-tile:hover .zz-tile__bubble {
 	rotate: -7deg;
+}
+
+/* bấm vào bong bóng: nảy lên rồi phóng to và giữ một lúc */
+.zz-tile__bubble.is-pop {
+	scale: 1.28;
+	z-index: 6;
+	filter: drop-shadow(0 22px 22px rgb(25 20 110 / 34%));
+	animation: zz-bubble-hop 0.7s cubic-bezier(0.3, 0.7, 0.4, 1) both;
+}
+
+.zz-tile__bubble.is-pop[data-pop="1"] {
+	animation-name: zz-bubble-hop-b;
+}
+
+@keyframes zz-bubble-hop {
+	0% { translate: 0 0; }
+	35% { translate: 0 -26px; }
+	65% { translate: 0 4px; }
+	82% { translate: 0 -7px; }
+	100% { translate: 0 0; }
+}
+
+@keyframes zz-bubble-hop-b {
+	0% { translate: 0 0; }
+	35% { translate: 0 -26px; }
+	65% { translate: 0 4px; }
+	82% { translate: 0 -7px; }
+	100% { translate: 0 0; }
 }
 
 .zz-tile__go {
@@ -317,14 +346,14 @@ a.zz-tile:hover {
 	}
 
 	.zz-tile {
-		width: 300px;
+		width: 316px;
 		min-height: 88px;
 		gap: 10px;
 	}
 
 	.zz-tile__bubble {
-		--size: 92px;
-		margin: -14px 0 -14px -24px;
+		--size: 116px;
+		margin: -24px 0 -24px -34px;
 	}
 
 	.zz-tile__go {
