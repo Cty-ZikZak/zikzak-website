@@ -336,6 +336,39 @@ export default function InfoTicker({ items = announcements }) {
 			startMove(target);
 		};
 
+		// Magic Mouse / bàn di chuột: vuốt ngang tạo sự kiện lăn (wheel) có deltaX, dải chạy theo ngón tay rồi tự căn lại khi dừng
+		let wheelTimer = 0;
+
+		const onWheel = (e2) => {
+			const dx = e2.deltaX || (e2.shiftKey ? e2.deltaY : 0);
+
+			if (!dx || (!e2.shiftKey && Math.abs(e2.deltaX) <= Math.abs(e2.deltaY))) return; // lăn dọc: để trang cuộn bình thường
+
+			e2.preventDefault();
+
+			if (mv) {
+				// đang chuyển cảnh: ngắt ngay, chốt ô gần nhất rồi cho vuốt tiếp
+				active = mv.p > 0.5 ? mv.toKey : mv.fromKey;
+				e.fill(0);
+				e[active] = 1;
+				mv = null;
+				pending = null;
+			}
+
+
+			drag = true;
+			swiped = false;
+			root.classList.add('is-dragging');
+			t = clamp(t + dx / pitch(), 1, total - 2);
+			clearTimeout(wheelTimer);
+			wheelTimer = setTimeout(() => {
+				drag = false;
+				root.classList.remove('is-dragging');
+				holdT = 0;
+				startMove(Math.round(t));
+			}, 180);
+		};
+
 		const onClick = (e2) => {
 			if (swiped) {
 				e2.preventDefault();
@@ -383,6 +416,7 @@ export default function InfoTicker({ items = announcements }) {
 		window.addEventListener('pointerup', onUp);
 		window.addEventListener('pointercancel', onUp);
 		view.addEventListener('click', onClick, true);
+		view.addEventListener('wheel', onWheel, { passive: false });
 		view.addEventListener('pointerenter', onEnter);
 		view.addEventListener('pointerleave', onLeave);
 		view.addEventListener('focusin', onFocusIn);
@@ -400,6 +434,8 @@ export default function InfoTicker({ items = announcements }) {
 			window.removeEventListener('pointerup', onUp);
 			window.removeEventListener('pointercancel', onUp);
 			view.removeEventListener('click', onClick, true);
+			view.removeEventListener('wheel', onWheel);
+			clearTimeout(wheelTimer);
 			view.removeEventListener('pointerenter', onEnter);
 			view.removeEventListener('pointerleave', onLeave);
 			view.removeEventListener('focusin', onFocusIn);
