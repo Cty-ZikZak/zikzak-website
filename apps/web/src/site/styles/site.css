@@ -2867,8 +2867,8 @@ select.zz-input {
 /* 3) "cho mọi lứa tuổi": dòng phụ, nằm dưới chân "sáng tạo" */
 .zz-h1__sub {
 	z-index: 4; /* đuôi chữ "g" của "sáng" luồn phía sau dòng này */
-	margin-top: -0.2em;
-	margin-left: -0.05em;
+	margin: -0.2em auto 0; /* căn giữa theo cụm "Ươm mầm" */
+	width: max-content;
 	font-size: clamp(33px, 15.65cqw, 99.5px);
 	font-weight: 800;
 	letter-spacing: -0.04em;
@@ -2880,7 +2880,6 @@ select.zz-input {
 @media (max-width: 640px) {
 	.zz-h1__sub {
 		font-size: 14.2cqw;
-		margin-left: 0;
 	}
 }
 
@@ -2889,3 +2888,23 @@ select.zz-input {
 	margin: 26px 0 30px !important;
 }
 
+
+/* Điện thoại / máy tính bảng dọc: toàn bộ nội dung hero căn giữa màn hình */
+@media (max-width: 900px) {
+	.zz-hero2__copy {
+		text-align: center;
+	}
+
+	.zz-hero2 .zz-h1 {
+		margin-inline: auto;
+	}
+
+	.zz-hero2__lead {
+		margin-inline: auto !important;
+	}
+
+	.zz-hero2 .zz-actions,
+	.zz-hero2 .zz-hero__chips {
+		justify-content: center;
+	}
+}
