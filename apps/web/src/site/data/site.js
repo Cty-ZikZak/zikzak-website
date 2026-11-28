@@ -124,42 +124,25 @@ export const programs = [
 
 export const programById = Object.fromEntries(programs.map((p) => [p.id, p]));
 
-// Gợi ý chương trình theo độ tuổi (phần "Con bạn bao nhiêu tuổi?" trên trang chủ).
+// Chương trình theo độ tuổi (phần "Chọn lớp theo độ tuổi" trên trang chủ): mỗi nhóm một ô kính màu.
 export const ageGroups = [
 	{
-		id: 'mam-non',
-		label: '3 – 5 tuổi',
-		title: 'Bé mầm non',
-		text: 'Bé làm quen màu sắc, hình dạng, đường nét và dụng cụ mỹ thuật cơ bản qua những chủ đề gần gũi.',
+		id: 'nhi',
+		label: '3 – 10 tuổi',
+		color: brandColors.green,
 		programs: ['thieu-nhi', 'workshop'],
 	},
 	{
-		id: 'tieu-hoc',
-		label: '6 – 10 tuổi',
-		title: 'Bé tiểu học',
-		text: 'Bé vẽ sáng tạo theo chủ đề, thử nhiều chất liệu và bắt đầu vẽ trên iPad nếu thích.',
-		programs: ['thieu-nhi', 'ky-thuat-so', 'workshop'],
-	},
-	{
-		id: 'thcs',
+		id: 'thieu-nien',
 		label: '11 – 15 tuổi',
-		title: 'Học sinh THCS',
-		text: 'Học bố cục, phối màu và hoàn thiện tác phẩm có ý tưởng rõ ràng; nền tảng cho hình hoạ bài bản.',
-		programs: ['thieu-nhi', 'chuyen-sau', 'ky-thuat-so'],
+		color: brandColors.cyan,
+		programs: ['chuyen-sau', 'luyen-thi', 'workshop'],
 	},
 	{
-		id: 'thpt',
-		label: 'THPT',
-		title: 'Ôn thi khối năng khiếu',
-		text: 'Hình hoạ chì, trang trí màu theo đề thi các trường Mỹ thuật, Kiến trúc.',
-		programs: ['luyen-thi', 'chuyen-sau'],
-	},
-	{
-		id: 'nguoi-lon',
-		label: 'Từ 15 tuổi & người lớn',
-		title: 'Học nghề sáng tạo',
-		text: 'Thiết kế đồ hoạ, vẽ kỹ thuật số hoặc vẽ để thư giãn — học để làm được việc thật.',
-		programs: ['do-hoa', 'ky-thuat-so', 'chuyen-sau', 'workshop'],
+		id: 'tu-15',
+		label: '15 tuổi trở lên',
+		color: brandColors.blue,
+		programs: ['chuyen-sau', 'luyen-thi', 'do-hoa', 'ky-thuat-so', 'workshop'],
 	},
 ];
 

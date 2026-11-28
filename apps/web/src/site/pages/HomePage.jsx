@@ -72,8 +72,7 @@ export default function HomePage() {
 			<Band color="var(--zz-yellow)">
 				<div className="zz-container">
 					<SectionHead
-						eyebrow="Chọn lớp theo độ tuổi"
-						title={<>Con bạn <span className="zz-scribble" style={{ '--sc': 'var(--zz-cyan)' }}>bao nhiêu tuổi?</span></>}
+						title={<>Chọn lớp theo <span className="zz-scribble" style={{ '--sc': 'var(--zz-cyan)' }}>độ tuổi</span></>}
 						lead="Chọn độ tuổi để xem chương trình phù hợp — từ bé mầm non đến học sinh ôn thi và người đi làm."
 					/>
 					<AgePicker />

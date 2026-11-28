@@ -118,6 +118,7 @@ export default function InfoTicker({ items = announcements }) {
 		let last = 0;
 		let raf = 0;
 		let started = false;
+		let drag = false;
 
 		const measure = () => {
 			W = view.clientWidth;
@@ -137,7 +138,7 @@ export default function InfoTicker({ items = announcements }) {
 			const toKey = ((g % n) + n) % n;
 			const fromKey = ((Math.round(t) % n) + n) % n;
 
-			if (toKey === fromKey && Math.round(g) === Math.round(t)) return;
+			if (toKey === fromKey && Math.abs(g - t) < 0.001) return;
 
 			mv = {
 				t0: t,
@@ -220,7 +221,9 @@ export default function InfoTicker({ items = announcements }) {
 			const dt = Math.min(0.1, (now - last) / 1000);
 			last = now;
 
-			if (mv) {
+			if (drag) {
+				// đang kéo bằng tay: vị trí do con trỏ quyết định
+			} else if (mv) {
 				mv.p = Math.min(1, mv.p + dt / mv.dur);
 				const p = mv.p;
 				t = lerp(mv.t0, mv.g, ease(p));
@@ -273,25 +276,64 @@ export default function InfoTicker({ items = announcements }) {
 			}
 		};
 
-		/* ----- tương tác ----- */
+		/* ----- tương tác: kéo / vuốt theo tay (chuột hoặc ngón tay), thả ra thì tự căn về bản tin gần nhất ----- */
+		let pid = null;
 		let downX = 0;
 		let downY = 0;
+		let t0 = 0;
+		let lastX = 0;
+		let lastT = 0;
+		let vx = 0;
 		let swiped = false;
 
+		const pitch = () => Wc + G;
+
 		const onDown = (e2) => {
+			if (e2.pointerType === 'mouse' && e2.button !== 0) return;
+			pid = e2.pointerId;
 			downX = e2.clientX;
 			downY = e2.clientY;
+			lastX = e2.clientX;
+			lastT = performance.now();
+			vx = 0;
+			t0 = t;
 			swiped = false;
 		};
 
-		const onUp = (e2) => {
+		const onMove = (e2) => {
+			if (e2.pointerId !== pid) return;
 			const dx = e2.clientX - downX;
 			const dy = e2.clientY - downY;
 
-			if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+			if (!drag) {
+				if (mv || Math.abs(dx) < 8 || Math.abs(dy) > Math.abs(dx)) return; // chưa đủ coi là kéo ngang
+				drag = true;
 				swiped = true;
-				goTo(Math.round(t) + (dx < 0 ? 1 : -1));
+				t0 = t;
+				view.setPointerCapture?.(e2.pointerId);
+				root.classList.add('is-dragging');
 			}
+
+			const now = performance.now();
+			const dts = Math.max(1, now - lastT) / 1000;
+			vx = vx * 0.6 + ((e2.clientX - lastX) / dts) * 0.4;
+			lastX = e2.clientX;
+			lastT = now;
+			t = clamp(t0 - dx / pitch(), 1, total - 2);
+		};
+
+		const onUp = (e2) => {
+			if (e2.pointerId !== pid) return;
+			pid = null;
+
+			if (!drag) return;
+
+			drag = false;
+			root.classList.remove('is-dragging');
+			if (performance.now() - lastT > 90) vx *= 0.2;
+			const target = Math.round(clamp(t - (vx * 0.2) / pitch(), 1, total - 2));
+			holdT = 0;
+			startMove(target);
 		};
 
 		const onClick = (e2) => {
@@ -337,7 +379,9 @@ export default function InfoTicker({ items = announcements }) {
 		io.observe(root);
 
 		view.addEventListener('pointerdown', onDown);
-		view.addEventListener('pointerup', onUp);
+		window.addEventListener('pointermove', onMove);
+		window.addEventListener('pointerup', onUp);
+		window.addEventListener('pointercancel', onUp);
 		view.addEventListener('click', onClick, true);
 		view.addEventListener('pointerenter', onEnter);
 		view.addEventListener('pointerleave', onLeave);
@@ -352,7 +396,9 @@ export default function InfoTicker({ items = announcements }) {
 			ro.disconnect();
 			io.disconnect();
 			view.removeEventListener('pointerdown', onDown);
-			view.removeEventListener('pointerup', onUp);
+			window.removeEventListener('pointermove', onMove);
+			window.removeEventListener('pointerup', onUp);
+			window.removeEventListener('pointercancel', onUp);
 			view.removeEventListener('click', onClick, true);
 			view.removeEventListener('pointerenter', onEnter);
 			view.removeEventListener('pointerleave', onLeave);
