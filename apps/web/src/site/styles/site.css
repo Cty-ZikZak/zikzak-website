@@ -2819,7 +2819,7 @@ select.zz-input {
 .zz-h1__hand-text {
 	position: relative;
 	display: inline-block;
-	/* chuyển màu giống chữ "câu chuyện" (--zz-zigzag); nét dày nhẹ bằng in đậm giả của trình duyệt, bo tròn mịn */
+	/* chuyển màu từ xanh ngọc sang vàng; nét dày nhẹ bằng in đậm giả của trình duyệt, bo tròn mịn */
 	font-weight: 400;
 	/* các nét nối của Ballet rất mảnh: thu sát chữ để các nét chạm và liền mạch */
 	letter-spacing: -0.02em;
@@ -2827,7 +2827,7 @@ select.zz-input {
 	/* chừa chỗ cho nét kéo dài của font (đầu chữ s, đuôi chữ g) để màu không bị cắt */
 	padding: 0.2em 0.3em 0.62em 0.3em;
 	margin: -0.2em -0.3em -0.62em;
-	background: var(--zz-zigzag);
+	background: linear-gradient(90deg, var(--zz-cyan) 12%, var(--zz-green) 50%, var(--zz-yellow) 90%);
 	-webkit-background-clip: text;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
