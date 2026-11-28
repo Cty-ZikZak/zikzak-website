@@ -10,9 +10,6 @@
 @import '@fontsource/be-vietnam-pro/latin-500.css';
 @import '@fontsource/be-vietnam-pro/latin-700.css';
 @import '@fontsource-variable/bricolage-grotesque/standard.css';
-@import '@fontsource/alex-brush/vietnamese-400.css';
-@import '@fontsource/alex-brush/latin-400.css';
-@import '@fontsource/alex-brush/latin-ext-400.css';
 @import '@fontsource/baloo-2/vietnamese-600.css';
 @import '@fontsource/baloo-2/vietnamese-800.css';
 @import '@fontsource/baloo-2/latin-600.css';
@@ -467,7 +464,7 @@
 	font-weight: 800;
 	font-size: 30px;
 	line-height: 1;
-	letter-spacing: 0;
+	letter-spacing: -0.02em;
 }
 
 .zz-wordmark span:nth-child(1) { color: var(--zz-blue); }
@@ -2740,13 +2737,23 @@ select.zz-input {
 		padding: 8px 14px;
 	}
 }
+
+
+@font-face {
+	font-family: 'Ballet';
+	src: url('../fonts/Ballet.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap; /* Ballet — SIL Open Font License */
+}
+
 /* ======================================================================
    TIÊU ĐỀ ĐẦU TRANG — phân cấp chữ: khối chữ lớn + chữ viết tay phát sáng chồng lên
    ====================================================================== */
 
 .zz {
 	--zz-head: 'Bricolage Grotesque Variable', 'Be Vietnam Pro', system-ui, sans-serif;
-	--zz-hand: 'Alex Brush', 'Baloo 2', cursive;
+	--zz-hand: 'Ballet', 'Baloo 2', cursive;
 }
 
 /* Quy tắc chống rớt chữ cho mọi đoạn văn và tiêu đề */
@@ -2814,9 +2821,9 @@ select.zz-input {
 	display: inline-block;
 	/* chuyển màu từ xanh ngọc sang vàng; nét dày nhẹ bằng in đậm giả của trình duyệt, bo tròn mịn */
 	font-weight: 400;
-	/* nét viền trong suốt làm dày đều các nét mảnh để chữ liền mạch */
+	/* các nét nối của Ballet rất mảnh: thu sát chữ để các nét chạm và liền mạch */
 	letter-spacing: -0.02em;
-	-webkit-text-stroke: 0.012em transparent;
+	-webkit-text-stroke: 0.022em transparent;
 	/* chừa chỗ cho nét kéo dài của font (đầu chữ s, đuôi chữ g) để màu không bị cắt */
 	padding: 0.2em 0.3em 0.62em 0.3em;
 	margin: -0.2em -0.3em -0.62em;
