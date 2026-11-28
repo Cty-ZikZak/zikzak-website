@@ -36,7 +36,7 @@ function Hero() {
 						<span className="zz-h1__big">Ươm mầm</span>{' '}
 						<span className="zz-h1__hand">
 							<span className="zz-h1__hand-in">
-								<span className="zz-h1__hand-text">sáng tạo</span>
+								<span className="zz-h1__hand-text" data-text="sáng tạo">sáng tạo</span>
 							</span>
 						</span>{' '}
 						<span className="zz-h1__sub">cho mọi lứa tuổi</span>
