@@ -1,5 +1,6 @@
 import React from 'react';
 import Reveal from './Reveal.jsx';
+import { nb } from '../lib/text.js';
 
 const DOTS = ['var(--zz-blue)', 'var(--zz-yellow)', 'var(--zz-cyan)'];
 
@@ -19,7 +20,7 @@ export default function SectionHead({ eyebrow, title, lead, align = 'center', as
 		<Reveal className={['zz-section-head', align === 'left' ? 'zz-section-head--left' : ''].filter(Boolean).join(' ')}>
 			{eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
 			<Heading className="zz-title">{title}</Heading>
-			{lead ? <p className="zz-lead">{lead}</p> : null}
+			{lead ? <p className="zz-lead">{nb(lead)}</p> : null}
 		</Reveal>
 	);
 }

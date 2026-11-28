@@ -17,6 +17,7 @@ import ThemeSong from '../components/ThemeSong.jsx';
 import Faq from '../components/Faq.jsx';
 import { ContactBlock } from './RegisterPage.jsx';
 import { useArtworks } from '../lib/artworks.js';
+import { nb } from '../lib/text.js';
 import { achievements, brandColors, contact, faqs, mascots, programs } from '../data/site.js';
 
 const REASONS = [
@@ -30,13 +31,16 @@ function Hero() {
 	return (
 		<section className="zz-hero2">
 			<div className="zz-container zz-hero2__grid">
-				<Reveal>
-					<h1>
-						Ươm mầm <span className="zz-scribble">sáng tạo</span> cho mọi lứa tuổi
+				<Reveal className="zz-hero2__copy">
+					<h1 className="zz-h1">
+						<span className="zz-h1__big">Ươm mầm</span>{' '}
+						<span className="zz-h1__hand">
+							<span className="zz-h1__hand-in" data-text="sáng tạo">sáng tạo</span>
+						</span>{' '}
+						<span className="zz-h1__sub">cho mọi lứa tuổi</span>
 					</h1>
-					<p className="zz-lead">
-						ZikZak là nơi ươm mầm và phát triển khả năng mỹ thuật cho học viên ở mọi lứa tuổi — nơi mọi
-						giới hạn được khai phá và sự sáng tạo luôn được tôn vinh.
+					<p className="zz-lead zz-hero2__lead">
+						{nb('ZikZak là nơi ươm mầm và phát triển khả năng mỹ thuật cho học viên ở mọi lứa tuổi — nơi mọi giới hạn được khai phá và sự sáng tạo luôn được tôn vinh.')}
 					</p>
 					<div className="zz-actions">
 						<Link to="/dang-ky" className="zz-btn zz-btn--primary">
@@ -115,7 +119,7 @@ export default function HomePage() {
 							<Reveal key={reason.title} className="zz-feature zz-glass" delay={i * 80}>
 								<Orb color={reason.color} label={String(i + 1)} />
 								<h3>{reason.title}</h3>
-								<p>{reason.text}</p>
+								<p>{nb(reason.text)}</p>
 							</Reveal>
 						))}
 					</div>
@@ -182,7 +186,7 @@ export default function HomePage() {
 					<div>
 						<Eyebrow>Dành cho nhà trường</Eyebrow>
 						<h2>Liên kết giảng dạy Mỹ thuật</h2>
-						<p>ZikZak hợp tác giảng dạy môn Mỹ thuật tại các trường Mầm non, Tiểu học, THCS và THPT.</p>
+						<p>{nb('ZikZak hợp tác giảng dạy môn Mỹ thuật tại các trường Mầm non, Tiểu học, THCS và THPT.')}</p>
 					</div>
 					<Link to="/hop-dong-lien-ket-giang-day" className="zz-btn zz-btn--primary">Tìm hiểu hợp tác <ArrowRight /></Link>
 				</div>

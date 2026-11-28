@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Pause, Play } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Orb from './Orb.jsx';
 import { announcements } from '../data/site.js';
 
@@ -8,7 +8,7 @@ import { announcements } from '../data/site.js';
   Dải thông tin: mỗi thông tin là một ô kính có bong bóng tròn chứa ảnh.
   Chuyển động mô phỏng vật lý (không dùng CSS animation):
   - tự chạy sang trái; kéo / lướt / lăn chuột ngang để chạy theo tay, thả ra thì còn đà rồi chậm dần về nhịp tự chạy;
-  - rê chuột thì dừng từ từ (có đà), không khựng đột ngột;
+  - luôn chạy nhẹ nhàng, không có nút dừng; rê chuột thì chậm dần (có đà) để dễ bấm, không khựng đột ngột;
   - các quả cầu màu phía sau trôi theo hướng lướt với độ trễ riêng, bị kéo dãn và nhoè nhẹ theo tốc độ;
   - bong bóng ảnh "dẻo": hơi trễ lại và co giãn theo gia tốc.
 */
@@ -53,16 +53,10 @@ function Tile({ item, hidden }) {
 }
 
 export default function InfoTicker({ items = announcements }) {
-	const [paused, setPaused] = useState(false);
-	const pausedRef = useRef(false);
 	const rootRef = useRef(null);
 	const viewRef = useRef(null);
 	const trackRef = useRef(null);
 	const bgRef = useRef(null);
-
-	useEffect(() => {
-		pausedRef.current = paused;
-	}, [paused]);
 
 	useEffect(() => {
 		const root = rootRef.current;
@@ -190,12 +184,14 @@ export default function InfoTicker({ items = announcements }) {
 		/* ----- Vòng lặp vật lý ----- */
 		// Bước tính cố định nhỏ: máy chậm (khung hình trễ) vẫn chạy đúng thời gian thật, không bị "quay chậm"
 		const simulate = (dt) => {
+			// luôn chạy; rê chuột → chậm còn 1/4 (dễ bấm); đang focus bằng bàn phím → đứng yên để đọc
 			let target = -BASE_SPEED;
-			if (pausedRef.current || st.hover || st.focus) target = 0;
+			if (st.focus) target = 0;
+			else if (st.hover) target = -BASE_SPEED * 0.25;
 
 			if (!st.drag) {
 				// về nhịp tự chạy theo hàm mũ → còn đà, chậm dần mượt, không giật
-				const rate = target === 0 ? 2.4 : 1.35;
+				const rate = st.hover || st.focus ? 2.4 : 1.35;
 				st.v += (target - st.v) * (1 - Math.exp(-dt * rate));
 				st.x += st.v * dt;
 			}
@@ -315,7 +311,7 @@ export default function InfoTicker({ items = announcements }) {
 	const sets = Array.from({ length: COPIES }, (_, c) => items.map((item) => ({ item, hidden: c > 0, key: `${item.id}-${c}` }))).flat();
 
 	return (
-		<section ref={rootRef} className={['zz-ticker', paused ? 'is-paused' : ''].filter(Boolean).join(' ')} aria-label="Thông tin nổi bật">
+		<section ref={rootRef} className="zz-ticker" aria-label="Thông tin nổi bật">
 			<div className="zz-ticker__bg" ref={bgRef} aria-hidden="true">
 				{BACKDROP.map((b) => (
 					<i key={b.c} style={{ '--c': b.c, '--s': b.s, '--t': b.t }} />
@@ -331,11 +327,6 @@ export default function InfoTicker({ items = announcements }) {
 					))}
 				</ul>
 			</div>
-
-			<button type="button" className="zz-ticker__pause zz-lg" onClick={() => setPaused((v) => !v)} aria-pressed={paused}>
-				{paused ? <Play /> : <Pause />}
-				{paused ? 'Tiếp tục chạy' : 'Tạm dừng'}
-			</button>
 		</section>
 	);
 }

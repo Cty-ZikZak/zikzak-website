@@ -9,6 +9,10 @@
 @import '@fontsource/be-vietnam-pro/latin-400.css';
 @import '@fontsource/be-vietnam-pro/latin-500.css';
 @import '@fontsource/be-vietnam-pro/latin-700.css';
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
+@import '@fontsource/pacifico/vietnamese-400.css';
+@import '@fontsource/pacifico/latin-400.css';
+@import '@fontsource/pacifico/latin-ext-400.css';
 @import '@fontsource/baloo-2/vietnamese-600.css';
 @import '@fontsource/baloo-2/vietnamese-800.css';
 @import '@fontsource/baloo-2/latin-600.css';
@@ -2087,8 +2091,6 @@ select.zz-input {
 }
 
 .zz-hero2 h1 {
-	font-size: clamp(42px, 6.4vw, 80px);
-	line-height: 1.02;
 	color: var(--zz-indigo);
 }
 
@@ -2687,9 +2689,7 @@ select.zz-input {
 
 /* ---------- Tinh chỉnh trang chủ v2 ---------- */
 
-.zz-hero2 h1 {
-	line-height: 1.12;
-}
+
 
 .zz-hero2 h1 .zz-scribble::after {
 	bottom: 0.1em;
@@ -2737,5 +2737,139 @@ select.zz-input {
 
 	.zz-bubble {
 		padding: 8px 14px;
+	}
+}
+
+
+/* ======================================================================
+   TIÊU ĐỀ ĐẦU TRANG — phân cấp chữ: khối chữ lớn + chữ viết tay phát sáng chồng lên
+   ====================================================================== */
+
+.zz {
+	--zz-head: 'Bricolage Grotesque Variable', 'Be Vietnam Pro', system-ui, sans-serif;
+	--zz-hand: 'Pacifico', 'Baloo 2', cursive;
+}
+
+/* Quy tắc chống rớt chữ cho mọi đoạn văn và tiêu đề */
+.zz :where(p, li, blockquote, figcaption) {
+	text-wrap: pretty;
+}
+
+.zz :where(h1, h2, h3, h4) {
+	text-wrap: balance;
+}
+
+.zz-hero2__copy {
+	container-type: inline-size;
+}
+
+.zz-hero2 .zz-h1 {
+	margin: 0;
+	font-family: var(--zz-head);
+	font-weight: 800;
+	font-variation-settings: 'opsz' 96, 'wdth' 100;
+	font-stretch: 100%;
+	letter-spacing: -0.04em;
+	line-height: 0.9;
+	text-wrap: nowrap;
+	color: var(--zz-indigo);
+}
+
+.zz-h1 > span {
+	display: block;
+	position: relative;
+}
+
+/* 1) "Ươm mầm": khối chữ lớn nhất */
+.zz-h1__big {
+	font-size: clamp(50px, 23.6cqw, 150px);
+	line-height: 0.86;
+	letter-spacing: -0.045em;
+	margin-left: -0.03em;
+}
+
+/* 2) "sáng tạo": chữ viết tay vàng sáng, nghiêng, chồng lên dòng chữ khối */
+.zz-h1__hand {
+	/* lớp ngoài không tạo stacking context → hào quang (::after) nằm được phía sau cả dòng chữ khối */
+	width: max-content;
+	margin: -0.3em 0 -0.08em 0.1em;
+	font-family: var(--zz-hand);
+	font-weight: 400;
+	font-variation-settings: normal;
+	font-size: clamp(42px, 19.6cqw, 124px);
+	line-height: 1.1;
+	letter-spacing: -0.01em;
+}
+
+.zz-h1__hand-in {
+	position: relative;
+	z-index: 3;
+	display: block;
+	color: var(--zz-yellow);
+	transform: rotate(-5.5deg);
+	transform-origin: 6% 85%;
+	/* viền xanh tím như chữ trong logo ZikZak, nằm dưới ruột vàng */
+	-webkit-text-stroke: 0.1em var(--zz-indigo);
+	paint-order: stroke fill;
+	text-shadow: 0.03em 0.06em 0 var(--zz-indigo), 0 0.16em 0.22em rgb(26 0 200 / 26%);
+}
+
+/* Hào quang sát chữ: vàng đậm, bán kính nhỏ để không làm bạc màu chữ khối bên dưới */
+.zz-h1__hand-in::before {
+	content: attr(data-text);
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	color: var(--zz-yellow);
+	-webkit-text-stroke: 0.1em var(--zz-yellow);
+	text-shadow:
+		0 0 0.1em rgb(255 232 0 / 100%),
+		0 0 0.22em rgb(255 222 0 / 90%),
+		0 0 0.42em rgb(255 206 0 / 60%);
+	pointer-events: none;
+	animation: zz-glow 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes zz-glow {
+	from { opacity: 0.8; }
+	to { opacity: 1; }
+}
+
+/* Ánh sáng lan rộng ra nền: nằm sau toàn bộ tiêu đề */
+.zz-h1__hand::after {
+	content: "";
+	position: absolute;
+	left: -16%;
+	right: -22%;
+	top: -22%;
+	bottom: -26%;
+	z-index: -1;
+	background: radial-gradient(closest-side, rgb(255 226 40 / 70%), rgb(255 226 40 / 22%) 58%, rgb(255 226 40 / 0%) 100%);
+	pointer-events: none;
+	animation: zz-glow 3.6s ease-in-out infinite alternate;
+}
+
+/* 3) "cho mọi lứa tuổi": dòng phụ, nằm dưới chân "sáng tạo" */
+.zz-h1__sub {
+	z-index: 1;
+	margin-top: 0.42em;
+	/* dịch sang phải để đuôi chữ "g" của "sáng" luồn qua khoảng trống giữa "mọi" và "lứa" */
+	margin-left: 0.7em;
+	font-size: clamp(24px, 8.4cqw, 52px);
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	line-height: 1;
+	color: var(--zz-ink);
+}
+
+.zz-hero2__lead {
+	max-width: 34em;
+	margin: 26px 0 30px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.zz-h1__hand-in::before,
+	.zz-h1__hand::after {
+		animation: none;
 	}
 }

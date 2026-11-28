@@ -1,5 +1,6 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
+import { nb } from '../lib/text.js';
 
 export default function Faq({ items }) {
 	return (
@@ -10,7 +11,7 @@ export default function Faq({ items }) {
 						<span>{item.q}</span>
 						<span className="zz-faq__icon" aria-hidden="true"><Plus /></span>
 					</summary>
-					<p>{item.a}</p>
+					<p>{nb(item.a)}</p>
 				</details>
 			))}
 		</div>
