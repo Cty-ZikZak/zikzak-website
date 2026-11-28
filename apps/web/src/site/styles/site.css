@@ -2799,7 +2799,7 @@ select.zz-input {
 /* 2) "sáng tạo": chữ viết tay Playball + nét đầu/cuối kéo dài; mảng vàng phẳng, bóng đổ xanh dương sắc & mảnh, KHÔNG phát sáng */
 .zz-h1__hand {
 	width: max-content;
-	margin: -0.2em auto -0.06em;
+	margin: -0.3em auto -0.2em;
 	font-family: var(--zz-hand);
 	font-weight: 400;
 	font-variation-settings: 'opsz' 16;
@@ -2814,22 +2814,52 @@ select.zz-input {
 	display: block;
 	transform: rotate(-6deg);
 	transform-origin: 50% 70%;
+	/* bóng xanh dương, làm mờ mềm */
+	filter: drop-shadow(0.028em 0.045em 0.035em rgb(10 92 245 / 75%));
 }
 
 .zz-h1__hand-text {
-	background: linear-gradient(185deg, #fff56a 0%, #ffe41a 34%, #ffc800 68%, #ff9f00 100%);
-	-webkit-background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
-	color: transparent;
-	/* nét chữ ký rất mảnh: thêm một chút độ dày cùng màu vàng (không phải viền) để không bị hụt khi đổ bóng */
-	-webkit-text-stroke: 0.022em #ffd400;
+	/* chỉ một màu vàng sáng, không viền, không chuyển sắc; nét được làm dày đều, bo tròn mịn bằng các lớp cùng màu */
+	color: #ffe414;
+	text-shadow:
+		0.0160em 0.0000em 0 #ffe414,
+		0.0148em 0.0061em 0 #ffe414,
+		0.0113em 0.0113em 0 #ffe414,
+		0.0061em 0.0148em 0 #ffe414,
+		0.0000em 0.0160em 0 #ffe414,
+		-0.0061em 0.0148em 0 #ffe414,
+		-0.0113em 0.0113em 0 #ffe414,
+		-0.0148em 0.0061em 0 #ffe414,
+		-0.0160em 0.0000em 0 #ffe414,
+		-0.0148em -0.0061em 0 #ffe414,
+		-0.0113em -0.0113em 0 #ffe414,
+		-0.0061em -0.0148em 0 #ffe414,
+		-0.0000em -0.0160em 0 #ffe414,
+		0.0061em -0.0148em 0 #ffe414,
+		0.0113em -0.0113em 0 #ffe414,
+		0.0148em -0.0061em 0 #ffe414,
+		0.0080em 0.0000em 0 #ffe414,
+		0.0074em 0.0031em 0 #ffe414,
+		0.0057em 0.0057em 0 #ffe414,
+		0.0031em 0.0074em 0 #ffe414,
+		0.0000em 0.0080em 0 #ffe414,
+		-0.0031em 0.0074em 0 #ffe414,
+		-0.0057em 0.0057em 0 #ffe414,
+		-0.0074em 0.0031em 0 #ffe414,
+		-0.0080em 0.0000em 0 #ffe414,
+		-0.0074em -0.0031em 0 #ffe414,
+		-0.0057em -0.0057em 0 #ffe414,
+		-0.0031em -0.0074em 0 #ffe414,
+		-0.0000em -0.0080em 0 #ffe414,
+		0.0031em -0.0074em 0 #ffe414,
+		0.0057em -0.0057em 0 #ffe414,
+		0.0074em -0.0031em 0 #ffe414;
 }
 
 /* 3) "cho mọi lứa tuổi": dòng phụ, nằm dưới chân "sáng tạo" */
 .zz-h1__sub {
 	z-index: 4; /* đuôi chữ "g" của "sáng" luồn phía sau dòng này */
-	margin-top: -0.12em;
+	margin-top: -0.2em;
 	margin-left: 0.02em;
 	font-size: clamp(34px, 15.2cqw, 96px);
 	font-weight: 800;
