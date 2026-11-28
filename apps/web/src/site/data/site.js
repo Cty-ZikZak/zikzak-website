@@ -144,6 +144,12 @@ export const ageGroups = [
 		color: brandColors.blue,
 		programs: ['chuyen-sau', 'luyen-thi', 'do-hoa', 'ky-thuat-so', 'workshop'],
 	},
+	{
+		id: 'nguoi-lon',
+		label: 'Người lớn',
+		color: brandColors.indigo,
+		programs: ['chuyen-sau', 'do-hoa', 'ky-thuat-so', 'workshop'],
+	},
 ];
 
 // Cảm nhận của học viên (trích từ ảnh banner trên website cũ).

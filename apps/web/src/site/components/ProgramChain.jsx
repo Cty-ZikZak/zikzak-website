@@ -16,7 +16,6 @@ export default function ProgramChain({ items }) {
 						<div className="zz-program__card zz-glass">
 							<span className="zz-program__group">{program.group}</span>
 							<h3>{program.name}</h3>
-							<span className="zz-program__age">{program.age}</span>
 							<p>{program.blurb}</p>
 							<span className="zz-program__more">Xem khoá học <ArrowRight /></span>
 						</div>
