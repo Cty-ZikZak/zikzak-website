@@ -18,7 +18,7 @@ const MOVE = 1.15; // giây chạy sang ô kế tiếp
 
 // f: hệ số trôi theo vị trí (hiệu ứng chiều sâu); l: vị trí ngang ban đầu (0–1)
 const BACKDROP = [
-	{ c: '#FEF100', s: 'clamp(90px, 9vw, 130px)', t: '-2%', l: 0.1, f: 1.5 },
+	{ c: '#FEF100', s: 'clamp(90px, 9vw, 130px)', t: '34%', l: 0.1, f: 1.5 },
 	{ c: '#53E2FF', s: 'clamp(120px, 12vw, 170px)', t: '22%', l: 0.5, f: 0.8 },
 	{ c: '#0067FF', s: 'clamp(90px, 9vw, 135px)', t: '28%', l: 0.86, f: 1.1 },
 ];
