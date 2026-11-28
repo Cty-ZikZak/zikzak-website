@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Orb from './Orb.jsx';
 import { announcements } from '../data/site.js';
@@ -26,30 +26,28 @@ const BACKDROP = [
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
 function Tile({ item, hidden }) {
-	// bấm vào bong bóng ảnh: nảy lên và phóng to một lúc rồi thu lại (không chuyển trang; bấm phần còn lại của ô để mở)
-	const [pop, setPop] = useState(0);
+	const navigate = useNavigate();
+	const [hop, setHop] = useState(false);
 	const timer = useRef(0);
 
 	useEffect(() => () => clearTimeout(timer.current), []);
 
-	const onBubble = (e) => {
+	// bấm chọn: bong bóng nảy lên và phóng to nhẹ trước, rồi mới chuyển trang
+	const onGo = (e) => {
+		if (e.defaultPrevented || e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 		e.preventDefault();
-		e.stopPropagation();
+		setHop(true);
 		clearTimeout(timer.current);
-		setPop((n) => n + 1);
-		timer.current = setTimeout(() => setPop(0), 2600);
+		timer.current = setTimeout(() => {
+			setHop(false);
+			if (item.href.startsWith('/')) navigate(item.href);
+			else window.location.assign(item.href);
+		}, 380);
 	};
 
 	const content = (
 		<>
-			<Orb
-				className={`zz-tile__bubble${pop ? ' is-pop' : ''}`}
-				data-pop={pop % 2}
-				onClick={onBubble}
-				color={item.color}
-				image={item.image}
-				alt=""
-			/>
+			<Orb className={`zz-tile__bubble${hop ? ' is-hop' : ''}`} color={item.color} image={item.image} alt="" />
 			<span className="zz-tile__body">
 				<span className="zz-tile__tag">{item.tag}</span>
 				<strong className="zz-tile__title">{item.title}</strong>
@@ -65,10 +63,10 @@ function Tile({ item, hidden }) {
 	}
 
 	if (item.href.startsWith('/')) {
-		return <Link to={item.href} {...props}>{content}</Link>;
+		return <Link to={item.href} onClick={onGo} {...props}>{content}</Link>;
 	}
 
-	return <a href={item.href} {...props}>{content}</a>;
+	return <a href={item.href} onClick={onGo} {...props}>{content}</a>;
 }
 
 export default function InfoTicker({ items = announcements }) {
