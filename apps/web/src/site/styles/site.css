@@ -2740,11 +2740,11 @@ select.zz-input {
 
 
 @font-face {
-	font-family: 'Meow Script';
-	src: url('../fonts/MeowScript.woff2') format('woff2');
+	font-family: 'SVN-Carrotflower';
+	src: url('../fonts/SVN-Carrotflower.woff2') format('woff2');
 	font-weight: 400;
 	font-style: normal;
-	font-display: swap; /* Meow Script — SIL Open Font License */
+	font-display: swap; /* SVN-Carrotflower — bản quyền Font Diner; cần giấy phép web */
 }
 
 /* ======================================================================
@@ -2753,7 +2753,7 @@ select.zz-input {
 
 .zz {
 	--zz-head: 'Bricolage Grotesque Variable', 'Be Vietnam Pro', system-ui, sans-serif;
-	--zz-hand: 'Meow Script', 'Baloo 2', cursive;
+	--zz-hand: 'SVN-Carrotflower', 'Baloo 2', cursive;
 }
 
 /* Quy tắc chống rớt chữ cho mọi đoạn văn và tiêu đề */
@@ -2802,8 +2802,8 @@ select.zz-input {
 	margin: -0.3em auto -0.2em;
 	font-family: var(--zz-hand);
 	font-weight: 400;
-	font-variation-settings: 'opsz' 16;
-	font-size: clamp(74px, 38cqw, 236px);
+	font-variation-settings: normal;
+	font-size: clamp(56px, 32cqw, 200px);
 	line-height: 1.05;
 	letter-spacing: 0;
 }
@@ -2823,7 +2823,7 @@ select.zz-input {
 	font-weight: 400;
 	/* nét viền trong suốt làm dày đều các nét mảnh để chữ liền mạch */
 	letter-spacing: -0.02em;
-	-webkit-text-stroke: 0.01em transparent;
+	-webkit-text-stroke: 0.006em transparent;
 	/* chừa chỗ cho nét kéo dài của font (đầu chữ s, đuôi chữ g) để màu không bị cắt */
 	padding: 0.2em 0.3em 0.62em 0.3em;
 	margin: -0.2em -0.3em -0.62em;
