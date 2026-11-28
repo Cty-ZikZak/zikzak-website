@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import Orb from './Orb.jsx';
 import { announcements } from '../data/site.js';
 
 /*
@@ -47,7 +46,13 @@ function Tile({ item, hidden }) {
 
 	const content = (
 		<>
-			<Orb className={`zz-tile__bubble${hop ? ' is-hop' : ''}`} color={item.color} image={item.image} alt="" />
+			<span className={`zz-tile__stack${hop ? ' is-hop' : ''}`} style={{ '--c': item.color }} aria-hidden="true">
+				{(item.images?.length === 3 ? item.images : [item.image, item.image, item.image]).map((src, n) => (
+					<span key={n} className={`zz-card zz-card--${['l', 'm', 'r'][n]}`}>
+						<img src={src} alt="" loading="lazy" decoding="async" draggable={false} />
+					</span>
+				))}
+			</span>
 			<span className="zz-tile__body">
 				<span className="zz-tile__tag">{item.tag}</span>
 				<strong className="zz-tile__title">{item.title}</strong>

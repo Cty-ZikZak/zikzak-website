@@ -234,7 +234,7 @@ export const faqs = [
   Sửa, thêm, bớt tại đây (chỉ ghi thông tin có thật). icon: gift | trophy | palette | phone | sparkles | school
   href: đường dẫn trong web (/dang-ky…), số điện thoại (tel:…) hoặc để trống nếu chỉ là thông báo.
 */
-export const announcements = [
+const announcementList = [
 	{
 		id: 'hoc-thu',
 		tag: 'Ưu đãi',
@@ -299,6 +299,36 @@ export const announcements = [
 		color: brandColors.cyan,
 	},
 ];
+
+/*
+  Mỗi ô thông tin hiển thị một bộ 3 ảnh xếp chồng như những lá bài: ảnh ở giữa (nằm trên cùng) là `image`.
+  Muốn tự chọn ảnh hai bên, thêm `images: [ảnhTrái, ảnhGiữa, ảnhPhải]` vào mục tương ứng ở trên;
+  nếu không có, hệ thống tự lấy hai ảnh khác trong thư viện ảnh để ghép cùng.
+*/
+const cardPool = [
+	asset('students/thuy-nhi.webp'),
+	asset('news/thieu-nhi.webp'),
+	asset('students/my-co.webp'),
+	asset('news/bitex.webp'),
+	asset('students/quoc-khanh.webp'),
+	asset('news/net-ve-xanh.webp'),
+	asset('students/ngoc-thao.webp'),
+	asset('news/truong-hoc.webp'),
+	asset('students/van-kiet.webp'),
+	asset('news/hoc-thu.webp'),
+];
+
+export const announcements = announcementList.map((item, i) => {
+	if (item.images?.length) {
+		return item;
+	}
+
+	const others = cardPool.filter((src) => src !== item.image);
+	const left = others[(i * 2 + 1) % others.length];
+	const right = others.filter((src) => src !== left)[(i * 3 + 4) % (others.length - 1)];
+
+	return { ...item, images: [left, item.image, right] };
+});
 
 export const nav = [
 	{ label: 'Trang chủ', href: '/' },

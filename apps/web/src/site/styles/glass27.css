@@ -160,7 +160,7 @@
 	z-index: 1;
 	overflow: hidden;
 	/* đáy rộng + mặt nạ mờ dần: bóng đổ của các ô tan hẳn trước mép khung, không còn đường cắt ngang */
-	padding: 40px 0 64px;
+	padding: 78px 0 64px;
 	-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0, #000 calc(100% - 44px), transparent 100%);
 	mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0, #000 calc(100% - 44px), transparent 100%);
 	-webkit-mask-composite: source-in;
@@ -213,41 +213,6 @@
 
 a.zz-tile:hover {
 	transform: translateY(-5px) scale(1.02);
-}
-
-.zz-tile__bubble {
-	/* bong bóng ảnh nhô ra khỏi ô kính để thu hút bấm; hơi trễ và co giãn theo đà lướt */
-	--size: 138px;
-	flex: none;
-	margin: -30px 0 -30px -38px;
-	transform: translateX(var(--lag, 0px)) scale(var(--jx, 1), var(--jy, 1));
-	transition: rotate 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.4), scale 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.5), filter 0.3s ease;
-	filter: drop-shadow(0 14px 14px rgb(25 20 110 / 28%));
-	z-index: 2;
-}
-
-.zz-tile:hover .zz-tile__bubble {
-	rotate: -7deg;
-}
-
-/* rê chuột hoặc bấm chọn: bong bóng nảy lên và phóng to nhẹ nhàng */
-.zz-tile:hover .zz-tile__bubble,
-.zz-tile:focus-visible .zz-tile__bubble,
-.zz-tile__bubble.is-hop {
-	scale: 1.16;
-	animation: zz-bubble-hop 0.6s cubic-bezier(0.3, 0.7, 0.4, 1) both;
-}
-
-.zz-tile__bubble.is-hop {
-	scale: 1.22;
-	animation-duration: 0.38s;
-}
-
-@keyframes zz-bubble-hop {
-	0% { translate: 0 0; }
-	40% { translate: 0 -14px; }
-	70% { translate: 0 2px; }
-	100% { translate: 0 0; }
 }
 
 .zz-tile__go {
@@ -342,10 +307,6 @@ a.zz-tile:hover {
 		gap: 10px;
 	}
 
-	.zz-tile__bubble {
-		--size: 116px;
-		margin: -24px 0 -24px -34px;
-	}
 
 	.zz-tile__go {
 		width: 30px;
@@ -603,10 +564,6 @@ a.zz-tile:hover {
 	border-radius: 50%;
 }
 
-.zz-tile__bubble {
-	--size: 112px;
-	margin: -34px 0 0;
-}
 
 .zz-tile__body {
 	align-items: center;
@@ -652,12 +609,132 @@ a.zz-tile:hover {
 		padding: 0 20px;
 	}
 
-	.zz-tile__bubble {
-		--size: 98px;
-		margin: -30px 0 0;
-	}
 
 	.zz-tile__title {
 		font-size: 15.5px;
 	}
+}
+
+/* ======================================================================
+   BỘ 3 ẢNH XẾP CHỒNG NHƯ NHỮNG LÁ BÀI — ảnh ở giữa nằm trên cùng
+   ====================================================================== */
+
+.zz-tile__stack {
+	position: relative;
+	flex: none;
+	width: 170px;
+	height: 112px;
+	margin: -52px 0 0;
+	z-index: 2;
+	/* hơi trễ và co giãn theo đà lướt của dải */
+	transform: translateX(var(--lag, 0px)) scale(var(--jx, 1), var(--jy, 1));
+	pointer-events: none;
+}
+
+.zz-card {
+	--rot: 0deg;
+	--tx: 0px;
+	--ty: 0px;
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 84px;
+	height: 104px;
+	margin-left: -42px;
+	overflow: hidden;
+	border-radius: 15px;
+	border: 3px solid #fff;
+	background: var(--c, #fff);
+	box-shadow:
+		0 0 0 1.5px color-mix(in srgb, var(--c, #fff) 70%, transparent),
+		0 12px 18px -6px rgb(25 20 110 / 40%);
+	transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
+	transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+}
+
+.zz-card img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.zz-card--l {
+	--rot: -13deg;
+	--tx: -42px;
+	--ty: 8px;
+	z-index: 1;
+}
+
+.zz-card--r {
+	--rot: 13deg;
+	--tx: 42px;
+	--ty: 8px;
+	z-index: 1;
+}
+
+.zz-card--m {
+	width: 94px;
+	height: 116px;
+	margin-left: -47px;
+	z-index: 3;
+	--ty: -4px;
+}
+
+/* rê chuột / chọn: bộ bài xòe rộng hơn, lá giữa nảy lên và phóng to nhẹ */
+.zz-tile:hover .zz-card--l,
+.zz-tile:focus-visible .zz-card--l {
+	--rot: -19deg;
+	--tx: -56px;
+}
+
+.zz-tile:hover .zz-card--r,
+.zz-tile:focus-visible .zz-card--r {
+	--rot: 19deg;
+	--tx: 56px;
+}
+
+.zz-tile:hover .zz-card--m,
+.zz-tile:focus-visible .zz-card--m {
+	--ty: -14px;
+	transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.1);
+}
+
+.zz-tile__stack.is-hop .zz-card--m {
+	--ty: -20px;
+	transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.18);
+}
+
+.zz-tile__stack.is-hop .zz-card--l {
+	--rot: -22deg;
+	--tx: -62px;
+}
+
+.zz-tile__stack.is-hop .zz-card--r {
+	--rot: 22deg;
+	--tx: 62px;
+}
+
+@media (max-width: 640px) {
+	.zz-tile__stack {
+		width: 150px;
+		height: 100px;
+		margin-top: -46px;
+	}
+
+	.zz-card {
+		width: 74px;
+		height: 92px;
+		margin-left: -37px;
+		border-radius: 13px;
+	}
+
+	.zz-card--m {
+		width: 84px;
+		height: 104px;
+		margin-left: -42px;
+	}
+
+	.zz-card--l { --tx: -37px; }
+	.zz-card--r { --tx: 37px; }
 }
